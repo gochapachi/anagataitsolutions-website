@@ -46,22 +46,92 @@ const App = () => (
             <Route path="/admin" element={<AdminDashboard />} />
             
             {/* Main App Routes - With navbar/footer */}
-            <Route path="/*" element={
+            <Route path="/" element={
               <div className="min-h-screen flex flex-col bg-background">
                 <Navbar />
                 <main className="flex-1">
-                  <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/services" element={<Services />} />
-                    <Route path="/services/marketing-automation" element={<MarketingAutomation />} />
-                    <Route path="/services/sales-automation" element={<SalesAutomation />} />
-                    <Route path="/services/hr-automation" element={<HRAutomation />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/resources" element={<Resources />} />
-                    <Route path="/blogs" element={<Blogs />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
+                  <Index />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/services" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <Services />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/services/marketing-automation" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <MarketingAutomation />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/services/sales-automation" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <SalesAutomation />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/services/hr-automation" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <HRAutomation />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/about" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <About />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/contact" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <Contact />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/resources" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <Resources />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/blogs" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <Blogs />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="*" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <NotFound />
                 </main>
                 <Footer />
               </div>
