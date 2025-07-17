@@ -451,7 +451,7 @@ const CaseStudies = () => {
               Ready to Become Our Next Success Story?
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
-              Join the 500+ MSMEs who've already transformed their business with automation. 
+              Join the 50+ MSMEs who've already transformed their business with automation. 
               Your success story could be featured here next.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

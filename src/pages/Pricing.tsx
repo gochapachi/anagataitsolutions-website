@@ -247,7 +247,7 @@ const Pricing = () => {
               Ready to Transform Your Business?
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
-              Join 500+ MSMEs who've already automated their way to success. 
+              Join 50+ MSMEs who've already automated their way to success. 
               Get started today and see results within 30 days.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

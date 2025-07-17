@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRight, Download, FileText, Video, Calculator, BookOpen, Search, Filter, Play, Clock, Users } from "lucide-react";
 import { toast } from "sonner";
+import { LeadCaptureDialog } from "@/components/LeadCaptureDialog";
 
 interface Resource {
   id: string;
@@ -30,6 +31,8 @@ const Resources = () => {
   const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<string[]>(["all"]);
+  const [showLeadDialog, setShowLeadDialog] = useState(false);
+  const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
 
   useEffect(() => {
     fetchResources();
@@ -98,11 +101,15 @@ const Resources = () => {
   };
 
   const handleDownload = (resource: Resource) => {
-    if (resource.file_url) {
-      window.open(resource.file_url, '_blank');
-    } else {
-      toast.info('Download link not available for this resource');
+    setSelectedResource(resource);
+    setShowLeadDialog(true);
+  };
+
+  const handleLeadCaptured = () => {
+    if (selectedResource?.file_url) {
+      window.open(selectedResource.file_url, '_blank');
     }
+    setSelectedResource(null);
   };
 
   const filteredResources = resources.filter(resource => {
@@ -394,6 +401,13 @@ const Resources = () => {
           </div>
         </div>
       </section>
+
+      <LeadCaptureDialog
+        open={showLeadDialog}
+        onOpenChange={setShowLeadDialog}
+        onLeadCaptured={handleLeadCaptured}
+        resourceTitle={selectedResource?.title || ""}
+      />
     </div>
   );
 };

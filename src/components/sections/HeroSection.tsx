@@ -60,7 +60,7 @@ export const HeroSection = () => {
             {/* Social proof */}
             <div className="pt-8 border-t">
               <p className="text-sm text-muted-foreground mb-4">
-                Trusted by 500+ MSMEs across India
+                Trusted by 50+ MSMEs across India
               </p>
               <div className="flex items-center space-x-8">
                 <div className="text-center">

@@ -21,10 +21,12 @@ export const Navbar = () => {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-primary to-primary/80 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">A</span>
-              </div>
-              <span className="font-bold text-xl">Anagata IT</span>
+              <img 
+                src="/lovable-uploads/c8bf87d9-ba2f-458d-a50b-91c09b46fdd8.png" 
+                alt="Anagata IT Solutions" 
+                className="h-10 w-10"
+              />
+              <span className="font-bold text-xl">Anagata IT Solutions</span>
             </Link>
           </div>
 

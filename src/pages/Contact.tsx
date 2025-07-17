@@ -337,7 +337,7 @@ const Contact = () => {
               {/* Social Proof */}
               <Card className="card-interactive">
                 <CardHeader>
-                  <CardTitle>Join 500+ Successful MSMEs</CardTitle>
+                  <CardTitle>Join 50+ Successful MSMEs</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4 text-center">

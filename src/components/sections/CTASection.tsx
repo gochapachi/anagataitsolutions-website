@@ -11,7 +11,7 @@ export const CTASection = () => {
             Ready to Save 47% of Your Time and Increase Revenue by 300%?
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join 500+ MSMEs who've already transformed their business with our automation solutions. 
+            Join 50+ MSMEs who've already transformed their business with our automation solutions. 
             Get started today with our risk-free consultation.
           </p>
 
