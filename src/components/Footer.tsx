@@ -2,10 +2,8 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Facebook, Twitter, Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
-
 export const Footer = () => {
-  return (
-    <footer className="bg-muted/30 border-t">
+  return <footer className="bg-muted/30 border-t">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
@@ -39,28 +37,16 @@ export const Footer = () => {
           <div className="space-y-4">
             <h3 className="font-semibold">Services</h3>
             <div className="space-y-2">
-              <Link
-                to="/services/marketing-automation"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
+              <Link to="/services/marketing-automation" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                 Marketing Automation
               </Link>
-              <Link
-                to="/services/sales-automation"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
+              <Link to="/services/sales-automation" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                 Sales Automation
               </Link>
-              <Link
-                to="/services/hr-automation"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
+              <Link to="/services/hr-automation" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                 HR Automation
               </Link>
-              <Link
-                to="/contact"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
+              <Link to="/contact" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                 Custom Solutions
               </Link>
             </div>
@@ -70,28 +56,16 @@ export const Footer = () => {
           <div className="space-y-4">
             <h3 className="font-semibold">Company</h3>
             <div className="space-y-2">
-              <Link
-                to="/about"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
+              <Link to="/about" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                 About Us
               </Link>
-              <Link
-                to="/case-studies"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
+              <Link to="/case-studies" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                 Case Studies
               </Link>
-              <Link
-                to="/resources"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
+              <Link to="/resources" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                 Resources
               </Link>
-              <Link
-                to="/contact"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
+              <Link to="/contact" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                 Contact
               </Link>
             </div>
@@ -107,7 +81,7 @@ export const Footer = () => {
               </div>
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Phone className="h-4 w-4" />
-                <span>+91 XXXXX XXXXX</span>
+                <span>+91 9026019566</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <MapPin className="h-4 w-4" />
@@ -141,6 +115,5 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };

@@ -3,116 +3,89 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, CheckCircle, Users, Target, Zap, Award, TrendingUp, Heart } from "lucide-react";
-
 const About = () => {
-  const values = [
-    {
-      icon: Users,
-      title: "MSME-First Approach",
-      description: "We understand the unique challenges of small and medium businesses and design solutions specifically for them, not enterprise hand-me-downs."
-    },
-    {
-      icon: Target,
-      title: "Results-Driven",
-      description: "Every automation we implement is measured by tangible business outcomes: time saved, revenue increased, and processes improved."
-    },
-    {
-      icon: Zap,
-      title: "Rapid Implementation",
-      description: "We believe in speed to value. Our solutions are designed for quick implementation and immediate impact, not months of configuration."
-    },
-    {
-      icon: Heart,
-      title: "Long-term Partnership",
-      description: "We're not just vendors; we're growth partners committed to your long-term success through every stage of your business journey."
-    }
-  ];
-
-  const team = [
-    {
-      name: "Rahul Sharma",
-      role: "Founder & CEO",
-      experience: "12+ years",
-      expertise: "Enterprise automation, MSME consulting",
-      description: "Former automation consultant at Fortune 500 companies, passionate about democratizing enterprise-grade automation for MSMEs.",
-      image: "/placeholder.svg?height=120&width=120"
-    },
-    {
-      name: "Priya Patel",
-      role: "Head of Technology",
-      experience: "10+ years",
-      expertise: "AI/ML, System Integration",
-      description: "Ex-tech lead at major SaaS companies, specializes in building scalable automation platforms for growing businesses.",
-      image: "/placeholder.svg?height=120&width=120"
-    },
-    {
-      name: "Amit Kumar",
-      role: "Head of Customer Success",
-      experience: "8+ years",
-      expertise: "Business Process Optimization",
-      description: "MSME operations expert who ensures every client achieves their automation ROI goals within the first 90 days.",
-      image: "/placeholder.svg?height=120&width=120"
-    }
-  ];
-
-  const milestones = [
-    {
-      year: "2020",
-      title: "Company Founded",
-      description: "Started with a mission to make enterprise-grade automation accessible to MSMEs across India."
-    },
-    {
-      year: "2021",
-      title: "First 100 Clients",
-      description: "Reached our first major milestone, helping 100 MSMEs automate their business processes."
-    },
-    {
-      year: "2022",
-      title: "AI Integration",
-      description: "Launched AI-powered features that revolutionized how small businesses approach automation."
-    },
-    {
-      year: "2023",
-      title: "500+ Success Stories",
-      description: "Crossed 500 successful automation implementations with an average 300% ROI."
-    },
-    {
-      year: "2024",
-      title: "Industry Recognition",
-      description: "Named 'Best MSME Automation Platform' by Indian Business Technology Awards."
-    },
-    {
-      year: "2025",
-      title: "Expansion Goals",
-      description: "On track to help 2,000+ MSMEs automate their operations and scale efficiently."
-    }
-  ];
-
-  const stats = [
-    {
-      number: "500+",
-      label: "MSMEs Automated",
-      description: "Across various industries"
-    },
-    {
-      number: "300%",
-      label: "Average ROI",
-      description: "Within 6 months"
-    },
-    {
-      number: "98%",
-      label: "Client Satisfaction",
-      description: "Success rate"
-    },
-    {
-      number: "₹50Cr+",
-      label: "Revenue Generated",
-      description: "For our clients"
-    }
-  ];
-
-  return (
-    <div className="min-h-screen">
+  const values = [{
+    icon: Users,
+    title: "MSME-First Approach",
+    description: "We understand the unique challenges of small and medium businesses and design solutions specifically for them, not enterprise hand-me-downs."
+  }, {
+    icon: Target,
+    title: "Results-Driven",
+    description: "Every automation we implement is measured by tangible business outcomes: time saved, revenue increased, and processes improved."
+  }, {
+    icon: Zap,
+    title: "Rapid Implementation",
+    description: "We believe in speed to value. Our solutions are designed for quick implementation and immediate impact, not months of configuration."
+  }, {
+    icon: Heart,
+    title: "Long-term Partnership",
+    description: "We're not just vendors; we're growth partners committed to your long-term success through every stage of your business journey."
+  }];
+  const team = [{
+    name: "Rahul Sharma",
+    role: "Founder & CEO",
+    experience: "12+ years",
+    expertise: "Enterprise automation, MSME consulting",
+    description: "Former automation consultant at Fortune 500 companies, passionate about democratizing enterprise-grade automation for MSMEs.",
+    image: "/placeholder.svg?height=120&width=120"
+  }, {
+    name: "Priya Patel",
+    role: "Head of Technology",
+    experience: "10+ years",
+    expertise: "AI/ML, System Integration",
+    description: "Ex-tech lead at major SaaS companies, specializes in building scalable automation platforms for growing businesses.",
+    image: "/placeholder.svg?height=120&width=120"
+  }, {
+    name: "Amit Kumar",
+    role: "Head of Customer Success",
+    experience: "8+ years",
+    expertise: "Business Process Optimization",
+    description: "MSME operations expert who ensures every client achieves their automation ROI goals within the first 90 days.",
+    image: "/placeholder.svg?height=120&width=120"
+  }];
+  const milestones = [{
+    year: "2020",
+    title: "Company Founded",
+    description: "Started with a mission to make enterprise-grade automation accessible to MSMEs across India."
+  }, {
+    year: "2021",
+    title: "First 100 Clients",
+    description: "Reached our first major milestone, helping 100 MSMEs automate their business processes."
+  }, {
+    year: "2022",
+    title: "AI Integration",
+    description: "Launched AI-powered features that revolutionized how small businesses approach automation."
+  }, {
+    year: "2023",
+    title: "500+ Success Stories",
+    description: "Crossed 500 successful automation implementations with an average 300% ROI."
+  }, {
+    year: "2024",
+    title: "Industry Recognition",
+    description: "Named 'Best MSME Automation Platform' by Indian Business Technology Awards."
+  }, {
+    year: "2025",
+    title: "Expansion Goals",
+    description: "On track to help 2,000+ MSMEs automate their operations and scale efficiently."
+  }];
+  const stats = [{
+    number: "500+",
+    label: "MSMEs Automated",
+    description: "Across various industries"
+  }, {
+    number: "300%",
+    label: "Average ROI",
+    description: "Within 6 months"
+  }, {
+    number: "98%",
+    label: "Client Satisfaction",
+    description: "Success rate"
+  }, {
+    number: "₹50Cr+",
+    label: "Revenue Generated",
+    description: "For our clients"
+  }];
+  return <div className="min-h-screen">
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
         <div className="container mx-auto px-4">
@@ -134,9 +107,7 @@ const About = () => {
                 </Button>
               </Link>
               <Link to="/case-studies">
-                <Button variant="outline" size="lg">
-                  See Our Impact
-                </Button>
+                
               </Link>
             </div>
           </div>
@@ -215,8 +186,7 @@ const About = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {values.map((value, index) => (
-              <Card key={index} className="h-full">
+            {values.map((value, index) => <Card key={index} className="h-full">
                 <CardHeader>
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                     <value.icon className="w-6 h-6 text-primary" />
@@ -226,8 +196,7 @@ const About = () => {
                 <CardContent>
                   <p className="text-muted-foreground">{value.description}</p>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -247,14 +216,9 @@ const About = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {team.map((member, index) => (
-              <Card key={index} className="text-center">
+            {team.map((member, index) => <Card key={index} className="text-center">
                 <CardHeader>
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-                  />
+                  <img src={member.image} alt={member.name} className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" />
                   <CardTitle className="text-xl">{member.name}</CardTitle>
                   <CardDescription className="text-lg font-medium text-primary">
                     {member.role}
@@ -266,8 +230,7 @@ const About = () => {
                 <CardContent>
                   <p className="text-sm text-muted-foreground">{member.description}</p>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -288,8 +251,7 @@ const About = () => {
 
           <div className="max-w-4xl mx-auto">
             <div className="space-y-8">
-              {milestones.map((milestone, index) => (
-                <div key={index} className="flex items-start space-x-6">
+              {milestones.map((milestone, index) => <div key={index} className="flex items-start space-x-6">
                   <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white font-bold flex-shrink-0">
                     {milestone.year}
                   </div>
@@ -297,8 +259,7 @@ const About = () => {
                     <h3 className="font-semibold text-lg mb-2">{milestone.title}</h3>
                     <p className="text-muted-foreground">{milestone.description}</p>
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
         </div>
@@ -319,15 +280,13 @@ const About = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <Card key={index} className="text-center">
+            {stats.map((stat, index) => <Card key={index} className="text-center">
                 <CardHeader>
                   <div className="text-4xl font-bold text-primary mb-2">{stat.number}</div>
                   <CardTitle className="text-lg">{stat.label}</CardTitle>
                   <CardDescription>{stat.description}</CardDescription>
                 </CardHeader>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -397,8 +356,6 @@ const About = () => {
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default About;
