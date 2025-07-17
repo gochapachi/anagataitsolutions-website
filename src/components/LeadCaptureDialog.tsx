@@ -27,8 +27,31 @@ export const LeadCaptureDialog = ({ open, onOpenChange, onLeadCaptured, resource
     setIsSubmitting(true);
 
     try {
-      // Here you would typically send the lead data to your CRM or database
-      console.log("Lead captured:", { ...formData, resource: resourceTitle });
+      const leadData = {
+        ...formData,
+        resource: resourceTitle,
+        timestamp: new Date().toISOString(),
+        source: "Resource Download"
+      };
+
+      // Send data to both webhooks
+      const webhookUrls = [
+        "https://n8n.anagataitsolutions.in/webhook-test/newlead",
+        "https://n8n.anagataitsolutions.in/webhook/newlead"
+      ];
+
+      const webhookPromises = webhookUrls.map(url => 
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          mode: "no-cors",
+          body: JSON.stringify(leadData),
+        })
+      );
+
+      await Promise.all(webhookPromises);
       
       toast({
         title: "Thank you!",
@@ -41,6 +64,7 @@ export const LeadCaptureDialog = ({ open, onOpenChange, onLeadCaptured, resource
       // Reset form
       setFormData({ name: "", email: "", company: "", phone: "" });
     } catch (error) {
+      console.error("Error sending lead data:", error);
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",
