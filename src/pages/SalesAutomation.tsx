@@ -333,66 +333,6 @@ const SalesAutomation = () => {
         </div>
       </section>
 
-      {/* Case Study */}
-      <section className="py-20 bg-muted/30 animate-fade-in">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <Badge variant="secondary" className="mb-4">Success Story</Badge>
-              <h2 className="text-3xl font-bold mb-4">
-                How {caseStudy.company} Doubled Their Close Rate
-              </h2>
-            </div>
-
-            <Card className="card-interactive">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="text-xl">{caseStudy.company}</CardTitle>
-                    <CardDescription>
-                      {caseStudy.industry} • {caseStudy.employees}
-                    </CardDescription>
-                  </div>
-                  <Button variant="ghost" size="sm">
-                    <Play className="w-4 h-4 mr-2" />
-                    Watch Video
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <h3 className="font-semibold mb-2">Challenge:</h3>
-                  <p className="text-muted-foreground">{caseStudy.challenge}</p>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold mb-2">Solution:</h3>
-                  <p className="text-muted-foreground">{caseStudy.solution}</p>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold mb-3">Results:</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {caseStudy.results.map((result, index) => (
-                      <div key={index} className="flex items-center space-x-2">
-                        <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
-                        <span className="text-sm">{result}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
-                  <blockquote className="text-sm italic mb-2">
-                    "{caseStudy.quote}"
-                  </blockquote>
-                  <cite className="text-sm font-medium text-primary">- {caseStudy.manager}</cite>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/10">
@@ -410,11 +350,6 @@ const SalesAutomation = () => {
                 <Button size="lg">
                   Get Free Sales Audit
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link to="/pricing">
-                <Button variant="outline" size="lg">
-                  View All Pricing
                 </Button>
               </Link>
             </div>

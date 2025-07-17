@@ -39,11 +39,6 @@ export const CTASection = () => {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-            <Link to="/pricing">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto btn-interactive">
-                View Pricing Plans
-              </Button>
-            </Link>
           </div>
 
           {/* Urgency */}

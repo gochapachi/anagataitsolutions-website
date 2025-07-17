@@ -141,7 +141,7 @@ const Resources = () => {
               Everything You Need to Succeed with Automation
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Access our comprehensive library of guides, tools, templates, and case studies 
+              Access our comprehensive library of guides, tools, and templates 
               to help you plan, implement, and optimize automation for your MSME.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
@@ -331,7 +331,7 @@ const Resources = () => {
                 <Video className="w-12 h-12 text-primary mx-auto mb-4" />
                 <h3 className="text-xl font-semibold">Webinars & Videos</h3>
                 <CardDescription>
-                  Live and recorded sessions featuring automation experts, case studies, and how-to tutorials.
+                  Live and recorded sessions featuring automation experts and how-to tutorials.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -359,7 +359,7 @@ const Resources = () => {
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
               Subscribe to our newsletter and be the first to access new guides, tools, 
-              and case studies as soon as they're published.
+              as soon as they're published.
             </p>
             <Card className="p-6">
               <div className="flex flex-col sm:flex-row gap-4">
@@ -400,11 +400,6 @@ const Resources = () => {
                 <Button size="lg" className="min-h-[44px]">
                   Get Personalized Consultation
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link to="/case-studies" aria-label="View automation success stories and case studies">
-                <Button variant="outline" size="lg" className="min-h-[44px]">
-                  See Success Stories
                 </Button>
               </Link>
             </div>

@@ -106,9 +106,6 @@ const About = () => {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link to="/case-studies">
-                
-              </Link>
             </div>
           </div>
         </div>
@@ -345,11 +342,6 @@ const About = () => {
                 <Button size="lg">
                   Start Your Transformation
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link to="/case-studies">
-                <Button variant="outline" size="lg">
-                  Read Success Stories
                 </Button>
               </Link>
             </div>

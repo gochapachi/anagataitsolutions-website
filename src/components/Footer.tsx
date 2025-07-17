@@ -64,9 +64,6 @@ export const Footer = () => {
               <Link to="/about" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                 About Us
               </Link>
-              <Link to="/case-studies" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                Case Studies
-              </Link>
               <Link to="/resources" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                 Resources
               </Link>

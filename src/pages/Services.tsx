@@ -16,7 +16,7 @@ const Services = () => {
     roi: "300% average ROI",
     link: "/services/marketing-automation",
     popular: true,
-    caseStudy: "TechStart Solutions increased leads by 400% in 90 days"
+    
   }, {
     icon: TrendingUp,
     title: "Sales Automation",
@@ -29,7 +29,7 @@ const Services = () => {
     roi: "240% average ROI",
     link: "/services/sales-automation",
     popular: false,
-    caseStudy: "Kumar Manufacturing closed 60% more deals with automation"
+    
   }, {
     icon: Users,
     title: "HR Automation",
@@ -42,7 +42,7 @@ const Services = () => {
     roi: "180% average ROI",
     link: "/services/hr-automation",
     popular: false,
-    caseStudy: "GreenTech reduced onboarding time from 2 weeks to 3 days"
+    
   }];
   return <div className="min-h-screen">
       {/* Hero Section */}
@@ -131,10 +131,6 @@ const Services = () => {
                     </div>
                   </div>
 
-                  {/* Case Study */}
-                  <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
-                    <p className="text-sm font-medium text-primary">{service.caseStudy}</p>
-                  </div>
 
                   {/* CTA */}
                   <div className="flex space-x-4">
@@ -212,9 +208,6 @@ const Services = () => {
                   Get Custom Quote
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-              </Link>
-              <Link to="/case-studies">
-                
               </Link>
             </div>
           </div>
