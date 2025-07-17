@@ -194,7 +194,15 @@ const Index = () => {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="relative aspect-video rounded-lg overflow-hidden bg-muted">
+            <div className="relative aspect-video rounded-lg overflow-hidden bg-muted shadow-2xl">
+              <iframe
+                src="https://www.youtube.com/embed/5R1U5fMQyvU?start=1236"
+                title="Watch How Automation Transforms MSMEs"
+                className="w-full h-full"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
               <div className="absolute inset-0 flex items-center justify-center">
                 <Button size="lg" className="rounded-full w-16 h-16">
                   <Play className="w-6 h-6" />

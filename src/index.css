@@ -18,6 +18,7 @@ All colors MUST be HSL.
     --popover-foreground: 222.2 84% 4.9%;
 
     --primary: 222.2 47.4% 11.2%;
+    --primary-dark: 222.2 47.4% 8.2%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -105,36 +106,56 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* Interactive animations for buttons */
+  /* Enhanced interactive animations for buttons */
   .btn-interactive {
-    @apply transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95;
+    @apply transition-all duration-500 ease-in-out transform hover:scale-110 hover:shadow-2xl hover:shadow-primary/30 active:scale-95 hover:bg-gradient-to-r hover:from-primary hover:to-primary-dark hover:animate-pulse-glow;
   }
   
-  /* Interactive animations for links */
+  /* Enhanced interactive animations for links */
   .link-interactive {
-    @apply relative transition-all duration-300 ease-in-out hover:text-primary;
+    @apply relative transition-all duration-300 ease-in-out hover:text-primary hover:scale-105;
   }
   
   .link-interactive::after {
-    @apply content-[''] absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out;
+    @apply content-[''] absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 ease-in-out;
   }
   
   .link-interactive:hover::after {
     @apply w-full;
   }
   
-  /* Interactive animations for cards */
+  /* Enhanced interactive animations for cards */
   .card-interactive {
-    @apply transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 hover:border-primary/20;
+    @apply transition-all duration-500 ease-in-out hover:shadow-2xl hover:-translate-y-3 hover:scale-[1.02] hover:border-primary/30 hover:bg-gradient-to-br hover:from-primary/5 hover:via-secondary/5 hover:to-accent/5 hover:animate-glow;
   }
   
-  /* Pulse animation for interactive elements */
-  .pulse-interactive {
-    @apply animate-pulse hover:animate-none;
+  /* Floating animation for special elements */
+  .float-animation {
+    @apply animate-float;
   }
   
-  /* Gradient hover effects */
+  /* Gradient background animation */
+  .animated-gradient {
+    @apply bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 bg-[length:200%_200%] animate-gradient-shift;
+  }
+  
+  /* Glow effect for special elements */
+  .glow-effect {
+    @apply drop-shadow-[0_0_15px_rgba(var(--primary),0.3)] hover:drop-shadow-[0_0_25px_rgba(var(--primary),0.6)] transition-all duration-300;
+  }
+  
+  /* Enhanced pulse animation */
+  .pulse-slow {
+    @apply animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite];
+  }
+  
+  /* Gradient hover effects with more colors */
   .gradient-hover {
-    @apply transition-all duration-300 ease-in-out hover:bg-gradient-to-r hover:from-primary hover:to-primary/80 hover:text-primary-foreground;
+    @apply transition-all duration-500 ease-in-out hover:bg-gradient-to-r hover:from-primary hover:via-secondary hover:to-accent hover:text-primary-foreground hover:shadow-lg hover:scale-105;
+  }
+  
+  /* Interactive section backgrounds */
+  .section-interactive {
+    @apply transition-all duration-700 hover:bg-gradient-to-br hover:from-primary/5 hover:via-background hover:to-secondary/5;
   }
 }

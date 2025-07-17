@@ -117,160 +117,84 @@ const Pricing = () => {
       <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
-            <Badge variant="secondary" className="mb-4">Transparent Pricing</Badge>
+            <Badge variant="secondary" className="mb-4">Consultation-Based Pricing</Badge>
             <h1 className="text-4xl lg:text-5xl font-bold mb-6">
-              Choose Your Automation Package
+              Customized Automation Solutions
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
-              No hidden fees, no setup costs, no long-term contracts. Get started with our automation solutions 
-              and see the results within 30 days.
+              Every business is unique. Let's discuss your specific needs and create a tailored automation 
+              solution that fits your budget and delivers maximum ROI.
             </p>
             
-            {/* Billing Toggle */}
-            <div className="flex items-center justify-center space-x-4 mb-8">
-              <span className={`${!isAnnual ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
-                Monthly
-              </span>
-              <Switch
-                checked={isAnnual}
-                onCheckedChange={setIsAnnual}
-              />
-              <span className={`${isAnnual ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
-                Annual
-              </span>
-              <Badge variant="secondary" className="ml-2">Save up to 20%</Badge>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+              <Link to="/contact">
+                <Button size="lg" className="btn-interactive">
+                  Schedule Free Consultation
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <Link to="/contact">
+                <Button variant="outline" size="lg" className="btn-interactive">
+                  Get Custom Quote
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pricing Cards */}
+      {/* Why Consultation-Based */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {plans.map((plan, index) => (
-              <Card key={index} className={`relative h-full card-interactive ${plan.color} ${plan.popular ? 'shadow-lg' : ''}`}>
-                {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <Badge className="bg-primary text-primary-foreground px-4 py-1">
-                      <Star className="w-3 h-3 mr-1" />
-                      Most Popular
-                    </Badge>
-                  </div>
-                )}
-
-                <CardHeader className="text-center pb-4">
-                  <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                  <CardDescription className="text-base">
-                    {plan.description}
-                  </CardDescription>
-                  
-                  {/* Pricing */}
-                  <div className="mt-4">
-                    <div className="text-4xl font-bold">
-                      ₹{(isAnnual ? plan.annualPrice / 12 : plan.monthlyPrice).toLocaleString()}
-                      <span className="text-lg font-normal text-muted-foreground">/month</span>
-                    </div>
-                    {isAnnual && (
-                      <div className="text-sm text-green-600 font-medium mt-1">
-                        {plan.savings} annually
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Key Metrics */}
-                  <div className="grid grid-cols-3 gap-2 mt-4">
-                    <div className="text-center p-2 bg-muted/50 rounded">
-                      <TrendingUp className="w-4 h-4 text-primary mx-auto mb-1" />
-                      <div className="text-xs font-medium">{plan.roi}</div>
-                    </div>
-                    <div className="text-center p-2 bg-muted/50 rounded">
-                      <Clock className="w-4 h-4 text-primary mx-auto mb-1" />
-                      <div className="text-xs font-medium">{plan.implementation}</div>
-                    </div>
-                    <div className="text-center p-2 bg-muted/50 rounded">
-                      <Zap className="w-4 h-4 text-primary mx-auto mb-1" />
-                      <div className="text-xs font-medium">Setup</div>
-                    </div>
-                  </div>
-                </CardHeader>
-
-                <CardContent className="space-y-6">
-                  {/* Best For */}
-                  <div className="text-center p-3 bg-primary/5 rounded-lg">
-                    <p className="text-sm font-medium text-primary">{plan.bestFor}</p>
-                  </div>
-
-                  {/* Features */}
-                  <div>
-                    <h4 className="font-semibold mb-3">What's Included:</h4>
-                    <ul className="space-y-2">
-                      {plan.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start text-sm">
-                          <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Not Included */}
-                  {plan.notIncluded.length > 0 && (
-                    <div>
-                      <h4 className="font-semibold mb-3 text-muted-foreground">Not Included:</h4>
-                      <ul className="space-y-2">
-                        {plan.notIncluded.map((feature, idx) => (
-                          <li key={idx} className="flex items-start text-sm text-muted-foreground">
-                            <X className="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* CTA */}
-                  <div className="space-y-3">
-                    <Link to="/contact" className="block">
-                      <Button className="w-full btn-interactive" variant={plan.popular ? "default" : "outline"} size="lg">
-                        Get Started
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </Link>
-                    <p className="text-xs text-center text-muted-foreground">
-                      No setup costs • Cancel anytime
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Add-ons */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Optional Add-ons</h2>
-            <p className="text-xl text-muted-foreground">
-              Enhance your automation package with these additional services
+            <h2 className="text-3xl font-bold mb-4">Why We Prefer Consultation-Based Pricing</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Every MSME has unique challenges, existing systems, and growth goals. Our consultation approach ensures you get exactly what you need.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {addOns.map((addon, index) => (
-              <Card key={index} className="card-interactive">
-                <CardHeader className="text-center">
-                  <CardTitle className="text-lg">{addon.name}</CardTitle>
-                  <CardDescription>{addon.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <div className="text-2xl font-bold text-primary mb-4">{addon.price}</div>
-                  <Button variant="outline" size="sm" className="btn-interactive">Add to Plan</Button>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <Card className="card-interactive text-center">
+              <CardHeader>
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="w-6 h-6 text-primary" />
+                </div>
+                <CardTitle>Tailored Solutions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  We analyze your specific business processes and create automation solutions that fit perfectly with your workflow.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="card-interactive text-center">
+              <CardHeader>
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Zap className="w-6 h-6 text-primary" />
+                </div>
+                <CardTitle>Maximum ROI</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  By understanding your goals, we ensure every automation feature directly contributes to your business growth and efficiency.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="card-interactive text-center">
+              <CardHeader>
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Clock className="w-6 h-6 text-primary" />
+                </div>
+                <CardTitle>Phased Implementation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  We can start with high-impact areas first, allowing you to see immediate results while gradually expanding automation.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
