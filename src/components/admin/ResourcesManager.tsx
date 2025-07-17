@@ -49,6 +49,34 @@ export function ResourcesManager() {
     setIsLoading(false);
   };
 
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `images/${fileName}`;
+
+      const { data, error } = await supabase.storage
+        .from('resources')
+        .upload(filePath, file);
+
+      if (error) throw error;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('resources')
+        .getPublicUrl(filePath);
+
+      setEditingResource(prev => ({ ...prev, image_url: publicUrl }));
+      toast.success('Image uploaded successfully');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to upload image');
+    }
+    setUploading(false);
+  };
+
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -57,7 +85,7 @@ export function ResourcesManager() {
     try {
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-      const filePath = `${fileName}`;
+      const filePath = `files/${fileName}`;
 
       const { data, error } = await supabase.storage
         .from('resources')
@@ -223,13 +251,25 @@ export function ResourcesManager() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="image_url">Image URL</Label>
-              <Input
-                id="image_url"
-                value={editingResource?.image_url || ''}
-                onChange={(e) => setEditingResource(prev => ({ ...prev, image_url: e.target.value }))}
-                placeholder="Image URL"
-              />
+              <Label htmlFor="image_upload">Upload Image</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="image_upload"
+                  type="file"
+                  onChange={handleImageUpload}
+                  accept="image/*"
+                  disabled={uploading}
+                />
+                {uploading && <span className="text-sm text-muted-foreground">Uploading...</span>}
+              </div>
+              {editingResource?.image_url && (
+                <div className="flex items-center gap-2 text-sm text-green-600">
+                  <span>Image uploaded successfully</span>
+                  <a href={editingResource.image_url} target="_blank" rel="noopener noreferrer" className="underline">
+                    View Image
+                  </a>
+                </div>
+              )}
             </div>
 
             <div className="space-y-2">
