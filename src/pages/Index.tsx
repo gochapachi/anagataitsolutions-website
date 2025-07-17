@@ -8,10 +8,8 @@ import { ServicesOverview } from "@/components/sections/ServicesOverview";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { StatsSection } from "@/components/sections/StatsSection";
 import { CTASection } from "@/components/sections/CTASection";
-
 const Index = () => {
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <HeroSection />
       <StatsSection />
       <ServicesOverview />
@@ -195,14 +193,7 @@ const Index = () => {
 
           <div className="max-w-4xl mx-auto">
             <div className="relative aspect-video rounded-lg overflow-hidden bg-muted shadow-2xl">
-              <iframe
-                src="https://www.youtube.com/embed/5R1U5fMQyvU?start=1236"
-                title="Watch How Automation Transforms MSMEs"
-                className="w-full h-full"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+              <iframe src="https://www.youtube.com/embed/5R1U5fMQyvU?start=1236" title="Watch How Automation Transforms MSMEs" className="w-full h-full" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
               <div className="absolute inset-0 flex items-center justify-center">
                 <Button size="lg" className="rounded-full w-16 h-16">
                   <Play className="w-6 h-6" />
@@ -210,11 +201,8 @@ const Index = () => {
               </div>
               <div className="absolute bottom-4 left-4 right-4">
                 <div className="bg-background/80 backdrop-blur rounded-lg p-4">
-                  <h3 className="font-semibold mb-2">Manufacturing Company Case Study</h3>
-                  <p className="text-sm text-muted-foreground">
-                    See how a 50-employee manufacturing company automated their sales process 
-                    and increased lead conversion by 240% in just 90 days.
-                  </p>
+                  <h3 className="font-semibold mb-2">Automated Brand Creatives</h3>
+                  <p className="text-sm text-muted-foreground">See how to automate brand creatives for marketing</p>
                 </div>
               </div>
             </div>
@@ -247,8 +235,6 @@ const Index = () => {
       </section>
 
       <CTASection />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
