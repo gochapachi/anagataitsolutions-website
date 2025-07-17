@@ -1,22 +1,13 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, CheckCircle, Users, TrendingUp, Clock } from "lucide-react";
-import heroBg from "@/assets/hero-bg-optimized.webp";
+import { ArrowRight, Play, CheckCircle, Users, TrendingUp, Clock } from "lucide-react";
 export const HeroSection = () => {
   return <section className="relative py-20 lg:py-32 overflow-hidden">
-      {/* Optimized background */}
-      <div 
-        className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5 opacity-40"
-        style={{
-          backgroundImage: `url(${heroBg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      />
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5" />
       
-      <div className="hero-container relative">
+      <div className="container mx-auto px-4 relative">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left column - Content */}
           <div className="space-y-8">
@@ -24,9 +15,9 @@ export const HeroSection = () => {
               <Badge variant="secondary" className="mb-4">
                 #1 MSME Automation Platform
               </Badge>
-              <h1 className="hero-text-critical">
+              <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
                 Save 47% of Your Time with{" "}
-                <span className="hero-primary-text">AI Automation</span>
+                <span className="text-primary">AI Automation</span>
               </h1>
               <p className="text-xl text-muted-foreground mt-6 leading-relaxed">
                 Stop losing leads and wasting time on repetitive tasks. Our automation solutions 
