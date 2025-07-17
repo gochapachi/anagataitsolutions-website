@@ -2,58 +2,51 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star, Quote, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 export const TestimonialsSection = () => {
-  const testimonials = [
-    {
-      name: "Rajesh Kumar",
-      company: "Kumar Manufacturing Ltd",
-      role: "Managing Director",
-      industry: "Manufacturing",
-      employees: "45 employees",
-      quote: "Anagata IT's automation reduced our lead response time from 24 hours to 2 minutes. We've seen a 240% increase in qualified leads and saved 18 hours per week on administrative tasks.",
-      metrics: {
-        timesSaved: "18 hrs/week",
-        leadIncrease: "240%",
-        roi: "320%"
-      },
-      image: "/placeholder.svg?height=60&width=60",
-      hasVideo: true
+  const testimonials = [{
+    name: "Rajesh Kumar",
+    company: "Kumar Manufacturing Ltd",
+    role: "Managing Director",
+    industry: "Manufacturing",
+    employees: "45 employees",
+    quote: "Anagata IT's automation reduced our lead response time from 24 hours to 2 minutes. We've seen a 240% increase in qualified leads and saved 18 hours per week on administrative tasks.",
+    metrics: {
+      timesSaved: "18 hrs/week",
+      leadIncrease: "240%",
+      roi: "320%"
     },
-    {
-      name: "Priya Sharma",
-      company: "TechStart Solutions",
-      role: "Founder",
-      industry: "IT Services",
-      employees: "25 employees",
-      quote: "The marketing automation suite transformed our client acquisition. We went from manually managing 50 leads to automatically nurturing 500+ prospects without hiring additional staff.",
-      metrics: {
-        timesSaved: "22 hrs/week",
-        leadIncrease: "180%",
-        roi: "280%"
-      },
-      image: "/placeholder.svg?height=60&width=60",
-      hasVideo: false
+    image: "/placeholder.svg?height=60&width=60",
+    hasVideo: true
+  }, {
+    name: "Priya Sharma",
+    company: "TechStart Solutions",
+    role: "Founder",
+    industry: "IT Services",
+    employees: "25 employees",
+    quote: "The marketing automation suite transformed our client acquisition. We went from manually managing 50 leads to automatically nurturing 500+ prospects without hiring additional staff.",
+    metrics: {
+      timesSaved: "22 hrs/week",
+      leadIncrease: "180%",
+      roi: "280%"
     },
-    {
-      name: "Amit Patel",
-      company: "GreenTech Industries",
-      role: "Operations Head",
-      industry: "Renewable Energy",
-      employees: "80 employees",
-      quote: "HR automation alone saved us ₹2.5L annually in recruitment costs. The onboarding process that took 2 weeks now happens in 3 days with better documentation.",
-      metrics: {
-        timesSaved: "15 hrs/week",
-        leadIncrease: "160%",
-        roi: "350%"
-      },
-      image: "/placeholder.svg?height=60&width=60",
-      hasVideo: true
-    }
-  ];
-
-  return (
-    <section className="py-20 bg-muted/30">
+    image: "/placeholder.svg?height=60&width=60",
+    hasVideo: false
+  }, {
+    name: "Amit Patel",
+    company: "GreenTech Industries",
+    role: "Operations Head",
+    industry: "Renewable Energy",
+    employees: "80 employees",
+    quote: "HR automation alone saved us ₹2.5L annually in recruitment costs. The onboarding process that took 2 weeks now happens in 3 days with better documentation.",
+    metrics: {
+      timesSaved: "15 hrs/week",
+      leadIncrease: "160%",
+      roi: "350%"
+    },
+    image: "/placeholder.svg?height=60&width=60",
+    hasVideo: true
+  }];
+  return <section className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-4">Client Success Stories</Badge>
@@ -67,27 +60,20 @@ export const TestimonialsSection = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <Card key={index} className="h-full bg-background card-interactive">
+          {testimonials.map((testimonial, index) => <Card key={index} className="h-full bg-background card-interactive">
               <CardContent className="p-6">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
+                    <img src={testimonial.image} alt={testimonial.name} className="w-12 h-12 rounded-full object-cover" />
                     <div>
                       <h4 className="font-semibold">{testimonial.name}</h4>
                       <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                     </div>
                   </div>
-                  {testimonial.hasVideo && (
-                    <Button variant="ghost" size="sm" className="p-2 btn-interactive">
+                  {testimonial.hasVideo && <Button variant="ghost" size="sm" className="p-2 btn-interactive">
                       <Play className="w-4 h-4" />
-                    </Button>
-                  )}
+                    </Button>}
                 </div>
 
                 {/* Company Info */}
@@ -102,9 +88,7 @@ export const TestimonialsSection = () => {
 
                 {/* Rating */}
                 <div className="flex items-center space-x-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                  ))}
+                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />)}
                 </div>
 
                 {/* Quote */}
@@ -137,15 +121,14 @@ export const TestimonialsSection = () => {
                   </div>
                 </div>
               </CardContent>
-            </Card>
-          ))}
+            </Card>)}
         </div>
 
         {/* Trust indicators */}
         <div className="text-center mt-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
             <div>
-              <div className="text-3xl font-bold text-primary">500+</div>
+              <div className="text-3xl font-bold text-primary">50+</div>
               <div className="text-sm text-muted-foreground">Happy Clients</div>
             </div>
             <div>
@@ -163,6 +146,5 @@ export const TestimonialsSection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };

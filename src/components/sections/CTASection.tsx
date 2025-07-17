@@ -2,10 +2,8 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, CheckCircle, Clock, Calculator } from "lucide-react";
-
 export const CTASection = () => {
-  return (
-    <section className="py-20 bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/10">
+  return <section className="py-20 bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/10">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
           <Badge variant="secondary" className="mb-4">Limited Time Offer</Badge>
@@ -69,11 +67,10 @@ export const CTASection = () => {
               <div className="text-lg font-semibold">Kumar Manufacturing</div>
               <div className="text-lg font-semibold">TechStart Solutions</div>
               <div className="text-lg font-semibold">GreenTech Industries</div>
-              <div className="text-lg font-semibold">+500 more</div>
+              <div className="text-lg font-semibold">+50 more</div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };

@@ -113,10 +113,7 @@ const Index = () => {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-            <Button variant="outline" size="lg">
-              <Calculator className="mr-2 h-4 w-4" />
-              Calculate ROI
-            </Button>
+            
           </div>
         </div>
       </section>
@@ -211,22 +208,22 @@ const Index = () => {
               <div className="aspect-video rounded-lg bg-muted p-4 flex items-center justify-center text-center">
                 <div>
                   <Play className="w-8 h-8 mx-auto mb-2 text-primary" />
-                  <p className="text-sm font-medium">Marketing Automation Demo</p>
-                  <p className="text-xs text-muted-foreground">3:45 mins</p>
+                  <p className="text-sm font-medium">Marketing Automation</p>
+                  
                 </div>
               </div>
               <div className="aspect-video rounded-lg bg-muted p-4 flex items-center justify-center text-center">
                 <div>
                   <Play className="w-8 h-8 mx-auto mb-2 text-primary" />
-                  <p className="text-sm font-medium">Sales Process Setup</p>
-                  <p className="text-xs text-muted-foreground">5:12 mins</p>
+                  <p className="text-sm font-medium">Sales Automation</p>
+                  
                 </div>
               </div>
               <div className="aspect-video rounded-lg bg-muted p-4 flex items-center justify-center text-center">
                 <div>
                   <Play className="w-8 h-8 mx-auto mb-2 text-primary" />
-                  <p className="text-sm font-medium">HR Automation Tour</p>
-                  <p className="text-xs text-muted-foreground">4:28 mins</p>
+                  <p className="text-sm font-medium">HR Automation</p>
+                  
                 </div>
               </div>
             </div>
