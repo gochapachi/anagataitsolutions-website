@@ -23,8 +23,11 @@ export const Navbar = () => {
             <Link to="/" className="flex items-center space-x-2">
               <img 
                 src="/lovable-uploads/c8bf87d9-ba2f-458d-a50b-91c09b46fdd8.png" 
-                alt="Anagata IT Solutions" 
+                alt="Anagata IT Solutions Logo" 
                 className="h-10 w-10"
+                width="40"
+                height="40"
+                loading="lazy"
               />
               <span className="font-bold text-xl">Anagata IT Solutions</span>
             </Link>
@@ -101,6 +104,7 @@ export const Navbar = () => {
               variant="ghost"
               size="sm"
               onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>

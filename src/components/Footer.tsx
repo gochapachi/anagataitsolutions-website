@@ -11,8 +11,11 @@ export const Footer = () => {
             <div className="flex items-center space-x-2">
               <img 
                 src="/lovable-uploads/c8bf87d9-ba2f-458d-a50b-91c09b46fdd8.png" 
-                alt="Anagata IT Solutions" 
+                alt="Anagata IT Solutions Logo" 
                 className="h-8 w-8"
+                width="32"
+                height="32"
+                loading="lazy"
               />
               <span className="font-bold text-xl">Anagata IT Solutions</span>
             </div>

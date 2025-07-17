@@ -49,7 +49,7 @@ export const StatsSection = () => {
                 <stat.icon className="w-8 h-8 text-primary" />
               </div>
               <div className="text-3xl font-bold text-primary mb-2">{stat.value}</div>
-              <div className="font-semibold mb-1">{stat.label}</div>
+              <h3 className="font-semibold mb-1">{stat.label}</h3>
               <div className="text-sm text-muted-foreground">{stat.description}</div>
             </div>
           ))}
