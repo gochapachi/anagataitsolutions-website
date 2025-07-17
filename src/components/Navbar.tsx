@@ -60,20 +60,12 @@ export const Navbar = () => {
             </DropdownMenu>
 
             <Link
-              to="/pricing"
+              to="/about"
               className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive("/pricing") ? "text-primary" : "text-muted-foreground"
+                isActive("/about") ? "text-primary" : "text-muted-foreground"
               }`}
             >
-              Pricing
-            </Link>
-            <Link
-              to="/case-studies"
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive("/case-studies") ? "text-primary" : "text-muted-foreground"
-              }`}
-            >
-              Case Studies
+              About
             </Link>
             <Link
               to="/resources"
@@ -84,12 +76,12 @@ export const Navbar = () => {
               Resources
             </Link>
             <Link
-              to="/about"
+              to="/blogs"
               className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive("/about") ? "text-primary" : "text-muted-foreground"
+                isActive("/blogs") ? "text-primary" : "text-muted-foreground"
               }`}
             >
-              About
+              Blogs
             </Link>
           </div>
 
@@ -132,18 +124,11 @@ export const Navbar = () => {
                 Services
               </Link>
               <Link
-                to="/pricing"
+                to="/about"
                 className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary"
                 onClick={() => setIsOpen(false)}
               >
-                Pricing
-              </Link>
-              <Link
-                to="/case-studies"
-                className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary"
-                onClick={() => setIsOpen(false)}
-              >
-                Case Studies
+                About
               </Link>
               <Link
                 to="/resources"
@@ -153,11 +138,11 @@ export const Navbar = () => {
                 Resources
               </Link>
               <Link
-                to="/about"
+                to="/blogs"
                 className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary"
                 onClick={() => setIsOpen(false)}
               >
-                About
+                Blogs
               </Link>
               <Link
                 to="/contact"

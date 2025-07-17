@@ -113,7 +113,7 @@ const SalesAutomation = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
+      <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5 animate-fade-in">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
@@ -150,12 +150,12 @@ const SalesAutomation = () => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/contact">
-                  <Button size="lg">
+                  <Button size="lg" className="btn-interactive">
                     Get Free Sales Audit
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
-                <Button variant="outline" size="lg">
+                <Button variant="outline" size="lg" className="btn-interactive">
                   <Play className="mr-2 h-4 w-4" />
                   Watch Demo
                 </Button>
@@ -163,8 +163,8 @@ const SalesAutomation = () => {
             </div>
 
             {/* Visual */}
-            <div className="relative">
-              <Card className="p-6">
+            <div className="relative animate-slide-in-right">
+              <Card className="p-6 card-interactive">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between p-3 bg-blue-500/10 rounded">
                     <div className="flex items-center space-x-3">
@@ -219,7 +219,7 @@ const SalesAutomation = () => {
       </section>
 
       {/* Pain Points & Solutions */}
-      <section className="py-20">
+      <section className="py-20 animate-fade-in">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <Badge variant="secondary" className="mb-4">Sales Challenges</Badge>
@@ -261,7 +261,7 @@ const SalesAutomation = () => {
       </section>
 
       {/* Features */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-20 bg-muted/30 animate-fade-in">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <Badge variant="secondary" className="mb-4">Complete Sales Suite</Badge>
@@ -276,7 +276,7 @@ const SalesAutomation = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="h-full">
+              <Card key={index} className="h-full card-interactive" style={{ animationDelay: `${index * 100}ms` }}>
                 <CardHeader>
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                     <feature.icon className="w-6 h-6 text-primary" />
@@ -296,7 +296,7 @@ const SalesAutomation = () => {
       </section>
 
       {/* How It Works */}
-      <section className="py-20">
+      <section className="py-20 animate-fade-in">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <Badge variant="secondary" className="mb-4">Sales Process</Badge>
@@ -334,7 +334,7 @@ const SalesAutomation = () => {
       </section>
 
       {/* Case Study */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-20 bg-muted/30 animate-fade-in">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
@@ -344,7 +344,7 @@ const SalesAutomation = () => {
               </h2>
             </div>
 
-            <Card>
+            <Card className="card-interactive">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
