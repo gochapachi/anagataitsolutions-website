@@ -68,7 +68,7 @@ export const TestimonialsSection = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="h-full bg-background">
+            <Card key={index} className="h-full bg-background card-interactive">
               <CardContent className="p-6">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
@@ -84,7 +84,7 @@ export const TestimonialsSection = () => {
                     </div>
                   </div>
                   {testimonial.hasVideo && (
-                    <Button variant="ghost" size="sm" className="p-2">
+                    <Button variant="ghost" size="sm" className="p-2 btn-interactive">
                       <Play className="w-4 h-4" />
                     </Button>
                   )}

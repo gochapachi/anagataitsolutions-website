@@ -95,13 +95,8 @@ export const Navbar = () => {
 
           <div className="hidden md:flex items-center space-x-4">
             <Link to="/contact">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="btn-interactive">
                 Get Consultation
-              </Button>
-            </Link>
-            <Link to="/contact">
-              <Button size="sm">
-                Start Free Trial
               </Button>
             </Link>
           </div>
@@ -124,7 +119,7 @@ export const Navbar = () => {
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t">
               <Link
                 to="/"
-                className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary"
+                className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary link-interactive"
                 onClick={() => setIsOpen(false)}
               >
                 Home
@@ -173,13 +168,8 @@ export const Navbar = () => {
               </Link>
               <div className="flex flex-col space-y-2 px-3 py-2">
                 <Link to="/contact" onClick={() => setIsOpen(false)}>
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button variant="outline" size="sm" className="w-full btn-interactive">
                     Get Consultation
-                  </Button>
-                </Link>
-                <Link to="/contact" onClick={() => setIsOpen(false)}>
-                  <Button size="sm" className="w-full">
-                    Start Free Trial
                   </Button>
                 </Link>
               </div>

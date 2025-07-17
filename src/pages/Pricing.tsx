@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { ArrowRight, CheckCircle, X, Star, Calculator, Clock, TrendingUp, Zap } from "lucide-react";
+import { ArrowRight, CheckCircle, X, Star, Clock, TrendingUp, Zap } from "lucide-react";
+import { ROICalculator } from "@/components/ROICalculator";
 
 const Pricing = () => {
   const [isAnnual, setIsAnnual] = useState(false);
@@ -121,8 +122,8 @@ const Pricing = () => {
               Choose Your Automation Package
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
-              No hidden fees, no setup costs, no long-term contracts. Start with a 30-day free trial 
-              and see the results before you commit.
+              No hidden fees, no setup costs, no long-term contracts. Get started with our automation solutions 
+              and see the results within 30 days.
             </p>
             
             {/* Billing Toggle */}
@@ -148,7 +149,7 @@ const Pricing = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {plans.map((plan, index) => (
-              <Card key={index} className={`relative h-full ${plan.color} ${plan.popular ? 'shadow-lg' : ''}`}>
+              <Card key={index} className={`relative h-full card-interactive ${plan.color} ${plan.popular ? 'shadow-lg' : ''}`}>
                 {plan.popular && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                     <Badge className="bg-primary text-primary-foreground px-4 py-1">
@@ -231,13 +232,13 @@ const Pricing = () => {
                   {/* CTA */}
                   <div className="space-y-3">
                     <Link to="/contact" className="block">
-                      <Button className="w-full" variant={plan.popular ? "default" : "outline"} size="lg">
-                        Start 30-Day Free Trial
+                      <Button className="w-full btn-interactive" variant={plan.popular ? "default" : "outline"} size="lg">
+                        Get Started
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
                     </Link>
                     <p className="text-xs text-center text-muted-foreground">
-                      No credit card required • Cancel anytime
+                      No setup costs • Cancel anytime
                     </p>
                   </div>
                 </CardContent>
@@ -259,14 +260,14 @@ const Pricing = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {addOns.map((addon, index) => (
-              <Card key={index}>
+              <Card key={index} className="card-interactive">
                 <CardHeader className="text-center">
                   <CardTitle className="text-lg">{addon.name}</CardTitle>
                   <CardDescription>{addon.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="text-center">
                   <div className="text-2xl font-bold text-primary mb-4">{addon.price}</div>
-                  <Button variant="outline" size="sm">Add to Plan</Button>
+                  <Button variant="outline" size="sm" className="btn-interactive">Add to Plan</Button>
                 </CardContent>
               </Card>
             ))}
@@ -278,65 +279,7 @@ const Pricing = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <Badge variant="secondary" className="mb-4">ROI Calculator</Badge>
-              <h2 className="text-3xl font-bold mb-4">
-                Calculate Your Potential Savings
-              </h2>
-              <p className="text-xl text-muted-foreground">
-                See how much time and money you could save with automation
-              </p>
-            </div>
-
-            <Card className="p-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-6">
-                  <h3 className="text-xl font-semibold">Your Current Situation</h3>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Hours per week on manual tasks</label>
-                      <input className="w-full p-3 border rounded-lg" placeholder="e.g., 20" type="number" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Average hourly cost (₹)</label>
-                      <input className="w-full p-3 border rounded-lg" placeholder="e.g., 500" type="number" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Lost opportunities per month</label>
-                      <input className="w-full p-3 border rounded-lg" placeholder="e.g., 5" type="number" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <h3 className="text-xl font-semibold">Potential Savings</h3>
-                  <div className="space-y-4 p-6 bg-muted/50 rounded-lg">
-                    <div className="flex justify-between">
-                      <span>Time saved per week:</span>
-                      <span className="font-semibold text-green-600">14 hours</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Monthly cost savings:</span>
-                      <span className="font-semibold text-green-600">₹28,000</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Additional revenue:</span>
-                      <span className="font-semibold text-green-600">₹75,000</span>
-                    </div>
-                    <div className="border-t pt-4">
-                      <div className="flex justify-between text-lg font-bold">
-                        <span>Total monthly benefit:</span>
-                        <span className="text-green-600">₹1,03,000</span>
-                      </div>
-                    </div>
-                  </div>
-                  <Button className="w-full" size="lg">
-                    <Calculator className="mr-2 h-4 w-4" />
-                    Get Detailed ROI Report
-                  </Button>
-                </div>
-              </div>
-            </Card>
+            <ROICalculator />
           </div>
         </div>
       </section>
@@ -355,8 +298,8 @@ const Pricing = () => {
                 answer: "Yes, you can upgrade or downgrade your plan at any time. Changes take effect on your next billing cycle."
               },
               {
-                question: "What's included in the free trial?",
-                answer: "The 30-day free trial includes full access to your chosen plan, implementation support, and training. No credit card required."
+                question: "What support do you provide?",
+                answer: "We provide complete implementation support, training, and ongoing assistance. Our team ensures you get maximum value from automation."
               },
               {
                 question: "Do you offer refunds?",
@@ -367,7 +310,7 @@ const Pricing = () => {
                 answer: "Implementation typically takes 2-4 weeks depending on your plan and requirements. We provide dedicated support throughout the process."
               }
             ].map((faq, index) => (
-              <Card key={index}>
+              <Card key={index} className="card-interactive">
                 <CardHeader>
                   <CardTitle className="text-lg">{faq.question}</CardTitle>
                 </CardHeader>
@@ -389,18 +332,20 @@ const Pricing = () => {
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
               Join 500+ MSMEs who've already automated their way to success. 
-              Start your free trial today and see results within 30 days.
+              Get started today and see results within 30 days.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/contact">
-                <Button size="lg">
-                  Start Free Trial
+                <Button size="lg" className="btn-interactive">
+                  Get Started
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Button variant="outline" size="lg">
-                Schedule Demo
-              </Button>
+              <Link to="/contact">
+                <Button variant="outline" size="lg" className="btn-interactive">
+                  Schedule Demo
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

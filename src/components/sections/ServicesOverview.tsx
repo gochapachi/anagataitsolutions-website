@@ -69,7 +69,7 @@ export const ServicesOverview = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <Card key={index} className={`relative h-full transition-all duration-300 hover:shadow-lg ${service.popular ? 'ring-2 ring-primary' : ''}`}>
+            <Card key={index} className={`relative h-full card-interactive ${service.popular ? 'ring-2 ring-primary' : ''}`}>
               {service.popular && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                   <Badge className="bg-primary text-primary-foreground">Most Popular</Badge>
@@ -120,7 +120,7 @@ export const ServicesOverview = () => {
 
                 {/* CTA */}
                 <Link to={service.link} className="block">
-                  <Button className="w-full" variant={service.popular ? "default" : "outline"}>
+                  <Button className="w-full btn-interactive" variant={service.popular ? "default" : "outline"}>
                     Learn More
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -139,13 +139,13 @@ export const ServicesOverview = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/contact">
-                <Button size="lg">
+                <Button size="lg" className="btn-interactive">
                   Get Custom Quote
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Link to="/services">
-                <Button variant="outline" size="lg">
+                <Button variant="outline" size="lg" className="btn-interactive">
                   View All Services
                 </Button>
               </Link>

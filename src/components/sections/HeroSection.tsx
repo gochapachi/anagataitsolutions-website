@@ -46,12 +46,12 @@ export const HeroSection = () => {
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/contact">
-                <Button size="lg" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto btn-interactive">
                   Get Free Consultation
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Button variant="outline" size="lg" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto btn-interactive">
                 <Play className="mr-2 h-4 w-4" />
                 Watch 2-Min Demo
               </Button>
@@ -86,7 +86,7 @@ export const HeroSection = () => {
           {/* Right column - Visual */}
           <div className="relative">
             {/* Main dashboard mockup */}
-            <div className="relative bg-background border rounded-lg shadow-2xl p-6">
+            <div className="relative bg-background border rounded-lg shadow-2xl p-6 card-interactive">
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500"></div>

@@ -103,3 +103,38 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  /* Interactive animations for buttons */
+  .btn-interactive {
+    @apply transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95;
+  }
+  
+  /* Interactive animations for links */
+  .link-interactive {
+    @apply relative transition-all duration-300 ease-in-out hover:text-primary;
+  }
+  
+  .link-interactive::after {
+    @apply content-[''] absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out;
+  }
+  
+  .link-interactive:hover::after {
+    @apply w-full;
+  }
+  
+  /* Interactive animations for cards */
+  .card-interactive {
+    @apply transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 hover:border-primary/20;
+  }
+  
+  /* Pulse animation for interactive elements */
+  .pulse-interactive {
+    @apply animate-pulse hover:animate-none;
+  }
+  
+  /* Gradient hover effects */
+  .gradient-hover {
+    @apply transition-all duration-300 ease-in-out hover:bg-gradient-to-r hover:from-primary hover:to-primary/80 hover:text-primary-foreground;
+  }
+}

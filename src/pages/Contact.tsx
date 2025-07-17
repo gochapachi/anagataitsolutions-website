@@ -19,28 +19,59 @@ const Contact = () => {
     employees: "",
     service: "",
     currentChallenges: "",
-    timeSpent: "",
     message: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Request Submitted!",
-      description: "We'll contact you within 2 hours to schedule your free consultation.",
-    });
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      employees: "",
-      service: "",
-      currentChallenges: "",
-      timeSpent: "",
-      message: ""
-    });
+    
+    try {
+      // Send to both webhook endpoints
+      const webhookUrls = [
+        'https://n8n.anagataitsolutions.in/webhook/n8n',
+        'https://n8n.anagataitsolutions.in/webhook-test/n8n'
+      ];
+      
+      const requests = webhookUrls.map(url => 
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          mode: 'no-cors',
+          body: JSON.stringify({
+            ...formData,
+            timestamp: new Date().toISOString(),
+            source: 'contact_form'
+          })
+        })
+      );
+      
+      await Promise.all(requests);
+      
+      toast({
+        title: "Request Submitted!",
+        description: "We'll contact you within 2 hours to schedule your free consultation.",
+      });
+      
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        employees: "",
+        service: "",
+        currentChallenges: "",
+        message: ""
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an issue submitting your request. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -89,7 +120,7 @@ const Contact = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <Card>
+              <Card className="card-interactive">
                 <CardHeader>
                   <CardTitle className="text-2xl">Schedule Your Free Consultation</CardTitle>
                   <CardDescription>
@@ -198,20 +229,6 @@ const Contact = () => {
                       </Select>
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="timeSpent">Time Spent on Manual Tasks</Label>
-                      <Select onValueChange={(value) => handleInputChange("timeSpent", value)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Hours per week on repetitive tasks" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="5-10">5-10 hours/week</SelectItem>
-                          <SelectItem value="10-20">10-20 hours/week</SelectItem>
-                          <SelectItem value="20-30">20-30 hours/week</SelectItem>
-                          <SelectItem value="30+">30+ hours/week</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
 
                     {/* Message */}
                     <div className="space-y-2">
@@ -226,7 +243,7 @@ const Contact = () => {
                     </div>
 
                     {/* Submit */}
-                    <Button type="submit" size="lg" className="w-full">
+                    <Button type="submit" size="lg" className="w-full btn-interactive">
                       Get My Free Assessment
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
@@ -243,7 +260,7 @@ const Contact = () => {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Contact Info */}
-              <Card>
+              <Card className="card-interactive">
                 <CardHeader>
                   <CardTitle>Get in Touch</CardTitle>
                   <CardDescription>
@@ -282,7 +299,7 @@ const Contact = () => {
               </Card>
 
               {/* What to Expect */}
-              <Card>
+              <Card className="card-interactive">
                 <CardHeader>
                   <CardTitle>What to Expect</CardTitle>
                 </CardHeader>
@@ -318,7 +335,7 @@ const Contact = () => {
               </Card>
 
               {/* Social Proof */}
-              <Card>
+              <Card className="card-interactive">
                 <CardHeader>
                   <CardTitle>Join 500+ Successful MSMEs</CardTitle>
                 </CardHeader>
