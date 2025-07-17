@@ -26,6 +26,9 @@ import Contact from "./pages/Contact";
 import Resources from "./pages/Resources";
 import Blogs from "./pages/Blogs";
 import NotFound from "./pages/NotFound";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+import { AdminAuthProvider } from "./hooks/useAdminAuth";
 
 const queryClient = new QueryClient();
 
@@ -34,27 +37,38 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <div className="min-h-screen flex flex-col bg-background">
-          <Navbar />
-          <main className="flex-1">
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/services/marketing-automation" element={<MarketingAutomation />} />
-              <Route path="/services/sales-automation" element={<SalesAutomation />} />
-              <Route path="/services/hr-automation" element={<HRAutomation />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/resources" element={<Resources />} />
-              <Route path="/blogs" element={<Blogs />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </BrowserRouter>
+      <AdminAuthProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            {/* Admin Routes - No navbar/footer */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            
+            {/* Main App Routes - With navbar/footer */}
+            <Route path="/*" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/services" element={<Services />} />
+                    <Route path="/services/marketing-automation" element={<MarketingAutomation />} />
+                    <Route path="/services/sales-automation" element={<SalesAutomation />} />
+                    <Route path="/services/hr-automation" element={<HRAutomation />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/resources" element={<Resources />} />
+                    <Route path="/blogs" element={<Blogs />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </main>
+                <Footer />
+              </div>
+            } />
+          </Routes>
+        </BrowserRouter>
+      </AdminAuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

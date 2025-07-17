@@ -14,7 +14,144 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_users: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          password_hash: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          password_hash: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          password_hash?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      resources: {
+        Row: {
+          author: string | null
+          category: string | null
+          content: string | null
+          created_at: string
+          id: string
+          image_url: string | null
+          is_published: boolean | null
+          meta_description: string | null
+          published_date: string | null
+          slug: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author?: string | null
+          category?: string | null
+          content?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean | null
+          meta_description?: string | null
+          published_date?: string | null
+          slug?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string | null
+          category?: string | null
+          content?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean | null
+          meta_description?: string | null
+          published_date?: string | null
+          slug?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      services_content: {
+        Row: {
+          benefits: Json | null
+          cta_description: string | null
+          cta_title: string | null
+          features: Json | null
+          hero_description: string | null
+          hero_image_url: string | null
+          hero_title: string | null
+          id: string
+          process_steps: Json | null
+          service_type: string
+          testimonial: Json | null
+          updated_at: string
+        }
+        Insert: {
+          benefits?: Json | null
+          cta_description?: string | null
+          cta_title?: string | null
+          features?: Json | null
+          hero_description?: string | null
+          hero_image_url?: string | null
+          hero_title?: string | null
+          id?: string
+          process_steps?: Json | null
+          service_type: string
+          testimonial?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          benefits?: Json | null
+          cta_description?: string | null
+          cta_title?: string | null
+          features?: Json | null
+          hero_description?: string | null
+          hero_image_url?: string | null
+          hero_title?: string | null
+          id?: string
+          process_steps?: Json | null
+          service_type?: string
+          testimonial?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          description: string | null
+          id: string
+          key: string
+          updated_at: string
+          value: Json | null
+        }
+        Insert: {
+          description?: string | null
+          id?: string
+          key: string
+          updated_at?: string
+          value?: Json | null
+        }
+        Update: {
+          description?: string | null
+          id?: string
+          key?: string
+          updated_at?: string
+          value?: Json | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
