@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Plus, Edit, Trash2, Save, X } from 'lucide-react';
+import { Plus, Edit, Trash2, Save, X, Upload, Download, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Resource {
@@ -20,6 +20,7 @@ interface Resource {
   meta_description: string;
   slug: string;
   image_url: string;
+  file_url: string;
 }
 
 export function ResourcesManager() {
@@ -27,6 +28,7 @@ export function ResourcesManager() {
   const [isLoading, setIsLoading] = useState(true);
   const [editingResource, setEditingResource] = useState<Partial<Resource> | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     fetchResources();
@@ -45,6 +47,34 @@ export function ResourcesManager() {
       toast.error('Failed to fetch resources');
     }
     setIsLoading(false);
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { data, error } = await supabase.storage
+        .from('resources')
+        .upload(filePath, file);
+
+      if (error) throw error;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('resources')
+        .getPublicUrl(filePath);
+
+      setEditingResource(prev => ({ ...prev, file_url: publicUrl }));
+      toast.success('File uploaded successfully');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to upload file');
+    }
+    setUploading(false);
   };
 
   const saveResource = async () => {
@@ -67,7 +97,8 @@ export function ResourcesManager() {
             is_published: editingResource.is_published ?? true,
             meta_description: editingResource.meta_description || '',
             slug: editingResource.slug || editingResource.title.toLowerCase().replace(/\s+/g, '-'),
-            image_url: editingResource.image_url || ''
+            image_url: editingResource.image_url || '',
+            file_url: editingResource.file_url || ''
           })
           .eq('id', editingResource.id);
 
@@ -86,7 +117,8 @@ export function ResourcesManager() {
             is_published: editingResource.is_published ?? true,
             meta_description: editingResource.meta_description || '',
             slug: editingResource.slug || editingResource.title.toLowerCase().replace(/\s+/g, '-'),
-            image_url: editingResource.image_url || ''
+            image_url: editingResource.image_url || '',
+            file_url: editingResource.file_url || ''
           });
 
         if (error) throw error;
@@ -201,6 +233,29 @@ export function ResourcesManager() {
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="file_upload">Upload File (PDF, N8N Template, etc.)</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="file_upload"
+                  type="file"
+                  onChange={handleFileUpload}
+                  accept=".pdf,.json,.n8n,.zip,.docx,.doc"
+                  disabled={uploading}
+                />
+                {uploading && <span className="text-sm text-muted-foreground">Uploading...</span>}
+              </div>
+              {editingResource?.file_url && (
+                <div className="flex items-center gap-2 text-sm text-green-600">
+                  <FileText className="h-4 w-4" />
+                  <span>File uploaded successfully</span>
+                  <a href={editingResource.file_url} target="_blank" rel="noopener noreferrer" className="underline">
+                    View File
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="meta_description">Meta Description</Label>
               <Textarea
                 id="meta_description"
@@ -282,6 +337,19 @@ export function ResourcesManager() {
               <p className="text-sm text-muted-foreground mb-2">
                 Status: {resource.is_published ? 'Published' : 'Draft'}
               </p>
+              {resource.file_url && (
+                <div className="flex items-center gap-2 mb-2">
+                  <FileText className="h-4 w-4 text-muted-foreground" />
+                  <a 
+                    href={resource.file_url} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-sm text-primary hover:underline flex items-center gap-1"
+                  >
+                    Download File <Download className="h-3 w-3" />
+                  </a>
+                </div>
+              )}
               <p className="text-sm line-clamp-3">{resource.content}</p>
             </CardContent>
           </Card>

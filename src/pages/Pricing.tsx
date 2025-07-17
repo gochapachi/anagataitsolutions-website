@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { ArrowRight, CheckCircle, X, Star, Clock, TrendingUp, Zap } from "lucide-react";
-import { ROICalculator } from "@/components/ROICalculator";
+
 
 const Pricing = () => {
   const [isAnnual, setIsAnnual] = useState(false);
@@ -199,14 +199,6 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* ROI Calculator */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <ROICalculator />
-          </div>
-        </div>
-      </section>
 
       {/* FAQs */}
       <section className="py-20 bg-muted/30">
