@@ -1,137 +1,127 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRight, Download, FileText, Video, Calculator, BookOpen, Search, Filter, Play, Clock, Users } from "lucide-react";
+import { toast } from "sonner";
+
+interface Resource {
+  id: string;
+  title: string;
+  content: string;
+  category: string;
+  author: string;
+  published_date: string;
+  is_published: boolean;
+  meta_description: string;
+  slug: string;
+  image_url: string;
+  file_url: string;
+  created_at: string;
+}
 
 const Resources = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [resources, setResources] = useState<Resource[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<string[]>(["all"]);
 
-  const resources = [
-    {
-      id: 1,
-      title: "The Complete MSME Automation Handbook",
-      description: "Comprehensive 50-page guide covering everything MSMEs need to know about automation, from basics to advanced implementation strategies.",
-      category: "Guide",
-      type: "PDF",
-      icon: FileText,
-      downloadCount: "2,500+",
-      readTime: "45 min read",
-      featured: true,
-      image: "/placeholder.svg?height=150&width=200"
-    },
-    {
-      id: 2,
-      title: "ROI Calculator for Automation Projects", 
-      description: "Interactive calculator to estimate potential savings, revenue increase, and ROI from marketing, sales, and HR automation.",
-      category: "Tool",
-      type: "Calculator",
-      icon: Calculator,
-      downloadCount: "5,000+",
-      readTime: "5 min",
-      featured: true,
-      image: "/placeholder.svg?height=150&width=200"
-    },
-    {
-      id: 3,
-      title: "Marketing Automation Setup Checklist",
-      description: "Step-by-step checklist for implementing marketing automation in your MSME, with timeline and resource requirements.",
-      category: "Checklist",
-      type: "PDF",
-      icon: FileText,
-      downloadCount: "1,800+",
-      readTime: "15 min read",
-      featured: false,
-      image: "/placeholder.svg?height=150&width=200"
-    },
-    {
-      id: 4,
-      title: "Sales Process Automation Webinar",
-      description: "60-minute recorded webinar showing live implementation of sales automation with real MSME examples and Q&A session.",
-      category: "Webinar",
-      type: "Video",
-      icon: Video,
-      downloadCount: "3,200+",
-      readTime: "60 min watch",
-      featured: true,
-      image: "/placeholder.svg?height=150&width=200"
-    },
-    {
-      id: 5,
-      title: "HR Automation Templates Library",
-      description: "Collection of ready-to-use templates for job postings, interview questions, onboarding checklists, and performance reviews.",
-      category: "Templates",
-      type: "ZIP",
-      icon: FileText,
-      downloadCount: "1,200+",
-      readTime: "Immediate use",
-      featured: false,
-      image: "/placeholder.svg?height=150&width=200"
-    },
-    {
-      id: 6,
-      title: "Industry-Specific Automation Case Studies",
-      description: "Detailed case studies from manufacturing, IT services, retail, and healthcare MSMEs showing specific automation implementations.",
-      category: "Case Study",
-      type: "PDF",
-      icon: BookOpen,
-      downloadCount: "2,100+",
-      readTime: "30 min read",
-      featured: false,
-      image: "/placeholder.svg?height=150&width=200"
-    },
-    {
-      id: 7,
-      title: "Automation Implementation Timeline",
-      description: "Project management template with milestones, dependencies, and resource allocation for 30-90 day automation rollouts.",
-      category: "Template",
-      type: "Excel",
-      icon: FileText,
-      downloadCount: "1,500+",
-      readTime: "Planning tool",
-      featured: false,
-      image: "/placeholder.svg?height=150&width=200"
-    },
-    {
-      id: 8,
-      title: "AI in MSME Operations Masterclass",
-      description: "3-part video series exploring how AI can transform small business operations, with practical examples and implementation tips.",
-      category: "Course",
-      type: "Video Series",
-      icon: Video,
-      downloadCount: "900+",
-      readTime: "2 hours total",
-      featured: false,
-      image: "/placeholder.svg?height=150&width=200"
-    },
-    {
-      id: 9,
-      title: "Cost-Benefit Analysis Template",
-      description: "Excel template for calculating the total cost of ownership and benefits of automation projects with built-in formulas.",
-      category: "Tool",
-      type: "Excel",
-      icon: Calculator,
-      downloadCount: "2,800+",
-      readTime: "Analysis tool",
-      featured: false,
-      image: "/placeholder.svg?height=150&width=200"
+  useEffect(() => {
+    fetchResources();
+  }, []);
+
+  const fetchResources = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('resources')
+        .select('*')
+        .eq('is_published', true)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      
+      setResources(data || []);
+      
+      // Extract unique categories
+      const uniqueCategories = Array.from(new Set((data || []).map(r => r.category).filter(c => c)))
+      setCategories(["all", ...uniqueCategories]);
+      
+    } catch (error) {
+      console.error('Error fetching resources:', error);
+      toast.error('Failed to load resources');
     }
-  ];
+    setLoading(false);
+  };
 
-  const categories = ["all", "Guide", "Tool", "Checklist", "Webinar", "Templates", "Case Study", "Template", "Course"];
+  const getResourceIcon = (category: string) => {
+    switch (category.toLowerCase()) {
+      case 'guide':
+      case 'pdf':
+        return FileText;
+      case 'video':
+      case 'webinar':
+        return Video;
+      case 'tool':
+      case 'calculator':
+        return Calculator;
+      default:
+        return BookOpen;
+    }
+  };
+
+  const getResourceType = (resource: Resource) => {
+    if (resource.file_url) {
+      const extension = resource.file_url.split('.').pop()?.toLowerCase();
+      switch (extension) {
+        case 'pdf':
+          return 'PDF';
+        case 'mp4':
+        case 'avi':
+        case 'mov':
+          return 'Video';
+        case 'zip':
+        case 'rar':
+          return 'Archive';
+        case 'json':
+        case 'n8n':
+          return 'N8N Template';
+        default:
+          return 'File';
+      }
+    }
+    return resource.category || 'Resource';
+  };
+
+  const handleDownload = (resource: Resource) => {
+    if (resource.file_url) {
+      window.open(resource.file_url, '_blank');
+    } else {
+      toast.info('Download link not available for this resource');
+    }
+  };
 
   const filteredResources = resources.filter(resource => {
     const categoryMatch = selectedCategory === "all" || resource.category === selectedCategory;
     const searchMatch = resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                       resource.description.toLowerCase().includes(searchTerm.toLowerCase());
+                       resource.content.toLowerCase().includes(searchTerm.toLowerCase());
     return categoryMatch && searchMatch;
   });
 
-  const featuredResources = resources.filter(resource => resource.featured);
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading resources...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
@@ -175,149 +165,118 @@ const Resources = () => {
         </div>
       </section>
 
-      {/* Featured Resources */}
+      {/* All Resources - Featured in Grid */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">Most Popular</Badge>
+            <Badge variant="secondary" className="mb-4">Available Resources</Badge>
             <h2 className="text-3xl font-bold mb-4">
-              Essential Resources for Every MSME
+              {resources.length > 0 ? `${resources.length} Resources Available` : 'No Resources Available'}
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Start with these comprehensive resources that have helped thousands of MSMEs 
-              understand and implement automation successfully.
+              Browse our collection of automation resources and download files to help with your implementation.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {featuredResources.map((resource) => (
-              <Card key={resource.id} className="h-full group hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <img
-                    src={resource.image}
-                    alt={resource.title}
-                    className="w-full h-40 object-cover rounded-lg mb-4"
-                  />
-                  <div className="flex items-center justify-between mb-2">
-                    <Badge variant="outline">{resource.category}</Badge>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <resource.icon className="w-4 h-4 mr-1" />
-                      {resource.type}
-                    </div>
-                  </div>
-                  <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                    {resource.title}
-                  </CardTitle>
-                  <CardDescription className="text-base">
-                    {resource.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <div className="flex items-center">
-                      <Download className="w-4 h-4 mr-1" />
-                      {resource.downloadCount} downloads
-                    </div>
-                    <div className="flex items-center">
-                      <Clock className="w-4 h-4 mr-1" />
-                      {resource.readTime}
-                    </div>
-                  </div>
-                  <Button className="w-full">
-                    {resource.type === "Video" || resource.type === "Video Series" ? (
-                      <>
-                        <Play className="mr-2 h-4 w-4" />
-                        Watch Now
-                      </>
-                    ) : resource.type === "Calculator" ? (
-                      <>
-                        <Calculator className="mr-2 h-4 w-4" />
-                        Use Calculator
-                      </>
-                    ) : (
-                      <>
-                        <Download className="mr-2 h-4 w-4" />
-                        Download Free
-                      </>
-                    )}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* All Resources */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">
-              Complete Resource Library
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Browse our full collection of automation resources organized by category and type.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredResources.map((resource) => (
-              <Card key={resource.id} className="group hover:shadow-md transition-shadow">
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between mb-2">
-                    <Badge variant="outline" className="text-xs">{resource.category}</Badge>
-                    {resource.featured && <Badge className="text-xs">Popular</Badge>}
-                  </div>
-                  <CardTitle className="text-lg group-hover:text-primary transition-colors line-clamp-2">
-                    {resource.title}
-                  </CardTitle>
-                  <CardDescription className="text-sm line-clamp-3">
-                    {resource.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0 space-y-3">
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <div className="flex items-center">
-                      <resource.icon className="w-3 h-3 mr-1" />
-                      {resource.type}
-                    </div>
-                    <div className="flex items-center">
-                      <Users className="w-3 h-3 mr-1" />
-                      {resource.downloadCount}
-                    </div>
-                  </div>
-                  <Button variant="outline" size="sm" className="w-full">
-                    {resource.type === "Video" || resource.type === "Video Series" ? (
-                      <>
-                        <Play className="mr-2 h-3 w-3" />
-                        Watch
-                      </>
-                    ) : resource.type === "Calculator" ? (
-                      <>
-                        <Calculator className="mr-2 h-3 w-3" />
-                        Use Tool
-                      </>
-                    ) : (
-                      <>
-                        <Download className="mr-2 h-3 w-3" />
-                        Download
-                      </>
-                    )}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {filteredResources.length === 0 && (
+          {resources.length > 0 ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+              {filteredResources.map((resource) => {
+                const IconComponent = getResourceIcon(resource.category);
+                const resourceType = getResourceType(resource);
+                
+                return (
+                  <Card key={resource.id} className="h-full group hover:shadow-lg transition-shadow">
+                    <CardHeader>
+                      {resource.image_url && (
+                        <img
+                          src={resource.image_url}
+                          alt={resource.title}
+                          className="w-full h-40 object-cover rounded-lg mb-4"
+                        />
+                      )}
+                      <div className="flex items-center justify-between mb-2">
+                        <Badge variant="outline">{resource.category}</Badge>
+                        <div className="flex items-center text-sm text-muted-foreground">
+                          <IconComponent className="w-4 h-4 mr-1" />
+                          {resourceType}
+                        </div>
+                      </div>
+                      <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                        {resource.title}
+                      </CardTitle>
+                      <CardDescription className="text-base">
+                        {resource.content || resource.meta_description}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <div className="flex items-center">
+                          <Users className="w-4 h-4 mr-1" />
+                          By {resource.author}
+                        </div>
+                        <div className="flex items-center">
+                          <Clock className="w-4 h-4 mr-1" />
+                          {new Date(resource.published_date).toLocaleDateString()}
+                        </div>
+                      </div>
+                      <Button 
+                        className="w-full" 
+                        onClick={() => handleDownload(resource)}
+                        disabled={!resource.file_url}
+                      >
+                        {resource.file_url ? (
+                          <>
+                            <Download className="mr-2 h-4 w-4" />
+                            Download {resourceType}
+                          </>
+                        ) : (
+                          <>
+                            <FileText className="mr-2 h-4 w-4" />
+                            View Details
+                          </>
+                        )}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          ) : (
             <div className="text-center py-12">
+              <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">No Resources Available</h3>
               <p className="text-muted-foreground">
-                No resources match your search criteria. Try adjusting your filters or search terms.
+                Resources will appear here once they are added by administrators.
               </p>
             </div>
           )}
         </div>
       </section>
+
+      {/* Search Results */}
+      {filteredResources.length === 0 && resources.length > 0 && (
+        <section className="py-20 bg-muted/30">
+          <div className="container mx-auto px-4">
+            <div className="text-center py-12">
+              <Search className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">No Resources Found</h3>
+              <p className="text-muted-foreground">
+                No resources match your search criteria. Try adjusting your filters or search terms.
+              </p>
+              <Button 
+                variant="outline" 
+                className="mt-4"
+                onClick={() => {
+                  setSearchTerm("");
+                  setSelectedCategory("all");
+                }}
+              >
+                Clear Filters
+              </Button>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Resource Categories */}
       <section className="py-20">
