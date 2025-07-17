@@ -106,7 +106,7 @@ const Services = () => {
                     <h3 className="font-semibold mb-3">Key Benefits:</h3>
                     <div className="space-y-2">
                       {service.benefits.map((benefit, idx) => <div key={idx} className="flex items-center text-sm">
-                          <Zap className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                          <Zap className="w-4 h-4 text-accent mr-2 flex-shrink-0" />
                           {benefit}
                         </div>)}
                     </div>
@@ -171,7 +171,7 @@ const Services = () => {
 
                       <div className="grid grid-cols-2 gap-4">
                         <div className="p-3 bg-green-500/10 rounded text-center">
-                          <div className="font-bold text-green-500">{service.timesSaved}</div>
+                          <div className="font-bold text-accent">{service.timesSaved}</div>
                           <div className="text-xs text-muted-foreground">Saved This Week</div>
                         </div>
                         <div className="p-3 bg-blue-500/10 rounded text-center">
@@ -183,7 +183,7 @@ const Services = () => {
                       <div className="space-y-2">
                         {service.features.slice(0, 3).map((feature, idx) => <div key={idx} className="flex items-center justify-between p-2 bg-muted/30 rounded text-sm">
                             <span>{feature}</span>
-                            <CheckCircle className="w-4 h-4 text-green-500" />
+                            <CheckCircle className="w-4 h-4 text-accent" />
                           </div>)}
                       </div>
                     </div>

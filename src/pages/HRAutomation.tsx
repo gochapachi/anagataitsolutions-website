@@ -131,19 +131,19 @@ const HRAutomation = () => {
               {/* Key Benefits */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                   <CheckCircle className="w-5 h-5 text-accent" />
                   <span className="text-sm">50% faster hiring</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                   <CheckCircle className="w-5 h-5 text-accent" />
                   <span className="text-sm">₹2.5L annual savings</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                   <CheckCircle className="w-5 h-5 text-accent" />
                   <span className="text-sm">3-day onboarding</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <CheckCircle className="w-5 h-5 text-accent" />
                   <span className="text-sm">100% paperless HR</span>
                 </div>
               </div>
@@ -182,7 +182,7 @@ const HRAutomation = () => {
                   <div className="flex items-center justify-between p-3 bg-green-500/10 rounded">
                     <div className="flex items-center space-x-3">
                       <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                        <UserCheck className="w-4 h-4 text-green-500" />
+                        <UserCheck className="w-4 h-4 text-accent" />
                       </div>
                       <div>
                         <div className="font-medium text-sm">Candidate Screened</div>
@@ -375,7 +375,7 @@ const HRAutomation = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {caseStudy.results.map((result, index) => (
                       <div key={index} className="flex items-center space-x-2">
-                        <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                        <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
                         <span className="text-sm">{result}</span>
                       </div>
                     ))}

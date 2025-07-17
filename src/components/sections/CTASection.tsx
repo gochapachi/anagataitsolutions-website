@@ -18,7 +18,7 @@ export const CTASection = () => {
           {/* Benefits */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <div className="flex items-center justify-center space-x-3">
-              <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+              <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
               <span className="text-sm">Free automation assessment</span>
             </div>
             <div className="flex items-center justify-center space-x-3">

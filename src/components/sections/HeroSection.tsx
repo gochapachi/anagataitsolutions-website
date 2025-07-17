@@ -28,15 +28,15 @@ export const HeroSection = () => {
             {/* Trust indicators */}
             <div className="flex flex-wrap gap-6 text-sm">
               <div className="flex items-center space-x-2">
-                <CheckCircle className="w-5 h-5 text-green-500" />
+                 <CheckCircle className="w-5 h-5 text-accent" />
                 <span>30-day implementation</span>
               </div>
               <div className="flex items-center space-x-2">
-                <CheckCircle className="w-5 h-5 text-green-500" />
+                 <CheckCircle className="w-5 h-5 text-accent" />
                 <span>Money-back guarantee</span>
               </div>
               <div className="flex items-center space-x-2">
-                <CheckCircle className="w-5 h-5 text-green-500" />
+                <CheckCircle className="w-5 h-5 text-accent" />
                 <span>24/7 support included</span>
               </div>
             </div>
@@ -105,7 +105,7 @@ export const HeroSection = () => {
                 <div className="flex items-center justify-between p-3 bg-muted/50 rounded">
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <CheckCircle className="w-4 h-4 text-green-500" />
+                      <CheckCircle className="w-4 h-4 text-accent" />
                     </div>
                     <div>
                       <div className="font-medium text-sm">Email Sequence Sent</div>
@@ -150,7 +150,7 @@ export const HeroSection = () => {
             </div>
 
             <div className="absolute -bottom-4 -left-4 bg-background border p-3 rounded-lg shadow-lg">
-              <div className="text-lg font-bold text-green-500">47%</div>
+              <div className="text-lg font-bold text-accent">47%</div>
               <div className="text-xs text-muted-foreground">Time Saved</div>
             </div>
           </div>

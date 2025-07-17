@@ -379,7 +379,7 @@ const CaseStudies = () => {
                     <div className="space-y-1">
                       {study.results.slice(0, 2).map((result, index) => (
                         <div key={index} className="flex items-center text-xs">
-                          <CheckCircle className="w-3 h-3 text-green-500 mr-2 flex-shrink-0" />
+                          <CheckCircle className="w-3 h-3 text-accent mr-2 flex-shrink-0" />
                           {result}
                         </div>
                       ))}

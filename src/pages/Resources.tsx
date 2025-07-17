@@ -151,11 +151,12 @@ const Resources = () => {
                   placeholder="Search resources..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 min-h-[44px]"
+                  aria-label="Search automation resources"
                 />
               </div>
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="w-full sm:w-auto">
+                <SelectTrigger className="w-full sm:w-auto min-h-[44px]" aria-label="Filter resources by category">
                   <Filter className="w-4 h-4 mr-2" />
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
@@ -227,9 +228,13 @@ const Resources = () => {
                         </div>
                       </div>
                       <Button 
-                        className="w-full" 
+                        className="w-full min-h-[44px]" 
                         onClick={() => handleDownload(resource)}
                         disabled={!resource.file_url}
+                        aria-label={resource.file_url 
+                          ? `Download ${resourceType}: ${resource.title}` 
+                          : `View details for ${resource.title}`
+                        }
                       >
                         {resource.file_url ? (
                           <>
@@ -272,11 +277,12 @@ const Resources = () => {
               </p>
               <Button 
                 variant="outline" 
-                className="mt-4"
+                className="mt-4 min-h-[44px]"
                 onClick={() => {
                   setSearchTerm("");
                   setSelectedCategory("all");
                 }}
+                aria-label="Clear all search filters and show all resources"
               >
                 Clear Filters
               </Button>
@@ -303,7 +309,7 @@ const Resources = () => {
             <Card className="text-center">
               <CardHeader>
                 <FileText className="w-12 h-12 text-primary mx-auto mb-4" />
-                <CardTitle>Guides & Ebooks</CardTitle>
+                <h3 className="text-xl font-semibold">Guides & Ebooks</h3>
                 <CardDescription>
                   Comprehensive guides covering automation strategies, best practices, and implementation roadmaps.
                 </CardDescription>
@@ -313,7 +319,7 @@ const Resources = () => {
             <Card className="text-center">
               <CardHeader>
                 <Calculator className="w-12 h-12 text-primary mx-auto mb-4" />
-                <CardTitle>Calculators & Tools</CardTitle>
+                <h3 className="text-xl font-semibold">Calculators & Tools</h3>
                 <CardDescription>
                   Interactive tools to calculate ROI, assess automation readiness, and plan your implementation.
                 </CardDescription>
@@ -323,7 +329,7 @@ const Resources = () => {
             <Card className="text-center">
               <CardHeader>
                 <Video className="w-12 h-12 text-primary mx-auto mb-4" />
-                <CardTitle>Webinars & Videos</CardTitle>
+                <h3 className="text-xl font-semibold">Webinars & Videos</h3>
                 <CardDescription>
                   Live and recorded sessions featuring automation experts, case studies, and how-to tutorials.
                 </CardDescription>
@@ -333,7 +339,7 @@ const Resources = () => {
             <Card className="text-center">
               <CardHeader>
                 <BookOpen className="w-12 h-12 text-primary mx-auto mb-4" />
-                <CardTitle>Templates & Checklists</CardTitle>
+                <h3 className="text-xl font-semibold">Templates & Checklists</h3>
                 <CardDescription>
                   Ready-to-use templates, checklists, and frameworks to accelerate your automation projects.
                 </CardDescription>
@@ -359,9 +365,13 @@ const Resources = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Input
                   placeholder="Enter your email address"
-                  className="flex-1"
+                  className="flex-1 min-h-[44px]"
+                  aria-label="Enter email address for newsletter subscription"
                 />
-                <Button>
+                <Button 
+                  className="min-h-[44px]"
+                  aria-label="Subscribe to newsletter for automation resources"
+                >
                   Subscribe
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -386,14 +396,14 @@ const Resources = () => {
               Let's discuss how automation can specifically benefit your MSME.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/contact">
-                <Button size="lg">
+              <Link to="/contact" aria-label="Get personalized automation consultation">
+                <Button size="lg" className="min-h-[44px]">
                   Get Personalized Consultation
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link to="/case-studies">
-                <Button variant="outline" size="lg">
+              <Link to="/case-studies" aria-label="View automation success stories and case studies">
+                <Button variant="outline" size="lg" className="min-h-[44px]">
                   See Success Stories
                 </Button>
               </Link>

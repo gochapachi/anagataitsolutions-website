@@ -131,19 +131,19 @@ const MarketingAutomation = () => {
               {/* Key Benefits */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                   <CheckCircle className="w-5 h-5 text-accent" />
                   <span className="text-sm">300% more qualified leads</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                   <CheckCircle className="w-5 h-5 text-accent" />
                   <span className="text-sm">20 hours saved weekly</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                   <CheckCircle className="w-5 h-5 text-accent" />
                   <span className="text-sm">2-minute response time</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <CheckCircle className="w-5 h-5 text-accent" />
                   <span className="text-sm">24/7 lead nurturing</span>
                 </div>
               </div>
@@ -169,7 +169,7 @@ const MarketingAutomation = () => {
                   <div className="flex items-center justify-between p-3 bg-green-500/10 rounded">
                     <div className="flex items-center space-x-3">
                       <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                        <Target className="w-4 h-4 text-green-500" />
+                        <Target className="w-4 h-4 text-accent" />
                       </div>
                       <div>
                         <div className="font-medium text-sm">New Lead Captured</div>
@@ -375,7 +375,7 @@ const MarketingAutomation = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {caseStudy.results.map((result, index) => (
                       <div key={index} className="flex items-center space-x-2">
-                        <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                        <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
                         <span className="text-sm">{result}</span>
                       </div>
                     ))}
