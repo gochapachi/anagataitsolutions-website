@@ -181,7 +181,7 @@ const Contact = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="employees">Number of Employees</Label>
-                        <Select onValueChange={(value) => handleInputChange("employees", value)}>
+                        <Select value={formData.employees} onValueChange={(value) => handleInputChange("employees", value)}>
                           <SelectTrigger>
                             <SelectValue placeholder="Select company size" />
                           </SelectTrigger>
@@ -196,7 +196,7 @@ const Contact = () => {
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="service">Service Interest</Label>
-                        <Select onValueChange={(value) => handleInputChange("service", value)}>
+                        <Select value={formData.service} onValueChange={(value) => handleInputChange("service", value)}>
                           <SelectTrigger>
                             <SelectValue placeholder="Select service type" />
                           </SelectTrigger>
@@ -214,7 +214,7 @@ const Contact = () => {
                     {/* Current Challenges */}
                     <div className="space-y-2">
                       <Label htmlFor="challenges">Current Challenges (Select all that apply)</Label>
-                      <Select onValueChange={(value) => handleInputChange("currentChallenges", value)}>
+                      <Select value={formData.currentChallenges} onValueChange={(value) => handleInputChange("currentChallenges", value)}>
                         <SelectTrigger>
                           <SelectValue placeholder="What's your biggest challenge?" />
                         </SelectTrigger>
