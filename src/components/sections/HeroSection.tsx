@@ -2,10 +2,8 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Play, CheckCircle, Users, TrendingUp, Clock } from "lucide-react";
-
 export const HeroSection = () => {
-  return (
-    <section className="relative py-20 lg:py-32 overflow-hidden">
+  return <section className="relative py-20 lg:py-32 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5" />
       
@@ -51,16 +49,13 @@ export const HeroSection = () => {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Button variant="outline" size="lg" className="w-full sm:w-auto btn-interactive">
-                <Play className="mr-2 h-4 w-4" />
-                Watch 2-Min Demo
-              </Button>
+              
             </div>
 
             {/* Social proof */}
             <div className="pt-8 border-t">
               <p className="text-sm text-muted-foreground mb-4">
-                Trusted by 50+ MSMEs across India
+                Trusted by 500+ MSMEs across India
               </p>
               <div className="flex items-center space-x-8">
                 <div className="text-center">
@@ -161,6 +156,5 @@ export const HeroSection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
