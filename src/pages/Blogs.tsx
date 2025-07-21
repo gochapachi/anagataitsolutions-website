@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Calendar, Clock, User, Search, Filter, ExternalLink } from "lucide-react";
+import { Calendar, Clock, User, Search, Filter, ArrowLeft } from "lucide-react";
 
 interface BlogPost {
   id: number;
@@ -11,28 +11,24 @@ interface BlogPost {
   content: { rendered: string };
   excerpt: { rendered: string };
   date: string;
-  modified: string;
-  author: number;
-  categories: number[];
-  tags: number[];
-  featured_media: number;
   link: string;
-  slug: string;
   _embedded?: {
-    author?: Array<{ name: string; slug: string }>;
-    'wp:featuredmedia'?: Array<{ source_url: string; alt_text: string }>;
-    'wp:term'?: Array<Array<{ name: string; slug: string }>>;
+    'wp:featuredmedia'?: Array<{
+      source_url: string;
+      alt_text: string;
+    }>;
+    'wp:term'?: Array<Array<{ name: string }>>;
   };
 }
 
 interface Category {
   id: number;
   name: string;
-  slug: string;
   count: number;
 }
 
 const Blogs = () => {
+  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -130,6 +126,50 @@ const Blogs = () => {
     fetchPosts();
   };
 
+  if (selectedPost) {
+    return (
+      <div className="min-h-screen">
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <Button 
+                variant="outline" 
+                onClick={() => setSelectedPost(null)}
+                className="mb-8"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Blogs
+              </Button>
+              
+              <article className="prose prose-lg max-w-none">
+                <h1 className="text-4xl font-bold mb-6" dangerouslySetInnerHTML={{ __html: selectedPost.title.rendered }} />
+                
+                {selectedPost._embedded?.['wp:featuredmedia']?.[0] && (
+                  <div className="mb-8">
+                    <img
+                      src={selectedPost._embedded['wp:featuredmedia'][0].source_url}
+                      alt={selectedPost._embedded['wp:featuredmedia'][0].alt_text || selectedPost.title.rendered}
+                      className="w-full h-64 object-cover rounded-lg"
+                    />
+                  </div>
+                )}
+                
+                <div className="text-muted-foreground mb-6">
+                  Published on {formatDate(selectedPost.date)}
+                </div>
+                
+                <div 
+                  className="blog-content prose prose-lg max-w-none"
+                  dangerouslySetInnerHTML={{ __html: selectedPost.content.rendered }}
+                />
+              </article>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -137,7 +177,7 @@ const Blogs = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto animate-fade-in">
             <Badge variant="secondary" className="mb-4">Knowledge Hub</Badge>
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent">
+            <h1 className="text-4xl lg:text-5xl font-bold mb-6">
               Business Automation Insights
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
@@ -229,11 +269,11 @@ const Blogs = () => {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {posts.map((post, index) => (
-                   <Card 
+                  <Card 
                     key={post.id} 
                     className="card-interactive group overflow-hidden cursor-pointer"
                     style={{ animationDelay: `${index * 100}ms` }}
-                    onClick={() => window.open(post.link, '_self')}
+                    onClick={() => setSelectedPost(post)}
                   >
                     {post._embedded?.['wp:featuredmedia']?.[0] && (
                       <div className="relative overflow-hidden h-48">
@@ -250,12 +290,6 @@ const Blogs = () => {
                       <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                         <Calendar className="w-3 h-3" />
                         <span>{formatDate(post.date)}</span>
-                        {post._embedded?.author?.[0] && (
-                          <>
-                            <User className="w-3 h-3" />
-                            <span>{post._embedded.author[0].name}</span>
-                          </>
-                        )}
                       </div>
                       
                       <CardTitle className="text-lg leading-tight line-clamp-2 group-hover:text-primary transition-colors">
@@ -278,20 +312,9 @@ const Blogs = () => {
                         {stripHtml(post.excerpt.rendered)}
                       </CardDescription>
                       
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center text-xs text-muted-foreground">
-                          <Clock className="w-3 h-3 mr-1" />
-                          <span>{Math.ceil(stripHtml(post.content.rendered).split(' ').length / 200)} min read</span>
-                        </div>
-                        
-                        <Button 
-                          size="sm" 
-                          variant="ghost" 
-                          className="btn-interactive p-2"
-                          onClick={() => window.open(post.link, '_blank')}
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                        </Button>
+                      <div className="flex items-center text-xs text-muted-foreground">
+                        <Clock className="w-3 h-3 mr-1" />
+                        <span>{Math.ceil(stripHtml(post.content?.rendered || post.excerpt.rendered).split(' ').length / 200)} min read</span>
                       </div>
                     </CardContent>
                   </Card>
