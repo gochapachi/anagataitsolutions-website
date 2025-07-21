@@ -24,6 +24,7 @@ import HRAutomation from "./pages/HRAutomation";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Resources from "./pages/Resources";
+import ResourceDetail from "./pages/ResourceDetail";
 import Blogs from "./pages/Blogs";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
@@ -117,6 +118,15 @@ const App = () => (
                 <Navbar />
                 <main className="flex-1">
                   <Resources />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/resources/:slug" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <ResourceDetail />
                 </main>
                 <Footer />
               </div>

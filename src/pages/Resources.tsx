@@ -227,27 +227,25 @@ const Resources = () => {
                           {new Date(resource.published_date).toLocaleDateString()}
                         </div>
                       </div>
-                      <Button 
-                        className="w-full min-h-[44px]" 
-                        onClick={() => handleDownload(resource)}
-                        disabled={!resource.file_url}
-                        aria-label={resource.file_url 
-                          ? `Download ${resourceType}: ${resource.title}` 
-                          : `View details for ${resource.title}`
-                        }
-                      >
-                        {resource.file_url ? (
-                          <>
-                            <Download className="mr-2 h-4 w-4" />
-                            Download {resourceType}
-                          </>
-                        ) : (
-                          <>
+                      <div className="flex gap-2">
+                        <Link to={`/resources/${resource.slug}`} className="flex-1">
+                          <Button variant="outline" className="w-full min-h-[44px]">
                             <FileText className="mr-2 h-4 w-4" />
                             View Details
-                          </>
-                        )}
-                      </Button>
+                          </Button>
+                        </Link>
+                        <Button 
+                          onClick={() => handleDownload(resource)}
+                          disabled={!resource.file_url}
+                          className="min-h-[44px]"
+                          aria-label={resource.file_url 
+                            ? `Download ${resourceType}: ${resource.title}` 
+                            : `Download not available for ${resource.title}`
+                          }
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 );
