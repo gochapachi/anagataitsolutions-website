@@ -106,7 +106,7 @@ const MarketingAutomation = () => {
       "280% ROI in first 6 months",
       "Consistent content output across all channels"
     ],
-    quote: "The marketing automation suite transformed our client acquisition. We went from manually managing 50 leads to automatically nurturing 500+ prospects without hiring additional staff.",
+    quote: "The marketing automation suite transformed our client acquisition. We went from manually managing 50 leads to automatically nurturing 50+ prospects without hiring additional staff.",
     founder: "Priya Sharma, Founder"
   };
 
@@ -155,10 +155,6 @@ const MarketingAutomation = () => {
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
-                <Button variant="outline" size="lg" className="btn-interactive">
-                  <Play className="mr-2 h-4 w-4" />
-                  Watch Demo
-                </Button>
               </div>
             </div>
 
@@ -342,7 +338,7 @@ const MarketingAutomation = () => {
               Ready to Generate 3x More Leads?
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
-              Join hundreds of MSMEs who've transformed their marketing with automation. 
+              Join 50+ MSMEs who've transformed their marketing with automation. 
               Start your free trial today and see results within 30 days.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

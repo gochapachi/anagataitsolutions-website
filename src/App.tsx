@@ -25,6 +25,9 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Resources from "./pages/Resources";
 import Blogs from "./pages/Blogs";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import CookiePolicy from "./pages/CookiePolicy";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -123,6 +126,33 @@ const App = () => (
                 <Navbar />
                 <main className="flex-1">
                   <Blogs />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/privacy-policy" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <PrivacyPolicy />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/terms-of-service" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <TermsOfService />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/cookie-policy" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <CookiePolicy />
                 </main>
                 <Footer />
               </div>

@@ -229,10 +229,11 @@ const Blogs = () => {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {posts.map((post, index) => (
-                  <Card 
+                   <Card 
                     key={post.id} 
-                    className="card-interactive group overflow-hidden"
+                    className="card-interactive group overflow-hidden cursor-pointer"
                     style={{ animationDelay: `${index * 100}ms` }}
+                    onClick={() => window.open(post.link, '_self')}
                   >
                     {post._embedded?.['wp:featuredmedia']?.[0] && (
                       <div className="relative overflow-hidden h-48">

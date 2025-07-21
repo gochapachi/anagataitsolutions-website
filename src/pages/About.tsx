@@ -57,8 +57,8 @@ const About = () => {
     description: "Launched AI-powered features that revolutionized how small businesses approach automation."
   }, {
     year: "2023",
-    title: "500+ Success Stories",
-    description: "Crossed 500 successful automation implementations with an average 300% ROI."
+    title: "50+ Success Stories",
+    description: "Crossed 50 successful automation implementations with an average 300% ROI."
   }, {
     year: "2024",
     title: "Industry Recognition",
@@ -69,7 +69,7 @@ const About = () => {
     description: "On track to help 2,000+ MSMEs automate their operations and scale efficiently."
   }];
   const stats = [{
-    number: "500+",
+    number: "50+",
     label: "MSMEs Automated",
     description: "Across various industries"
   }, {
@@ -81,7 +81,7 @@ const About = () => {
     label: "Client Satisfaction",
     description: "Success rate"
   }, {
-    number: "₹50Cr+",
+    number: "₹5Cr+",
     label: "Revenue Generated",
     description: "For our clients"
   }];
@@ -288,43 +288,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* Recognition */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">Recognition</Badge>
-            <h2 className="text-3xl font-bold mb-4">
-              Trusted by Industry Leaders
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <Card className="text-center">
-              <CardHeader>
-                <Award className="w-12 h-12 text-primary mx-auto mb-4" />
-                <CardTitle>Best MSME Platform 2024</CardTitle>
-                <CardDescription>Indian Business Technology Awards</CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="text-center">
-              <CardHeader>
-                <TrendingUp className="w-12 h-12 text-primary mx-auto mb-4" />
-                <CardTitle>Top Growth Company</CardTitle>
-                <CardDescription>StartupIndia Recognition</CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="text-center">
-              <CardHeader>
-                <Users className="w-12 h-12 text-primary mx-auto mb-4" />
-                <CardTitle>98% Client Satisfaction</CardTitle>
-                <CardDescription>Based on 500+ reviews</CardDescription>
-              </CardHeader>
-            </Card>
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="py-20">
@@ -334,7 +297,7 @@ const About = () => {
               Ready to Join Our Success Story?
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
-              Be part of the next 500 MSMEs to transform their business with automation. 
+              Be part of the next 50 MSMEs to transform their business with automation. 
               Let's write your success story together.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

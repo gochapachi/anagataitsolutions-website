@@ -17,9 +17,9 @@ export const StatsSection = () => {
     },
     {
       icon: Users,
-      value: "500+",
+      value: "50+",
       label: "MSMEs Automated",
-      description: "Across India since 2020"
+      description: "Across India since 2022"
     },
     {
       icon: Zap,

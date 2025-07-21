@@ -37,7 +37,7 @@ export const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className={`text-sm font-medium transition-colors hover:text-primary ${
+              className={`text-sm font-medium transition-all duration-300 hover:text-primary hover:scale-105 ${
                 isActive("/") ? "text-primary" : "text-muted-foreground"
               }`}
             >
@@ -45,8 +45,8 @@ export const Navbar = () => {
             </Link>
             
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center text-sm font-medium text-muted-foreground hover:text-primary">
-                Services <ChevronDown className="ml-1 h-4 w-4" />
+              <DropdownMenuTrigger className="flex items-center text-sm font-medium text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-105">
+                Services <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-300 hover:rotate-180" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem asChild>
@@ -66,7 +66,7 @@ export const Navbar = () => {
 
             <Link
               to="/about"
-              className={`text-sm font-medium transition-colors hover:text-primary ${
+              className={`text-sm font-medium transition-all duration-300 hover:text-primary hover:scale-105 ${
                 isActive("/about") ? "text-primary" : "text-muted-foreground"
               }`}
             >
@@ -74,7 +74,7 @@ export const Navbar = () => {
             </Link>
             <Link
               to="/resources"
-              className={`text-sm font-medium transition-colors hover:text-primary ${
+              className={`text-sm font-medium transition-all duration-300 hover:text-primary hover:scale-105 ${
                 isActive("/resources") ? "text-primary" : "text-muted-foreground"
               }`}
             >
@@ -82,7 +82,7 @@ export const Navbar = () => {
             </Link>
             <Link
               to="/blogs"
-              className={`text-sm font-medium transition-colors hover:text-primary ${
+              className={`text-sm font-medium transition-all duration-300 hover:text-primary hover:scale-105 ${
                 isActive("/blogs") ? "text-primary" : "text-muted-foreground"
               }`}
             >
@@ -92,7 +92,7 @@ export const Navbar = () => {
 
           <div className="hidden md:flex items-center space-x-4">
             <Link to="/contact">
-              <Button variant="outline" size="sm" className="btn-interactive">
+              <Button variant="outline" size="sm" className="btn-glow animate-pulse">
                 Get Consultation
               </Button>
             </Link>
@@ -159,7 +159,7 @@ export const Navbar = () => {
               </Link>
               <div className="flex flex-col space-y-2 px-3 py-2">
                 <Link to="/contact" onClick={() => setIsOpen(false)}>
-                  <Button variant="outline" size="sm" className="w-full btn-interactive">
+                  <Button variant="outline" size="sm" className="w-full btn-glow">
                     Get Consultation
                   </Button>
                 </Link>

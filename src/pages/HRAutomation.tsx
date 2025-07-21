@@ -155,10 +155,6 @@ const HRAutomation = () => {
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
-                <Button variant="outline" size="lg" className="btn-interactive">
-                  <Play className="mr-2 h-4 w-4" />
-                  Watch Demo
-                </Button>
               </div>
             </div>
 

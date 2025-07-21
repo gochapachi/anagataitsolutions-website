@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, CheckCircle, BarChart3, Users, Zap, TrendingUp, Star, Play, Calculator } from "lucide-react";
+import { NeuralNetwork } from "@/components/ui/neural-network";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ServicesOverview } from "@/components/sections/ServicesOverview";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
@@ -188,22 +189,17 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto">
+           <div className="max-w-4xl mx-auto">
             <div className="relative aspect-video rounded-lg overflow-hidden bg-muted shadow-2xl">
               <iframe 
-                src="https://www.youtube.com/embed/5R1U5fMQyvU?start=1236" 
+                src="https://www.youtube.com/embed/5R1U5fMQyvU?start=1236&autoplay=0" 
                 title="Watch How Automation Transforms MSMEs" 
                 className="w-full h-full" 
                 frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowFullScreen
                 loading="lazy"
               ></iframe>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Button size="lg" className="rounded-full w-16 h-16" aria-label="Play video demonstration">
-                  <Play className="w-6 h-6" />
-                </Button>
-              </div>
               <div className="absolute bottom-4 left-4 right-4">
                 <div className="bg-background/80 backdrop-blur rounded-lg p-4">
                   <h3 className="font-semibold mb-2">Automated Brand Creatives</h3>
