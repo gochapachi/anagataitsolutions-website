@@ -250,7 +250,41 @@ const ResourceDetail = () => {
                       <CardTitle>About This Resource</CardTitle>
                     </CardHeader>
                     <CardContent className="prose prose-lg max-w-none">
-                      <div className="whitespace-pre-wrap">{resource.content}</div>
+                      {/* HTML Content Viewer */}
+                      <div 
+                        className="w-full" 
+                        style={{ height: 'calc(100vh - 400px)', minHeight: '400px' }}
+                        dangerouslySetInnerHTML={{ __html: resource.content }}
+                      />
+                      
+                      {/* Download Button for Content */}
+                      <div className="mt-8 pt-6 border-t">
+                        <div className="flex items-center justify-center">
+                          <Button 
+                            className="w-full max-w-md" 
+                            onClick={handleDownload}
+                            disabled={!resource.file_url}
+                            size="lg"
+                          >
+                            {resource.file_url ? (
+                              <>
+                                <Download className="mr-2 h-4 w-4" />
+                                Download {resourceType}
+                              </>
+                            ) : (
+                              <>
+                                <FileText className="mr-2 h-4 w-4" />
+                                Coming Soon
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                        {resource.file_url && (
+                          <p className="text-sm text-muted-foreground mt-4 text-center">
+                            Free download • No spam • Instant access
+                          </p>
+                        )}
+                      </div>
                     </CardContent>
                   </Card>
                 </div>

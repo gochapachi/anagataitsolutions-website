@@ -26,6 +26,7 @@ import Contact from "./pages/Contact";
 import Resources from "./pages/Resources";
 import ResourceDetail from "./pages/ResourceDetail";
 import Blogs from "./pages/Blogs";
+import PageDetail from "./pages/PageDetail";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CookiePolicy from "./pages/CookiePolicy";
@@ -140,6 +141,7 @@ const App = () => (
                 <Footer />
               </div>
             } />
+            <Route path="/pages/:slug" element={<PageDetail />} />
             <Route path="/privacy-policy" element={
               <div className="min-h-screen flex flex-col bg-background">
                 <Navbar />

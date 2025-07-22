@@ -2,7 +2,10 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Facebook, Twitter, Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
+import { useMenuItems } from "@/hooks/useMenuItems";
 export const Footer = () => {
+  const { menuItems } = useMenuItems('footer');
+  
   return <footer className="bg-muted/30 border-t">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -38,38 +41,35 @@ export const Footer = () => {
             </div>
           </div>
 
-          {/* Services */}
+          {/* Dynamic Footer Links */}
           <div className="space-y-4">
-            <h3 className="font-semibold">Services</h3>
+            <h3 className="font-semibold">Quick Links</h3>
             <div className="space-y-2">
-              <Link to="/services/marketing-automation" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                Marketing Automation
-              </Link>
-              <Link to="/services/sales-automation" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                Sales Automation
-              </Link>
-              <Link to="/services/hr-automation" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                HR Automation
-              </Link>
-              <Link to="/contact" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                Custom Solutions
-              </Link>
+              {menuItems.slice(0, Math.ceil(menuItems.length / 2)).map((item) => (
+                <Link 
+                  key={item.id} 
+                  to={item.url} 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {item.title}
+                </Link>
+              ))}
             </div>
           </div>
 
-          {/* Company */}
+          {/* More Links */}
           <div className="space-y-4">
-            <h3 className="font-semibold">Company</h3>
+            <h3 className="font-semibold">More</h3>
             <div className="space-y-2">
-              <Link to="/about" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                About Us
-              </Link>
-              <Link to="/resources" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                Resources
-              </Link>
-              <Link to="/contact" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                Contact
-              </Link>
+              {menuItems.slice(Math.ceil(menuItems.length / 2)).map((item) => (
+                <Link 
+                  key={item.id} 
+                  to={item.url} 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {item.title}
+                </Link>
+              ))}
             </div>
           </div>
 

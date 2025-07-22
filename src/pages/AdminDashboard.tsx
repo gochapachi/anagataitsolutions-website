@@ -3,11 +3,13 @@ import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { LogOut, Plus, Settings, FileText, Users } from 'lucide-react';
+import { LogOut, Plus, Settings, FileText, Users, Code, Menu } from 'lucide-react';
 import { ResourcesManager } from '@/components/admin/ResourcesManager';
 import { ServicesManager } from '@/components/admin/ServicesManager';
 import { SiteSettingsManager } from '@/components/admin/SiteSettingsManager';
 import { BlogsManager } from '@/components/admin/BlogsManager';
+import PagesManager from '@/components/admin/PagesManager';
+import MenuManager from '@/components/admin/MenuManager';
 
 export default function AdminDashboard() {
   const { adminUser, logout } = useAdminAuth();
@@ -51,7 +53,7 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs defaultValue="resources" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="resources" className="flex items-center gap-2">
               <FileText className="h-4 w-4" />
               Resources
@@ -60,13 +62,21 @@ export default function AdminDashboard() {
               <FileText className="h-4 w-4" />
               Blogs
             </TabsTrigger>
+            <TabsTrigger value="pages" className="flex items-center gap-2">
+              <Code className="h-4 w-4" />
+              Pages
+            </TabsTrigger>
+            <TabsTrigger value="menus" className="flex items-center gap-2">
+              <Menu className="h-4 w-4" />
+              Menus
+            </TabsTrigger>
             <TabsTrigger value="services" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
               Services
             </TabsTrigger>
             <TabsTrigger value="settings" className="flex items-center gap-2">
               <Settings className="h-4 w-4" />
-              Site Settings
+              Settings
             </TabsTrigger>
           </TabsList>
 
@@ -76,6 +86,14 @@ export default function AdminDashboard() {
 
           <TabsContent value="blogs">
             <BlogsManager />
+          </TabsContent>
+
+          <TabsContent value="pages">
+            <PagesManager />
+          </TabsContent>
+
+          <TabsContent value="menus">
+            <MenuManager />
           </TabsContent>
 
           <TabsContent value="services">

@@ -8,10 +8,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useMenuItems } from "@/hooks/useMenuItems";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { menuItems, getParentItems, getChildItems } = useMenuItems('main');
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -35,59 +37,41 @@ export const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link
-              to="/"
-              className={`text-sm font-medium transition-all duration-300 hover:text-primary hover:scale-105 ${
-                isActive("/") ? "text-primary" : "text-muted-foreground"
-              }`}
-            >
-              Home
-            </Link>
-            
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center text-sm font-medium text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-105">
-                Services <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-300 hover:rotate-180" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem asChild>
-                  <Link to="/services">All Services</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/services/marketing-automation">Marketing Automation</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/services/sales-automation">Sales Automation</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/services/hr-automation">HR Automation</Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <Link
-              to="/about"
-              className={`text-sm font-medium transition-all duration-300 hover:text-primary hover:scale-105 ${
-                isActive("/about") ? "text-primary" : "text-muted-foreground"
-              }`}
-            >
-              About
-            </Link>
-            <Link
-              to="/resources"
-              className={`text-sm font-medium transition-all duration-300 hover:text-primary hover:scale-105 ${
-                isActive("/resources") ? "text-primary" : "text-muted-foreground"
-              }`}
-            >
-              Resources
-            </Link>
-            <Link
-              to="/blogs"
-              className={`text-sm font-medium transition-all duration-300 hover:text-primary hover:scale-105 ${
-                isActive("/blogs") ? "text-primary" : "text-muted-foreground"
-              }`}
-            >
-              Blogs
-            </Link>
+            {getParentItems().map((item) => {
+              const childItems = getChildItems(item.id);
+              
+              if (childItems.length > 0) {
+                return (
+                  <DropdownMenu key={item.id}>
+                    <DropdownMenuTrigger className="flex items-center text-sm font-medium text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-105">
+                      {item.title} <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-300 hover:rotate-180" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem asChild>
+                        <Link to={item.url}>{item.title}</Link>
+                      </DropdownMenuItem>
+                      {childItems.map((child) => (
+                        <DropdownMenuItem key={child.id} asChild>
+                          <Link to={child.url}>{child.title}</Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                );
+              }
+              
+              return (
+                <Link
+                  key={item.id}
+                  to={item.url}
+                  className={`text-sm font-medium transition-all duration-300 hover:text-primary hover:scale-105 ${
+                    isActive(item.url) ? "text-primary" : "text-muted-foreground"
+                  }`}
+                >
+                  {item.title}
+                </Link>
+              );
+            })}
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
@@ -115,48 +99,16 @@ export const Navbar = () => {
         {isOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t">
-              <Link
-                to="/"
-                className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary link-interactive"
-                onClick={() => setIsOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                to="/services"
-                className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary"
-                onClick={() => setIsOpen(false)}
-              >
-                Services
-              </Link>
-              <Link
-                to="/about"
-                className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary"
-                onClick={() => setIsOpen(false)}
-              >
-                About
-              </Link>
-              <Link
-                to="/resources"
-                className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary"
-                onClick={() => setIsOpen(false)}
-              >
-                Resources
-              </Link>
-              <Link
-                to="/blogs"
-                className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary"
-                onClick={() => setIsOpen(false)}
-              >
-                Blogs
-              </Link>
-              <Link
-                to="/contact"
-                className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary"
-                onClick={() => setIsOpen(false)}
-              >
-                Contact
-              </Link>
+              {getParentItems().map((item) => (
+                <Link
+                  key={item.id}
+                  to={item.url}
+                  className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.title}
+                </Link>
+              ))}
               <div className="flex flex-col space-y-2 px-3 py-2">
                 <Link to="/contact" onClick={() => setIsOpen(false)}>
                   <Button variant="outline" size="sm" className="w-full btn-glow">
