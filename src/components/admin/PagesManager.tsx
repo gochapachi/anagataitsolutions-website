@@ -332,7 +332,7 @@ const PagesManager = () => {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => window.open(`/pages/${page.slug}`, '_blank')}
+                        onClick={() => window.open(`/page/${page.slug}`, '_blank')}
                       >
                         <Globe className="w-4 h-4" />
                       </Button>
