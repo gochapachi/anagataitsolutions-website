@@ -4,13 +4,33 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Edit, Trash2, Menu, Navigation, GripVertical } from "lucide-react";
-import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Plus, GripVertical, Trash2, Menu, Navigation, Home, FileText, Globe } from "lucide-react";
+import { toast } from "sonner";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+  DragOverEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import {
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface MenuItem {
   id: string;
@@ -22,23 +42,38 @@ interface MenuItem {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+  children?: MenuItem[];
+}
+
+interface Page {
+  id: string;
+  title: string;
+  slug: string;
+  is_published: boolean;
+}
+
+interface AvailableItem {
+  id: string;
+  title: string;
+  url: string;
+  type: 'page' | 'link' | 'builtin';
+  icon?: any;
 }
 
 const MenuManager = () => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-  const [pages, setPages] = useState<any[]>([]);
+  const [pages, setPages] = useState<Page[]>([]);
   const [loading, setLoading] = useState(true);
-  const [formData, setFormData] = useState({
-    title: '',
-    url: '',
-    menu_type: 'main' as 'main' | 'footer',
-    parent_id: null as string | null,
-    sort_order: 0,
-    is_active: true
-  });
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('main');
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [customLink, setCustomLink] = useState({ title: '', url: '' });
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   useEffect(() => {
     fetchMenuItems();
@@ -50,11 +85,14 @@ const MenuManager = () => {
       const { data, error } = await supabase
         .from('menu_items')
         .select('*')
-        .order('menu_type', { ascending: true })
         .order('sort_order', { ascending: true });
 
       if (error) throw error;
-      setMenuItems((data || []) as MenuItem[]);
+      
+      // Convert flat array to nested structure
+      const items = (data || []) as MenuItem[];
+      const nested = buildNestedMenuItems(items);
+      setMenuItems(nested);
     } catch (error) {
       console.error('Error fetching menu items:', error);
       toast.error('Failed to load menu items');
@@ -76,115 +114,257 @@ const MenuManager = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    try {
-      const menuData = {
-        ...formData,
-        parent_id: formData.parent_id || null,
-        sort_order: formData.sort_order || 0
-      };
+  const buildNestedMenuItems = (items: MenuItem[]): MenuItem[] => {
+    const itemMap = new Map<string, MenuItem>();
+    const rootItems: MenuItem[] = [];
 
-      if (editingId) {
-        const { error } = await supabase
-          .from('menu_items')
-          .update(menuData)
-          .eq('id', editingId);
-
-        if (error) throw error;
-        toast.success('Menu item updated successfully');
-      } else {
-        // Auto-assign sort order if not specified
-        if (!menuData.sort_order) {
-          const maxOrder = Math.max(...menuItems
-            .filter(item => item.menu_type === menuData.menu_type)
-            .map(item => item.sort_order), 0);
-          menuData.sort_order = maxOrder + 1;
-        }
-
-        const { error } = await supabase
-          .from('menu_items')
-          .insert([menuData]);
-
-        if (error) throw error;
-        toast.success('Menu item created successfully');
-      }
-
-      setDialogOpen(false);
-      resetForm();
-      fetchMenuItems();
-    } catch (error: any) {
-      console.error('Error saving menu item:', error);
-      toast.error('Failed to save menu item');
-    }
-  };
-
-  const handleEdit = (item: MenuItem) => {
-    setFormData({
-      title: item.title,
-      url: item.url,
-      menu_type: item.menu_type,
-      parent_id: item.parent_id,
-      sort_order: item.sort_order,
-      is_active: item.is_active
+    // First pass: create map of all items
+    items.forEach(item => {
+      itemMap.set(item.id, { ...item, children: [] });
     });
-    setEditingId(item.id);
-    setDialogOpen(true);
+
+    // Second pass: build hierarchy
+    items.forEach(item => {
+      const menuItem = itemMap.get(item.id)!;
+      if (item.parent_id && itemMap.has(item.parent_id)) {
+        const parent = itemMap.get(item.parent_id)!;
+        parent.children!.push(menuItem);
+      } else {
+        rootItems.push(menuItem);
+      }
+    });
+
+    return rootItems.filter(item => item.menu_type === activeTab);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this menu item?')) return;
+  const flattenMenuItems = (items: MenuItem[]): MenuItem[] => {
+    const result: MenuItem[] = [];
+    
+    const flatten = (menuItems: MenuItem[], parentId: string | null = null) => {
+      menuItems.forEach((item, index) => {
+        const flatItem = {
+          ...item,
+          parent_id: parentId,
+          sort_order: index + 1,
+        };
+        delete flatItem.children;
+        result.push(flatItem);
+        
+        if (item.children && item.children.length > 0) {
+          flatten(item.children, item.id);
+        }
+      });
+    };
+    
+    flatten(items);
+    return result;
+  };
 
+  const saveMenuItems = async (items: MenuItem[]) => {
     try {
-      const { error } = await supabase
+      const allItems = [
+        ...flattenMenuItems(items.filter(item => item.menu_type === 'main')),
+        ...flattenMenuItems(menuItems.filter(item => item.menu_type === 'footer'))
+      ];
+
+      // Clear existing menu items for this type
+      await supabase
         .from('menu_items')
         .delete()
-        .eq('id', id);
+        .eq('menu_type', activeTab);
 
-      if (error) throw error;
-      toast.success('Menu item deleted successfully');
+      // Insert updated items
+      if (allItems.length > 0) {
+        const { error } = await supabase
+          .from('menu_items')
+          .insert(allItems);
+
+        if (error) throw error;
+      }
+
+      toast.success('Menu updated successfully');
       fetchMenuItems();
     } catch (error) {
-      console.error('Error deleting menu item:', error);
-      toast.error('Failed to delete menu item');
+      console.error('Error saving menu items:', error);
+      toast.error('Failed to save menu');
     }
   };
 
-  const resetForm = () => {
-    setFormData({
-      title: '',
-      url: '',
-      menu_type: 'main',
-      parent_id: null,
-      sort_order: 0,
-      is_active: true
-    });
-    setEditingId(null);
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveId(event.active.id as string);
   };
 
-  const updateSortOrder = async (id: string, newOrder: number) => {
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    setActiveId(null);
+
+    if (!over) return;
+
+    const activeId = active.id as string;
+    const overId = over.id as string;
+
+    if (activeId === overId) return;
+
+    const currentMenuItems = menuItems.filter(item => item.menu_type === activeTab);
+    const activeIndex = findItemIndex(currentMenuItems, activeId);
+    const overIndex = findItemIndex(currentMenuItems, overId);
+
+    if (activeIndex !== -1 && overIndex !== -1) {
+      const newItems = arrayMove(currentMenuItems, activeIndex, overIndex);
+      const updatedItems = [
+        ...menuItems.filter(item => item.menu_type !== activeTab),
+        ...newItems
+      ];
+      setMenuItems(updatedItems);
+      saveMenuItems(newItems);
+    }
+  };
+
+  const findItemIndex = (items: MenuItem[], id: string): number => {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].id === id) return i;
+      if (items[i].children) {
+        const childIndex = findItemIndex(items[i].children!, id);
+        if (childIndex !== -1) return i; // Return parent index for simplicity
+      }
+    }
+    return -1;
+  };
+
+  const addToMenu = async (item: AvailableItem) => {
     try {
+      const maxOrder = Math.max(
+        ...menuItems
+          .filter(mi => mi.menu_type === activeTab && !mi.parent_id)
+          .map(mi => mi.sort_order),
+        0
+      );
+
+      const newMenuItem = {
+        title: item.title,
+        url: item.url,
+        menu_type: activeTab as 'main' | 'footer',
+        parent_id: null,
+        sort_order: maxOrder + 1,
+        is_active: true
+      };
+
       const { error } = await supabase
         .from('menu_items')
-        .update({ sort_order: newOrder })
-        .eq('id', id);
+        .insert([newMenuItem]);
 
       if (error) throw error;
+      
+      toast.success(`Added "${item.title}" to menu`);
       fetchMenuItems();
     } catch (error) {
-      console.error('Error updating sort order:', error);
-      toast.error('Failed to update menu order');
+      console.error('Error adding to menu:', error);
+      toast.error('Failed to add to menu');
     }
   };
 
-  const getMenuItemsByType = (type: 'main' | 'footer') => {
-    return menuItems.filter(item => item.menu_type === type);
+  const addCustomLink = async () => {
+    if (!customLink.title || !customLink.url) {
+      toast.error('Please enter both title and URL');
+      return;
+    }
+
+    await addToMenu({
+      id: 'custom',
+      title: customLink.title,
+      url: customLink.url,
+      type: 'link'
+    });
+
+    setCustomLink({ title: '', url: '' });
   };
 
-  const getParentItems = (type: 'main' | 'footer') => {
-    return menuItems.filter(item => item.menu_type === type && !item.parent_id);
+  const removeFromMenu = async (itemId: string) => {
+    try {
+      await supabase
+        .from('menu_items')
+        .delete()
+        .eq('id', itemId);
+
+      toast.success('Item removed from menu');
+      fetchMenuItems();
+    } catch (error) {
+      console.error('Error removing from menu:', error);
+      toast.error('Failed to remove item');
+    }
   };
+
+  const toggleItemStatus = async (itemId: string, isActive: boolean) => {
+    try {
+      await supabase
+        .from('menu_items')
+        .update({ is_active: isActive })
+        .eq('id', itemId);
+
+      fetchMenuItems();
+    } catch (error) {
+      console.error('Error updating item status:', error);
+      toast.error('Failed to update item');
+    }
+  };
+
+  const availableItems: AvailableItem[] = [
+    {
+      id: 'home',
+      title: 'Home',
+      url: '/',
+      type: 'builtin',
+      icon: Home
+    },
+    {
+      id: 'about',
+      title: 'About',
+      url: '/about',
+      type: 'builtin',
+      icon: FileText
+    },
+    {
+      id: 'services',
+      title: 'Services',
+      url: '/services',
+      type: 'builtin',
+      icon: Globe
+    },
+    {
+      id: 'contact',
+      title: 'Contact',
+      url: '/contact',
+      type: 'builtin',
+      icon: FileText
+    },
+    {
+      id: 'resources',
+      title: 'Resources',
+      url: '/resources',
+      type: 'builtin',
+      icon: FileText
+    },
+    {
+      id: 'blogs',
+      title: 'Blogs',
+      url: '/blogs',
+      type: 'builtin',
+      icon: FileText
+    },
+    ...pages.map(page => ({
+      id: page.id,
+      title: page.title,
+      url: `/pages/${page.slug}`,
+      type: 'page' as const,
+      icon: FileText
+    }))
+  ];
+
+  // Filter out items already in menu
+  const currentMenuUrls = menuItems
+    .filter(item => item.menu_type === activeTab)
+    .map(item => item.url);
+  const availableToAdd = availableItems.filter(item => !currentMenuUrls.includes(item.url));
 
   if (loading) {
     return (
@@ -196,158 +376,11 @@ const MenuManager = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Menu Manager</h2>
-          <p className="text-muted-foreground">Manage navigation menus</p>
-        </div>
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={() => {
-              console.log('Add Menu Item clicked');
-              resetForm();
-              setDialogOpen(true);
-            }}>
-              <Plus className="w-4 h-4 mr-2" />
-              Add Menu Item
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-md">
-            <DialogHeader>
-              <DialogTitle>{editingId ? 'Edit Menu Item' : 'Create New Menu Item'}</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="title">Title</Label>
-                <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="url">URL</Label>
-                <Input
-                  id="url"
-                  value={formData.url}
-                  onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-                  placeholder="/path or https://external.com"
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="menu_type">Menu Type</Label>
-                <Select 
-                  value={formData.menu_type} 
-                  onValueChange={(value: 'main' | 'footer') => setFormData({ ...formData, menu_type: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="main">Main Navigation</SelectItem>
-                    <SelectItem value="footer">Footer Menu</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="parent_id">Parent Item (Optional)</Label>
-                  <Select 
-                    value={formData.parent_id || ""} 
-                    onValueChange={(value) => setFormData({ ...formData, parent_id: value === "" ? null : value })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select parent item" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="">None (Top Level)</SelectItem>
-                      {getParentItems(formData.menu_type)
-                        .filter(item => item.id !== editingId) // Don't allow self as parent
-                        .map((item) => (
-                          <SelectItem key={item.id} value={item.id}>
-                            {item.title}
-                          </SelectItem>
-                        ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div>
-                  <Label htmlFor="quick_add_page">Quick Add Page</Label>
-                  <Select 
-                    value="" 
-                    onValueChange={(value) => {
-                      if (value) {
-                        const selectedPage = pages.find(p => p.id === value);
-                        if (selectedPage) {
-                          setFormData({
-                            ...formData,
-                            title: selectedPage.title,
-                            url: `/pages/${selectedPage.slug}`
-                          });
-                        }
-                      }
-                    }}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a page to add" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {pages
-                        .filter(page => !menuItems.some(menu => menu.url === `/pages/${page.slug}`))
-                        .map(page => (
-                          <SelectItem key={page.id} value={page.id}>
-                            {page.title}
-                          </SelectItem>
-                        ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div>
-                <Label htmlFor="sort_order">Sort Order</Label>
-                <Input
-                  id="sort_order"
-                  type="number"
-                  value={formData.sort_order}
-                  onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) || 0 })}
-                  min="0"
-                />
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="is_active"
-                  checked={formData.is_active}
-                  onCheckedChange={(checked) => setFormData({ ...formData, is_active: checked })}
-                />
-                <Label htmlFor="is_active">Active</Label>
-              </div>
-
-              <div className="flex gap-2">
-                <Button type="submit">
-                  {editingId ? 'Update Item' : 'Create Item'}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setDialogOpen(false)}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
+      <div>
+        <h2 className="text-2xl font-bold">Menu Builder</h2>
+        <p className="text-muted-foreground">Build your navigation menus with drag and drop</p>
       </div>
 
-      {/* Menu Items Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
           <TabsTrigger value="main" className="flex items-center gap-2">
@@ -360,114 +393,181 @@ const MenuManager = () => {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="main" className="space-y-4">
-          <MenuItemsList 
-            items={getMenuItemsByType('main')} 
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            onUpdateOrder={updateSortOrder}
-          />
-        </TabsContent>
+        <TabsContent value={activeTab} className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Available Items */}
+            <div className="lg:col-span-1 space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Available Items</CardTitle>
+                  <CardDescription>Drag items to add them to your menu</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {availableToAdd.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between p-3 border rounded-lg bg-muted/50 hover:bg-muted cursor-pointer"
+                      onClick={() => addToMenu(item)}
+                    >
+                      <div className="flex items-center gap-2">
+                        {item.icon && <item.icon className="w-4 h-4" />}
+                        <span className="text-sm font-medium">{item.title}</span>
+                      </div>
+                      <Plus className="w-4 h-4 text-muted-foreground" />
+                    </div>
+                  ))}
+                  
+                  {/* Custom Link */}
+                  <div className="p-3 border rounded-lg space-y-2">
+                    <Label className="text-sm font-medium">Add Custom Link</Label>
+                    <Input
+                      placeholder="Link Title"
+                      value={customLink.title}
+                      onChange={(e) => setCustomLink({ ...customLink, title: e.target.value })}
+                      className="text-sm"
+                    />
+                    <Input
+                      placeholder="URL"
+                      value={customLink.url}
+                      onChange={(e) => setCustomLink({ ...customLink, url: e.target.value })}
+                      className="text-sm"
+                    />
+                    <Button onClick={addCustomLink} size="sm" className="w-full">
+                      Add to Menu
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
 
-        <TabsContent value="footer" className="space-y-4">
-          <MenuItemsList 
-            items={getMenuItemsByType('footer')} 
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            onUpdateOrder={updateSortOrder}
-          />
+            {/* Menu Builder */}
+            <div className="lg:col-span-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">
+                    {activeTab === 'main' ? 'Main Navigation' : 'Footer Menu'} Structure
+                  </CardTitle>
+                  <CardDescription>
+                    Drag items to reorder. Drag items slightly to the right to create submenus.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragStart={handleDragStart}
+                    onDragEnd={handleDragEnd}
+                  >
+                    <SortableContext
+                      items={menuItems.filter(item => item.menu_type === activeTab).map(item => item.id)}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      <div className="space-y-2">
+                        {menuItems
+                          .filter(item => item.menu_type === activeTab)
+                          .map((item) => (
+                            <MenuItem
+                              key={item.id}
+                              item={item}
+                              onRemove={removeFromMenu}
+                              onToggleStatus={toggleItemStatus}
+                            />
+                          ))}
+                      </div>
+                    </SortableContext>
+
+                    <DragOverlay>
+                      {activeId ? (
+                        <div className="p-3 bg-background border border-primary rounded-lg shadow-lg">
+                          <span className="font-medium">
+                            {menuItems.find(item => item.id === activeId)?.title}
+                          </span>
+                        </div>
+                      ) : null}
+                    </DragOverlay>
+                  </DndContext>
+
+                  {menuItems.filter(item => item.menu_type === activeTab).length === 0 && (
+                    <div className="text-center py-12 text-muted-foreground">
+                      <Menu className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                      <p>No menu items yet. Add items from the left panel.</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
   );
 };
 
-interface MenuItemsListProps {
-  items: MenuItem[];
-  onEdit: (item: MenuItem) => void;
-  onDelete: (id: string) => void;
-  onUpdateOrder: (id: string, newOrder: number) => void;
+interface MenuItemProps {
+  item: MenuItem;
+  onRemove: (id: string) => void;
+  onToggleStatus: (id: string, isActive: boolean) => void;
+  depth?: number;
 }
 
-const MenuItemsList = ({ items, onEdit, onDelete, onUpdateOrder }: MenuItemsListProps) => {
-  if (items.length === 0) {
-    return (
-      <Card>
-        <CardContent className="flex items-center justify-center py-12">
-          <div className="text-center">
-            <Menu className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No menu items found</h3>
-            <p className="text-muted-foreground">Create your first menu item to get started.</p>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
+const MenuItem = ({ item, onRemove, onToggleStatus, depth = 0 }: MenuItemProps) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: item.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
 
   return (
-    <div className="space-y-2">
-      {items.map((item) => (
-        <Card key={item.id}>
-          <CardHeader className="pb-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <GripVertical className="w-4 h-4 text-muted-foreground cursor-move" />
-                <div>
-                  <CardTitle className="text-base flex items-center gap-2">
-                    {item.title}
-                    <Badge variant={item.is_active ? "default" : "secondary"}>
-                      {item.is_active ? "Active" : "Inactive"}
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Order: {item.sort_order}
-                    </Badge>
-                  </CardTitle>
-                  <CardDescription>
-                    URL: {item.url}
-                    {item.parent_id && (
-                      <span className="block text-xs">
-                        Child of: {items.find(p => p.id === item.parent_id)?.title}
-                      </span>
-                    )}
-                  </CardDescription>
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <div className="flex gap-1">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onUpdateOrder(item.id, Math.max(0, item.sort_order - 1))}
-                    disabled={item.sort_order === 0}
-                  >
-                    ↑
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onUpdateOrder(item.id, item.sort_order + 1)}
-                  >
-                    ↓
-                  </Button>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => onEdit(item)}
-                >
-                  <Edit className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => onDelete(item.id)}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-          </CardHeader>
-        </Card>
+    <div ref={setNodeRef} style={style} className={`ml-${depth * 4}`}>
+      <div className="flex items-center gap-3 p-3 border rounded-lg bg-background hover:bg-muted/50">
+        <div {...attributes} {...listeners} className="cursor-grab hover:cursor-grabbing">
+          <GripVertical className="w-4 h-4 text-muted-foreground" />
+        </div>
+        
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            <span className="font-medium">{item.title}</span>
+            <Badge variant={item.is_active ? "default" : "secondary"} className="text-xs">
+              {item.is_active ? "Active" : "Inactive"}
+            </Badge>
+          </div>
+          <p className="text-sm text-muted-foreground">{item.url}</p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Switch
+            checked={item.is_active}
+            onCheckedChange={(checked) => onToggleStatus(item.id, checked)}
+          />
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onRemove(item.id)}
+            className="text-destructive hover:text-destructive"
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Render children if any */}
+      {item.children && item.children.map((child) => (
+        <MenuItem
+          key={child.id}
+          item={child}
+          onRemove={onRemove}
+          onToggleStatus={onToggleStatus}
+          depth={depth + 1}
+        />
       ))}
     </div>
   );
