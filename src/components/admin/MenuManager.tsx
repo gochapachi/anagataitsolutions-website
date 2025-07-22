@@ -195,22 +195,7 @@ const MenuManager = () => {
   };
 
   const handleDragOver = (event: DragOverEvent) => {
-    const { active, over } = event;
-    
-    if (!over) return;
-
-    const activeId = active.id as string;
-    const overId = over.id as string;
-
-    if (activeId === overId) return;
-
-    // Don't allow dropping a parent on its own child
-    const activeItem = menuItems.find(item => item.id === activeId);
-    const overItem = menuItems.find(item => item.id === overId);
-    
-    if (activeItem && overItem && overItem.parent_id === activeId) {
-      return;
-    }
+    // Keep it simple - just for visual feedback
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -224,68 +209,19 @@ const MenuManager = () => {
 
     if (activeId === overId) return;
 
+    // Simple reordering only - no submenu creation via drag
     const currentMenuItems = menuItems.filter(item => item.menu_type === activeTab);
-    const activeItem = currentMenuItems.find(item => item.id === activeId);
-    const overItem = currentMenuItems.find(item => item.id === overId);
+    const activeIndex = currentMenuItems.findIndex(item => item.id === activeId);
+    const overIndex = currentMenuItems.findIndex(item => item.id === overId);
 
-    if (!activeItem || !overItem) return;
-
-    // Prevent dropping a parent on its own child
-    if (overItem.parent_id === activeId) {
-      toast.error("Cannot move a parent item under its own child");
-      return;
-    }
-
-    // Check if we should create a submenu based on drop position
-    const rect = over.rect;
-    const dragY = event.delta.y;
-    
-    // If dropping on the right half of an item that isn't already a child, create submenu
-    const isCreatingSubmenu = rect && 
-      !overItem.parent_id && 
-      activeItem.id !== overItem.id &&
-      !activeItem.parent_id; // Don't nest submenus deeper than one level
-
-    if (isCreatingSubmenu) {
-      // Create submenu by setting parent_id
-      const updatedItems = currentMenuItems.map(item => {
-        if (item.id === activeId) {
-          return { ...item, parent_id: overId, sort_order: 1 };
-        }
-        return item;
-      });
-      
-      const allItems = [
+    if (activeIndex !== -1 && overIndex !== -1) {
+      const newItems = arrayMove(currentMenuItems, activeIndex, overIndex);
+      const updatedItems = [
         ...menuItems.filter(item => item.menu_type !== activeTab),
-        ...updatedItems
+        ...newItems
       ];
-      setMenuItems(allItems);
-      saveMenuItems(updatedItems);
-      toast.success(`Made "${activeItem.title}" a submenu under "${overItem.title}"`);
-    } else {
-      // Regular reordering - find indices considering parent-child structure
-      const parentItems = currentMenuItems.filter(item => !item.parent_id);
-      const activeIndex = parentItems.findIndex(item => item.id === activeId);
-      const overIndex = parentItems.findIndex(item => item.id === overId);
-
-      if (activeIndex !== -1 && overIndex !== -1) {
-        const newParentItems = arrayMove(parentItems, activeIndex, overIndex);
-        
-        // Rebuild the full list maintaining children
-        const rebuiltItems: MenuItem[] = [];
-        newParentItems.forEach(parent => {
-          rebuiltItems.push(parent);
-          const children = currentMenuItems.filter(item => item.parent_id === parent.id);
-          rebuiltItems.push(...children);
-        });
-        
-        const updatedItems = [
-          ...menuItems.filter(item => item.menu_type !== activeTab),
-          ...rebuiltItems
-        ];
-        setMenuItems(updatedItems);
-        saveMenuItems(rebuiltItems);
-      }
+      setMenuItems(updatedItems);
+      saveMenuItems(newItems);
     }
   };
 
@@ -350,16 +286,47 @@ const MenuManager = () => {
 
   const removeFromMenu = async (itemId: string) => {
     try {
+      // Also remove any children of this item
       await supabase
         .from('menu_items')
         .delete()
-        .eq('id', itemId);
+        .or(`id.eq.${itemId},parent_id.eq.${itemId}`);
 
       toast.success('Item removed from menu');
       fetchMenuItems();
     } catch (error) {
       console.error('Error removing from menu:', error);
       toast.error('Failed to remove item');
+    }
+  };
+
+  const makeSubmenu = async (itemId: string, parentId: string) => {
+    try {
+      await supabase
+        .from('menu_items')
+        .update({ parent_id: parentId })
+        .eq('id', itemId);
+
+      toast.success('Item moved to submenu');
+      fetchMenuItems();
+    } catch (error) {
+      console.error('Error creating submenu:', error);
+      toast.error('Failed to create submenu');
+    }
+  };
+
+  const removeFromSubmenu = async (itemId: string) => {
+    try {
+      await supabase
+        .from('menu_items')
+        .update({ parent_id: null })
+        .eq('id', itemId);
+
+      toast.success('Item moved to main menu');
+      fetchMenuItems();
+    } catch (error) {
+      console.error('Error removing from submenu:', error);
+      toast.error('Failed to move item');
     }
   };
 
@@ -517,7 +484,7 @@ const MenuManager = () => {
                     {activeTab === 'main' ? 'Main Navigation' : 'Footer Menu'} Structure
                   </CardTitle>
                   <CardDescription>
-                    Drag items to reorder. Drop an item on another to create a submenu.
+                    Drag items to reorder. Use the dropdown to create submenus.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -541,6 +508,9 @@ const MenuManager = () => {
                               item={item}
                               onRemove={removeFromMenu}
                               onToggleStatus={toggleItemStatus}
+                              onMakeSubmenu={makeSubmenu}
+                              onRemoveFromSubmenu={removeFromSubmenu}
+                              allItems={menuItems.filter(item => item.menu_type === activeTab)}
                             />
                           ))}
                       </div>
@@ -577,10 +547,13 @@ interface MenuItemProps {
   item: MenuItem;
   onRemove: (id: string) => void;
   onToggleStatus: (id: string, isActive: boolean) => void;
+  onMakeSubmenu: (itemId: string, parentId: string) => void;
+  onRemoveFromSubmenu: (itemId: string) => void;
+  allItems: MenuItem[];
   depth?: number;
 }
 
-const MenuItem = ({ item, onRemove, onToggleStatus, depth = 0 }: MenuItemProps) => {
+const MenuItem = ({ item, onRemove, onToggleStatus, onMakeSubmenu, onRemoveFromSubmenu, allItems, depth = 0 }: MenuItemProps) => {
   const {
     attributes,
     listeners,
@@ -614,6 +587,39 @@ const MenuItem = ({ item, onRemove, onToggleStatus, depth = 0 }: MenuItemProps) 
         </div>
 
         <div className="flex items-center gap-2">
+          {!item.parent_id && (
+            <select
+              className="text-xs border rounded px-2 py-1"
+              onChange={(e) => {
+                if (e.target.value) {
+                  onMakeSubmenu(item.id, e.target.value);
+                  e.target.value = '';
+                }
+              }}
+              defaultValue=""
+            >
+              <option value="">Make submenu of...</option>
+              {allItems
+                .filter(parent => !parent.parent_id && parent.id !== item.id)
+                .map(parent => (
+                  <option key={parent.id} value={parent.id}>
+                    {parent.title}
+                  </option>
+                ))}
+            </select>
+          )}
+          
+          {item.parent_id && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onRemoveFromSubmenu(item.id)}
+              className="text-xs"
+            >
+              Move to Main
+            </Button>
+          )}
+          
           <Switch
             checked={item.is_active}
             onCheckedChange={(checked) => onToggleStatus(item.id, checked)}
@@ -636,6 +642,9 @@ const MenuItem = ({ item, onRemove, onToggleStatus, depth = 0 }: MenuItemProps) 
           item={child}
           onRemove={onRemove}
           onToggleStatus={onToggleStatus}
+          onMakeSubmenu={onMakeSubmenu}
+          onRemoveFromSubmenu={onRemoveFromSubmenu}
+          allItems={allItems}
           depth={depth + 1}
         />
       ))}
