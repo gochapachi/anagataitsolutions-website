@@ -167,6 +167,15 @@ const App = () => (
                 <Footer />
               </div>
             } />
+            <Route path="/:slug" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <PageDetail />
+                </main>
+                <Footer />
+              </div>
+            } />
             <Route path="/privacy-policy" element={
               <div className="min-h-screen flex flex-col bg-background">
                 <Navbar />
