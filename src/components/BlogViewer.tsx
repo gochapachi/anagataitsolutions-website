@@ -31,7 +31,7 @@ const BlogViewer = ({ content, title }: BlogViewerProps) => {
   `;
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full" style={{ height: 'calc(100vh - 80px)' }}>
       <iframe
         srcDoc={wrappedContent}
         className="w-full h-full border-0"
