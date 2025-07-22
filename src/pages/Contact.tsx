@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Clock, Mail, Phone, MapPin, Calendar, Users, TrendingUp, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { JsonLD, createBreadcrumbSchema } from "@/components/SEO/JsonLD";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -82,7 +83,19 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <>
+      <JsonLD data={createBreadcrumbSchema([
+        { name: "Home", url: "https://your-domain.com" },
+        { name: "Contact", url: "https://your-domain.com/contact" }
+      ])} />
+      <JsonLD data={{
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "name": "Contact AutomateFlow",
+        "description": "Get in touch with AutomateFlow for automation solutions. 24/7 support, free consultation, and quick response guaranteed.",
+        "url": "https://your-domain.com/contact"
+      }} />
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
         <div className="container mx-auto px-4">
@@ -364,7 +377,8 @@ const Contact = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 

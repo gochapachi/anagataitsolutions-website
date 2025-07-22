@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, BarChart3, TrendingUp, Users, Zap, Clock, CheckCircle } from "lucide-react";
+import { JsonLD, createServiceSchema, createBreadcrumbSchema } from "@/components/SEO/JsonLD";
 const Services = () => {
   const services = [{
     icon: BarChart3,
@@ -44,7 +45,18 @@ const Services = () => {
     popular: false,
     
   }];
-  return <div className="min-h-screen">
+  return (
+    <>
+      <JsonLD data={createServiceSchema(
+        "Business Automation Services",
+        "Comprehensive automation solutions including marketing, sales, and HR automation for MSMEs",
+        "https://your-domain.com/services"
+      )} />
+      <JsonLD data={createBreadcrumbSchema([
+        { name: "Home", url: "https://your-domain.com" },
+        { name: "Services", url: "https://your-domain.com/services" }
+      ])} />
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
         <div className="container mx-auto px-4">
@@ -213,6 +225,8 @@ const Services = () => {
           </div>
         </div>
       </section>
-    </div>;
+      </div>
+    </>
+  );
 };
 export default Services;

@@ -1,9 +1,22 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { JsonLD, createBreadcrumbSchema } from "@/components/SEO/JsonLD";
 
 const TermsOfService = () => {
   return (
-    <div className="min-h-screen">
+    <>
+      <JsonLD data={createBreadcrumbSchema([
+        { name: "Home", url: "https://your-domain.com" },
+        { name: "Terms of Service", url: "https://your-domain.com/terms-of-service" }
+      ])} />
+      <JsonLD data={{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Terms of Service - AutomateFlow",
+        "description": "AutomateFlow's terms of service outlining the rules and regulations for using our automation services.",
+        "url": "https://your-domain.com/terms-of-service"
+      }} />
+      <div className="min-h-screen">
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -164,7 +177,8 @@ const TermsOfService = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 

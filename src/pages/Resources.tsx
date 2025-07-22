@@ -121,17 +121,28 @@ const Resources = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading resources...</p>
+      <div className="min-h-screen py-20">
+        <div className="container mx-auto px-4">
+          <p>Loading resources...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen">
+    <>
+      <JsonLD data={createBreadcrumbSchema([
+        { name: "Home", url: "https://your-domain.com" },
+        { name: "Resources", url: "https://your-domain.com/resources" }
+      ])} />
+      <JsonLD data={{
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "AutomateFlow Resources",
+        "description": "Free resources, guides, and tools to help MSMEs implement automation and drive business growth",
+        "url": "https://your-domain.com/resources"
+      }} />
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
         <div className="container mx-auto px-4">
@@ -411,7 +422,8 @@ const Resources = () => {
         onLeadCaptured={handleLeadCaptured}
         resourceTitle={selectedResource?.title || ""}
       />
-    </div>
+      </div>
+    </>
   );
 };
 

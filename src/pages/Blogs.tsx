@@ -161,34 +161,56 @@ const Blogs = () => {
 
   if (selectedPost) {
     return (
-      <div className="h-screen overflow-auto" style={{ scrollBehavior: 'auto' }}>
-        <BlogNavigation
-          onBackToBlogs={() => setSelectedPost(null)}
-          currentPost={selectedPost}
-          relatedPosts={getRelatedPosts()}
-          categories={categories}
-          onPostSelect={(post) => {
-            setSelectedPost(post);
-            // Reset scroll to top when opening new blog
-            setTimeout(() => {
-              const container = document.querySelector('.h-screen.overflow-auto');
-              if (container) {
-                container.scrollTop = 0;
-              }
-            }, 0);
-          }}
-          onCategorySelect={(categoryId) => {
-            setSelectedCategory(categoryId);
-            setCurrentPage(1);
-          }}
-        />
-        <BlogViewer content={selectedPost.content} title={selectedPost.title} />
+      <div className="min-h-screen py-20">
+        <div className="container mx-auto px-4">
+          <p>Loading selected post...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen">
+    <>
+      <JsonLD data={createBreadcrumbSchema([
+        { name: "Home", url: "https://your-domain.com" },
+        { name: "Blogs", url: "https://your-domain.com/blogs" }
+      ])} />
+      <JsonLD data={{
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "AutomateFlow Blog",
+        "description": "Latest insights, tips, and best practices for business automation and MSME growth",
+        "url": "https://your-domain.com/blogs",
+        "publisher": {
+          "@type": "Organization",
+          "name": "AutomateFlow"
+        }
+      }} />
+      {selectedPost ? (
+        <div className="h-screen overflow-auto" style={{ scrollBehavior: 'auto' }}>
+          <BlogNavigation
+            onBackToBlogs={() => setSelectedPost(null)}
+            currentPost={selectedPost}
+            relatedPosts={getRelatedPosts()}
+            categories={categories}
+            onPostSelect={(post) => {
+              setSelectedPost(post);
+              setTimeout(() => {
+                const container = document.querySelector('.h-screen.overflow-auto');
+                if (container) {
+                  container.scrollTop = 0;
+                }
+              }, 0);
+            }}
+            onCategorySelect={(categoryId) => {
+              setSelectedCategory(categoryId);
+              setCurrentPage(1);
+            }}
+          />
+          <BlogViewer content={selectedPost.content} title={selectedPost.title} />
+        </div>
+      ) : (
+        <div className="min-h-screen">
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
         <div className="container mx-auto px-4">
@@ -411,7 +433,9 @@ const Blogs = () => {
           )}
         </div>
       </section>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 

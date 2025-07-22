@@ -9,8 +9,20 @@ import { ServicesOverview } from "@/components/sections/ServicesOverview";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { StatsSection } from "@/components/sections/StatsSection";
 import { CTASection } from "@/components/sections/CTASection";
+import { JsonLD, organizationSchema, websiteSchema } from "@/components/SEO/JsonLD";
 const Index = () => {
-  return <div className="min-h-screen">
+  return (
+    <>
+      <JsonLD data={organizationSchema} />
+      <JsonLD data={websiteSchema} />
+      <JsonLD data={{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "AutomateFlow - Business Automation Solutions for MSMEs",
+        "description": "Transform your MSME with our comprehensive automation solutions. Streamline operations, boost efficiency, and drive growth with our proven automation tools.",
+        "url": "https://your-domain.com"
+      }} />
+      <div className="min-h-screen">
       <HeroSection />
       <StatsSection />
       <ServicesOverview />
@@ -236,6 +248,8 @@ const Index = () => {
       </section>
 
       <CTASection />
-    </div>;
+      </div>
+    </>
+  );
 };
 export default Index;

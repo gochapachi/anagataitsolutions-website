@@ -1,9 +1,22 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { JsonLD, createBreadcrumbSchema } from "@/components/SEO/JsonLD";
 
 const PrivacyPolicy = () => {
   return (
-    <div className="min-h-screen">
+    <>
+      <JsonLD data={createBreadcrumbSchema([
+        { name: "Home", url: "https://your-domain.com" },
+        { name: "Privacy Policy", url: "https://your-domain.com/privacy-policy" }
+      ])} />
+      <JsonLD data={{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Privacy Policy - AutomateFlow",
+        "description": "AutomateFlow's privacy policy outlining how we collect, use, and protect your personal information.",
+        "url": "https://your-domain.com/privacy-policy"
+      }} />
+      <div className="min-h-screen">
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -140,7 +153,8 @@ const PrivacyPolicy = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 
