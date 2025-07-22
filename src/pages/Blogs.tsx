@@ -151,13 +151,22 @@ const Blogs = () => {
 
   if (selectedPost) {
     return (
-      <div className="h-screen overflow-auto">
+      <div className="h-screen overflow-auto" style={{ scrollBehavior: 'auto' }}>
         <BlogNavigation
           onBackToBlogs={() => setSelectedPost(null)}
           currentPost={selectedPost}
           relatedPosts={getRelatedPosts()}
           categories={categories}
-          onPostSelect={setSelectedPost}
+          onPostSelect={(post) => {
+            setSelectedPost(post);
+            // Reset scroll to top when opening new blog
+            setTimeout(() => {
+              const container = document.querySelector('.h-screen.overflow-auto');
+              if (container) {
+                container.scrollTop = 0;
+              }
+            }, 0);
+          }}
           onCategorySelect={(categoryId) => {
             setSelectedCategory(categoryId);
             setCurrentPage(1);
@@ -271,7 +280,16 @@ const Blogs = () => {
                     key={post.id} 
                     className="card-interactive group overflow-hidden cursor-pointer"
                     style={{ animationDelay: `${index * 100}ms` }}
-                    onClick={() => setSelectedPost(post)}
+                    onClick={() => {
+                      setSelectedPost(post);
+                      // Reset scroll to top when opening blog
+                      setTimeout(() => {
+                        const container = document.querySelector('.h-screen.overflow-auto');
+                        if (container) {
+                          container.scrollTop = 0;
+                        }
+                      }, 0);
+                    }}
                   >
                     {post.featured_image_url && (
                       <div className="relative overflow-hidden h-48">
