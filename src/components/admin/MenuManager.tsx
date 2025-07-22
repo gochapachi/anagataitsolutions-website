@@ -194,6 +194,24 @@ const MenuManager = () => {
     setActiveId(event.active.id as string);
   };
 
+  const handleDragOver = (event: DragOverEvent) => {
+    const { active, over } = event;
+    
+    if (!over) return;
+
+    const activeId = active.id as string;
+    const overId = over.id as string;
+
+    if (activeId === overId) return;
+
+    // Check if we're hovering over a menu item (potential parent)
+    const overItem = menuItems.find(item => item.id === overId);
+    if (overItem && !overItem.parent_id) {
+      // Visual feedback for potential submenu creation
+      console.log(`Potential submenu: ${activeId} under ${overId}`);
+    }
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     setActiveId(null);
@@ -206,17 +224,44 @@ const MenuManager = () => {
     if (activeId === overId) return;
 
     const currentMenuItems = menuItems.filter(item => item.menu_type === activeTab);
-    const activeIndex = findItemIndex(currentMenuItems, activeId);
-    const overIndex = findItemIndex(currentMenuItems, overId);
+    const activeItem = currentMenuItems.find(item => item.id === activeId);
+    const overItem = currentMenuItems.find(item => item.id === overId);
 
-    if (activeIndex !== -1 && overIndex !== -1) {
-      const newItems = arrayMove(currentMenuItems, activeIndex, overIndex);
-      const updatedItems = [
+    if (!activeItem || !overItem) return;
+
+    // Simple submenu creation logic: hold Shift while dropping to create submenu
+    const isCreatingSubmenu = event.activatorEvent instanceof KeyboardEvent && event.activatorEvent.shiftKey;
+    
+    if (isCreatingSubmenu && !overItem.parent_id && activeItem.id !== overItem.id) {
+      // Create submenu - set parent_id
+      const updatedItems = currentMenuItems.map(item => {
+        if (item.id === activeId) {
+          return { ...item, parent_id: overId };
+        }
+        return item;
+      });
+      
+      const allItems = [
         ...menuItems.filter(item => item.menu_type !== activeTab),
-        ...newItems
+        ...updatedItems
       ];
-      setMenuItems(updatedItems);
-      saveMenuItems(newItems);
+      setMenuItems(allItems);
+      saveMenuItems(updatedItems);
+      toast.success(`Created submenu: ${activeItem.title} under ${overItem.title}`);
+    } else {
+      // Regular reordering
+      const activeIndex = currentMenuItems.findIndex(item => item.id === activeId);
+      const overIndex = currentMenuItems.findIndex(item => item.id === overId);
+
+      if (activeIndex !== -1 && overIndex !== -1) {
+        const newItems = arrayMove(currentMenuItems, activeIndex, overIndex);
+        const updatedItems = [
+          ...menuItems.filter(item => item.menu_type !== activeTab),
+          ...newItems
+        ];
+        setMenuItems(updatedItems);
+        saveMenuItems(newItems);
+      }
     }
   };
 
@@ -448,7 +493,7 @@ const MenuManager = () => {
                     {activeTab === 'main' ? 'Main Navigation' : 'Footer Menu'} Structure
                   </CardTitle>
                   <CardDescription>
-                    Drag items to reorder. Drag items slightly to the right to create submenus.
+                    Drag items to reorder. Hold Shift while dropping an item on another to create a submenu.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -456,6 +501,7 @@ const MenuManager = () => {
                     sensors={sensors}
                     collisionDetection={closestCenter}
                     onDragStart={handleDragStart}
+                    onDragOver={handleDragOver}
                     onDragEnd={handleDragEnd}
                   >
                     <SortableContext
