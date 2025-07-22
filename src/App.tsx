@@ -26,6 +26,7 @@ import Contact from "./pages/Contact";
 import Resources from "./pages/Resources";
 import ResourceDetail from "./pages/ResourceDetail";
 import Blogs from "./pages/Blogs";
+import BlogDetail from "./pages/BlogDetail";
 import PageDetail from "./pages/PageDetail";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
@@ -144,6 +145,15 @@ const App = () => (
                 <Navbar />
                 <main className="flex-1">
                   <Blogs />
+                </main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/blogs/:slug" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <BlogDetail />
                 </main>
                 <Footer />
               </div>

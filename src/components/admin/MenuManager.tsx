@@ -237,8 +237,8 @@ const MenuManager = () => {
               <div>
                 <Label htmlFor="parent_id">Parent Item (Optional)</Label>
                 <Select 
-                  value={formData.parent_id} 
-                  onValueChange={(value) => setFormData({ ...formData, parent_id: value })}
+                  value={formData.parent_id || ""} 
+                  onValueChange={(value) => setFormData({ ...formData, parent_id: value || null })}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select parent item" />
