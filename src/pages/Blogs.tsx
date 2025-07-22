@@ -142,56 +142,13 @@ const Blogs = () => {
 
   if (selectedPost) {
     return (
-      <div className="min-h-screen">
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <Button 
-                variant="outline" 
-                onClick={() => setSelectedPost(null)}
-                className="mb-8"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Blogs
-              </Button>
-              
-              <article className="prose prose-lg max-w-none">
-                <h1 className="text-4xl font-bold mb-6">{selectedPost.title}</h1>
-                
-                {selectedPost.featured_image_url && (
-                  <div className="mb-8">
-                    <img
-                      src={selectedPost.featured_image_url}
-                      alt={selectedPost.title}
-                      className="w-full h-64 object-cover rounded-lg"
-                    />
-                  </div>
-                )}
-                
-                <div className="flex items-center gap-4 text-muted-foreground mb-6">
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    <span>Published on {formatDate(selectedPost.published_date)}</span>
-                  </div>
-                  {selectedPost.author && (
-                    <div className="flex items-center gap-1">
-                      <User className="w-4 h-4" />
-                      <span>By {selectedPost.author}</span>
-                    </div>
-                  )}
-                  {selectedPost.category && (
-                    <Badge variant="outline">{selectedPost.category}</Badge>
-                  )}
-                </div>
-                
-                <div 
-                  className="blog-content prose prose-lg max-w-none"
-                  dangerouslySetInnerHTML={{ __html: selectedPost.content }}
-                />
-              </article>
-            </div>
-          </div>
-        </section>
+      <div className="min-h-screen w-full">
+        <iframe
+          srcDoc={selectedPost.content}
+          className="w-full min-h-screen border-0"
+          sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+          title={selectedPost.title}
+        />
       </div>
     );
   }
