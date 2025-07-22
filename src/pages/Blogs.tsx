@@ -50,6 +50,16 @@ const Blogs = () => {
     fetchPosts();
   }, [currentPage, selectedCategory, searchTerm]);
 
+  // Reset scroll to top when blog post is selected
+  useEffect(() => {
+    if (selectedPost) {
+      // Reset scroll to top immediately
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  }, [selectedPost]);
+
   const fetchCategories = async () => {
     try {
       const { data, error } = await supabase
