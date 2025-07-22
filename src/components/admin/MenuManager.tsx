@@ -204,11 +204,12 @@ const MenuManager = () => {
 
     if (activeId === overId) return;
 
-    // Check if we're hovering over a menu item (potential parent)
+    // Don't allow dropping a parent on its own child
+    const activeItem = menuItems.find(item => item.id === activeId);
     const overItem = menuItems.find(item => item.id === overId);
-    if (overItem && !overItem.parent_id) {
-      // Visual feedback for potential submenu creation
-      console.log(`Potential submenu: ${activeId} under ${overId}`);
+    
+    if (activeItem && overItem && overItem.parent_id === activeId) {
+      return;
     }
   };
 
@@ -229,14 +230,27 @@ const MenuManager = () => {
 
     if (!activeItem || !overItem) return;
 
-    // Simple submenu creation logic: hold Shift while dropping to create submenu
-    const isCreatingSubmenu = event.activatorEvent instanceof KeyboardEvent && event.activatorEvent.shiftKey;
+    // Prevent dropping a parent on its own child
+    if (overItem.parent_id === activeId) {
+      toast.error("Cannot move a parent item under its own child");
+      return;
+    }
+
+    // Check if we should create a submenu based on drop position
+    const rect = over.rect;
+    const dragY = event.delta.y;
     
-    if (isCreatingSubmenu && !overItem.parent_id && activeItem.id !== overItem.id) {
-      // Create submenu - set parent_id
+    // If dropping on the right half of an item that isn't already a child, create submenu
+    const isCreatingSubmenu = rect && 
+      !overItem.parent_id && 
+      activeItem.id !== overItem.id &&
+      !activeItem.parent_id; // Don't nest submenus deeper than one level
+
+    if (isCreatingSubmenu) {
+      // Create submenu by setting parent_id
       const updatedItems = currentMenuItems.map(item => {
         if (item.id === activeId) {
-          return { ...item, parent_id: overId };
+          return { ...item, parent_id: overId, sort_order: 1 };
         }
         return item;
       });
@@ -247,20 +261,30 @@ const MenuManager = () => {
       ];
       setMenuItems(allItems);
       saveMenuItems(updatedItems);
-      toast.success(`Created submenu: ${activeItem.title} under ${overItem.title}`);
+      toast.success(`Made "${activeItem.title}" a submenu under "${overItem.title}"`);
     } else {
-      // Regular reordering
-      const activeIndex = currentMenuItems.findIndex(item => item.id === activeId);
-      const overIndex = currentMenuItems.findIndex(item => item.id === overId);
+      // Regular reordering - find indices considering parent-child structure
+      const parentItems = currentMenuItems.filter(item => !item.parent_id);
+      const activeIndex = parentItems.findIndex(item => item.id === activeId);
+      const overIndex = parentItems.findIndex(item => item.id === overId);
 
       if (activeIndex !== -1 && overIndex !== -1) {
-        const newItems = arrayMove(currentMenuItems, activeIndex, overIndex);
+        const newParentItems = arrayMove(parentItems, activeIndex, overIndex);
+        
+        // Rebuild the full list maintaining children
+        const rebuiltItems: MenuItem[] = [];
+        newParentItems.forEach(parent => {
+          rebuiltItems.push(parent);
+          const children = currentMenuItems.filter(item => item.parent_id === parent.id);
+          rebuiltItems.push(...children);
+        });
+        
         const updatedItems = [
           ...menuItems.filter(item => item.menu_type !== activeTab),
-          ...newItems
+          ...rebuiltItems
         ];
         setMenuItems(updatedItems);
-        saveMenuItems(newItems);
+        saveMenuItems(rebuiltItems);
       }
     }
   };
@@ -493,7 +517,7 @@ const MenuManager = () => {
                     {activeTab === 'main' ? 'Main Navigation' : 'Footer Menu'} Structure
                   </CardTitle>
                   <CardDescription>
-                    Drag items to reorder. Hold Shift while dropping an item on another to create a submenu.
+                    Drag items to reorder. Drop an item on another to create a submenu.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
