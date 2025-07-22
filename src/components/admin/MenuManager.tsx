@@ -32,7 +32,7 @@ const MenuManager = () => {
     title: '',
     url: '',
     menu_type: 'main' as 'main' | 'footer',
-    parent_id: '',
+    parent_id: null as string | null,
     sort_order: 0,
     is_active: true
   });
@@ -125,7 +125,7 @@ const MenuManager = () => {
       title: item.title,
       url: item.url,
       menu_type: item.menu_type,
-      parent_id: item.parent_id || '',
+      parent_id: item.parent_id,
       sort_order: item.sort_order,
       is_active: item.is_active
     });
@@ -156,7 +156,7 @@ const MenuManager = () => {
       title: '',
       url: '',
       menu_type: 'main',
-      parent_id: '',
+      parent_id: null,
       sort_order: 0,
       is_active: true
     });
@@ -255,34 +255,41 @@ const MenuManager = () => {
                   <Label htmlFor="parent_id">Parent Item (Optional)</Label>
                   <Select 
                     value={formData.parent_id || ""} 
-                    onValueChange={(value) => setFormData({ ...formData, parent_id: value || null })}
+                    onValueChange={(value) => setFormData({ ...formData, parent_id: value === "" ? null : value })}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select parent item" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="">None (Top Level)</SelectItem>
-                      {getParentItems(formData.menu_type).map((item) => (
-                        <SelectItem key={item.id} value={item.id}>
-                          {item.title}
-                        </SelectItem>
-                      ))}
+                      {getParentItems(formData.menu_type)
+                        .filter(item => item.id !== editingId) // Don't allow self as parent
+                        .map((item) => (
+                          <SelectItem key={item.id} value={item.id}>
+                            {item.title}
+                          </SelectItem>
+                        ))}
                     </SelectContent>
                   </Select>
                 </div>
                 
                 <div>
                   <Label htmlFor="quick_add_page">Quick Add Page</Label>
-                  <Select onValueChange={(value) => {
-                    const selectedPage = pages.find(p => p.id === value);
-                    if (selectedPage) {
-                      setFormData({
-                        ...formData,
-                        title: selectedPage.title,
-                        url: `/pages/${selectedPage.slug}`
-                      });
-                    }
-                  }}>
+                  <Select 
+                    value="" 
+                    onValueChange={(value) => {
+                      if (value) {
+                        const selectedPage = pages.find(p => p.id === value);
+                        if (selectedPage) {
+                          setFormData({
+                            ...formData,
+                            title: selectedPage.title,
+                            url: `/pages/${selectedPage.slug}`
+                          });
+                        }
+                      }
+                    }}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select a page to add" />
                     </SelectTrigger>
