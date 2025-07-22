@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { Helmet } from 'react-helmet-async';
+import { toast } from 'sonner';
+import PageViewer from '@/components/PageViewer';
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Code } from "lucide-react";
-import { toast } from "sonner";
-import { Helmet } from "react-helmet-async";
 
 interface Page {
   id: string;
@@ -79,7 +80,7 @@ const PageDetail = () => {
   }
 
   return (
-    <>
+    <div className="min-h-screen">
       <Helmet>
         <title>{page.title}</title>
         <meta name="description" content={page.meta_description || page.title} />
@@ -95,12 +96,9 @@ const PageDetail = () => {
         <meta name="article:modified_time" content={page.updated_at} />
         <link rel="canonical" href={window.location.href} />
       </Helmet>
-
-      <div 
-        className="w-full min-h-screen"
-        dangerouslySetInnerHTML={{ __html: page.content }}
-      />
-    </>
+      
+      <PageViewer content={page.content} title={page.title} />
+    </div>
   );
 };
 

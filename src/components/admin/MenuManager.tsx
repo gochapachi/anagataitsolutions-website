@@ -26,6 +26,7 @@ interface MenuItem {
 
 const MenuManager = () => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [pages, setPages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     title: '',
@@ -41,6 +42,7 @@ const MenuManager = () => {
 
   useEffect(() => {
     fetchMenuItems();
+    fetchPages();
   }, []);
 
   const fetchMenuItems = async () => {
@@ -58,6 +60,20 @@ const MenuManager = () => {
       toast.error('Failed to load menu items');
     }
     setLoading(false);
+  };
+
+  const fetchPages = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('pages')
+        .select('id, title, slug, is_published')
+        .eq('is_published', true);
+
+      if (error) throw error;
+      setPages(data || []);
+    } catch (error) {
+      console.error('Error fetching pages:', error);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -234,24 +250,53 @@ const MenuManager = () => {
                 </Select>
               </div>
 
-              <div>
-                <Label htmlFor="parent_id">Parent Item (Optional)</Label>
-                <Select 
-                  value={formData.parent_id || ""} 
-                  onValueChange={(value) => setFormData({ ...formData, parent_id: value || null })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select parent item" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">None (Top Level)</SelectItem>
-                    {getParentItems(formData.menu_type).map((item) => (
-                      <SelectItem key={item.id} value={item.id}>
-                        {item.title}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="parent_id">Parent Item (Optional)</Label>
+                  <Select 
+                    value={formData.parent_id || ""} 
+                    onValueChange={(value) => setFormData({ ...formData, parent_id: value || null })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select parent item" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">None (Top Level)</SelectItem>
+                      {getParentItems(formData.menu_type).map((item) => (
+                        <SelectItem key={item.id} value={item.id}>
+                          {item.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div>
+                  <Label htmlFor="quick_add_page">Quick Add Page</Label>
+                  <Select onValueChange={(value) => {
+                    const selectedPage = pages.find(p => p.id === value);
+                    if (selectedPage) {
+                      setFormData({
+                        ...formData,
+                        title: selectedPage.title,
+                        url: `/pages/${selectedPage.slug}`
+                      });
+                    }
+                  }}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a page to add" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {pages
+                        .filter(page => !menuItems.some(menu => menu.url === `/pages/${page.slug}`))
+                        .map(page => (
+                          <SelectItem key={page.id} value={page.id}>
+                            {page.title}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               <div>

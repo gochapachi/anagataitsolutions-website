@@ -95,30 +95,51 @@ export const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t">
-              {getParentItems().map((item) => (
-                <Link
-                  key={item.id}
-                  to={item.url}
-                  className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.title}
-                </Link>
-              ))}
-              <div className="flex flex-col space-y-2 px-3 py-2">
-                <Link to="/contact" onClick={() => setIsOpen(false)}>
-                  <Button variant="outline" size="sm" className="w-full btn-glow">
-                    Get Consultation
-                  </Button>
-                </Link>
+          {/* Mobile Navigation */}
+          {isOpen && (
+            <div className="md:hidden">
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t">
+                {getParentItems().map((item) => {
+                  const childItems = getChildItems(item.id);
+                  
+                  return (
+                    <div key={item.id}>
+                      <Link
+                        to={item.url}
+                        className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {item.title}
+                      </Link>
+                      
+                      {/* Mobile Dropdown Items */}
+                      {childItems.length > 0 && (
+                        <div className="ml-4 mt-1 space-y-1">
+                          {childItems.map((child) => (
+                            <Link
+                              key={child.id}
+                              to={child.url}
+                              className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              {child.title}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+                <div className="flex flex-col space-y-2 px-3 py-2">
+                  <Link to="/contact" onClick={() => setIsOpen(false)}>
+                    <Button variant="outline" size="sm" className="w-full btn-glow">
+                      Get Consultation
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     </nav>
   );
