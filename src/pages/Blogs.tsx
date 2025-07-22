@@ -3,8 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Calendar, Clock, User, Search, Filter, ArrowLeft } from "lucide-react";
+import { Calendar, Clock, User, Search, Filter } from "lucide-react";
 import { supabase } from '@/integrations/supabase/client';
+import BlogNavigation from "@/components/BlogNavigation";
+import BlogViewer from "@/components/BlogViewer";
 
 interface BlogPost {
   id: string;
@@ -140,15 +142,28 @@ const Blogs = () => {
     return Math.ceil(words / 200);
   };
 
+  const getRelatedPosts = () => {
+    return posts.filter(post => 
+      post.id !== selectedPost?.id && 
+      post.category === selectedPost?.category
+    ).slice(0, 5);
+  };
+
   if (selectedPost) {
     return (
-      <div className="min-h-screen w-full">
-        <iframe
-          srcDoc={selectedPost.content}
-          className="w-full min-h-screen border-0"
-          sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-          title={selectedPost.title}
+      <div className="relative w-full h-screen overflow-hidden">
+        <BlogNavigation
+          onBackToBlogs={() => setSelectedPost(null)}
+          currentPost={selectedPost}
+          relatedPosts={getRelatedPosts()}
+          categories={categories}
+          onPostSelect={setSelectedPost}
+          onCategorySelect={(categoryId) => {
+            setSelectedCategory(categoryId);
+            setCurrentPage(1);
+          }}
         />
+        <BlogViewer content={selectedPost.content} title={selectedPost.title} />
       </div>
     );
   }
