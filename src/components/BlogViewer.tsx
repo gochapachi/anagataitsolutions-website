@@ -4,10 +4,10 @@ interface BlogViewerProps {
 }
 
 const BlogViewer = ({ content, title }: BlogViewerProps) => {
-  // Wrap the content to disable its internal scrolling and make it fit container
+  // Wrap the content to ensure proper scrolling within iframe
   const wrappedContent = `
     <!DOCTYPE html>
-    <html style="height: 100%; overflow: hidden;">
+    <html style="height: 100%;">
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,20 +16,11 @@ const BlogViewer = ({ content, title }: BlogViewerProps) => {
         body { 
           margin: 0; 
           padding: 20px; 
-          height: calc(100vh - 40px); 
-          overflow: hidden !important; 
+          min-height: 100vh;
           box-sizing: border-box;
         }
         html { 
-          overflow: hidden !important; 
           height: 100%;
-        }
-        * {
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-        }
-        *::-webkit-scrollbar {
-          display: none;
         }
       </style>
     </head>
@@ -40,7 +31,7 @@ const BlogViewer = ({ content, title }: BlogViewerProps) => {
   `;
 
   return (
-    <div className="w-full h-full overflow-auto">
+    <div className="w-full h-full">
       <iframe
         srcDoc={wrappedContent}
         className="w-full h-full border-0"
