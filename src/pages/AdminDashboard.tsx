@@ -7,6 +7,7 @@ import { LogOut, Plus, Settings, FileText, Users } from 'lucide-react';
 import { ResourcesManager } from '@/components/admin/ResourcesManager';
 import { ServicesManager } from '@/components/admin/ServicesManager';
 import { SiteSettingsManager } from '@/components/admin/SiteSettingsManager';
+import { BlogsManager } from '@/components/admin/BlogsManager';
 
 export default function AdminDashboard() {
   const { adminUser, logout } = useAdminAuth();
@@ -50,10 +51,14 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs defaultValue="resources" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="resources" className="flex items-center gap-2">
               <FileText className="h-4 w-4" />
               Resources
+            </TabsTrigger>
+            <TabsTrigger value="blogs" className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              Blogs
             </TabsTrigger>
             <TabsTrigger value="services" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
@@ -67,6 +72,10 @@ export default function AdminDashboard() {
 
           <TabsContent value="resources">
             <ResourcesManager />
+          </TabsContent>
+
+          <TabsContent value="blogs">
+            <BlogsManager />
           </TabsContent>
 
           <TabsContent value="services">

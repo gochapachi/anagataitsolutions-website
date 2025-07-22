@@ -4,25 +4,25 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Calendar, Clock, User, Search, Filter, ArrowLeft } from "lucide-react";
+import { supabase } from '@/integrations/supabase/client';
 
 interface BlogPost {
-  id: number;
-  title: { rendered: string };
-  content: { rendered: string };
-  excerpt: { rendered: string };
-  date: string;
-  link: string;
-  _embedded?: {
-    'wp:featuredmedia'?: Array<{
-      source_url: string;
-      alt_text: string;
-    }>;
-    'wp:term'?: Array<Array<{ name: string }>>;
-  };
+  id: string;
+  title: string;
+  content: string;
+  excerpt: string | null;
+  slug: string;
+  author: string | null;
+  category: string | null;
+  featured_image_url: string | null;
+  is_published: boolean;
+  published_date: string;
+  created_at: string;
+  updated_at: string;
 }
 
 interface Category {
-  id: number;
+  id: string;
   name: string;
   count: number;
 }
@@ -39,8 +39,6 @@ const Blogs = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const postsPerPage = 12;
-  const wpSiteUrl = "https://wordpress-youtube.anagataitsolutions.in";
-  const authHeader = btoa("gochapachi:g6ln hMXA KFqS 4CNa wsK9 nGG8");
 
   useEffect(() => {
     fetchCategories();
@@ -52,16 +50,29 @@ const Blogs = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`${wpSiteUrl}/wp-json/wp/v2/categories`, {
-        headers: {
-          'Authorization': `Basic ${authHeader}`,
-        },
+      const { data, error } = await supabase
+        .from('blogs')
+        .select('category')
+        .not('category', 'is', null)
+        .eq('is_published', true);
+      
+      if (error) throw error;
+      
+      // Count unique categories
+      const categoryCount: { [key: string]: number } = {};
+      data?.forEach(blog => {
+        if (blog.category) {
+          categoryCount[blog.category] = (categoryCount[blog.category] || 0) + 1;
+        }
       });
       
-      if (!response.ok) throw new Error('Failed to fetch categories');
+      const uniqueCategories = Object.entries(categoryCount).map(([name, count]) => ({
+        id: name,
+        name,
+        count
+      }));
       
-      const data = await response.json();
-      setCategories(data);
+      setCategories(uniqueCategories);
     } catch (err) {
       console.error('Error fetching categories:', err);
     }
@@ -70,29 +81,27 @@ const Blogs = () => {
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      let url = `${wpSiteUrl}/wp-json/wp/v2/posts?_embed&per_page=${postsPerPage}&page=${currentPage}`;
+      let query = supabase
+        .from('blogs')
+        .select('*', { count: 'exact' })
+        .eq('is_published', true)
+        .order('published_date', { ascending: false })
+        .range((currentPage - 1) * postsPerPage, currentPage * postsPerPage - 1);
       
       if (selectedCategory) {
-        url += `&categories=${selectedCategory}`;
+        query = query.eq('category', selectedCategory);
       }
       
       if (searchTerm) {
-        url += `&search=${encodeURIComponent(searchTerm)}`;
+        query = query.or(`title.ilike.%${searchTerm}%,content.ilike.%${searchTerm}%,excerpt.ilike.%${searchTerm}%`);
       }
 
-      const response = await fetch(url, {
-        headers: {
-          'Authorization': `Basic ${authHeader}`,
-        },
-      });
+      const { data, error, count } = await query;
 
-      if (!response.ok) throw new Error('Failed to fetch posts');
+      if (error) throw error;
 
-      const data = await response.json();
-      const totalPosts = parseInt(response.headers.get('X-WP-Total') || '0');
-      
-      setPosts(data);
-      setTotalPages(Math.ceil(totalPosts / postsPerPage));
+      setPosts(data || []);
+      setTotalPages(Math.ceil((count || 0) / postsPerPage));
       setError(null);
     } catch (err) {
       setError('Failed to load blog posts. Please try again later.');
@@ -126,6 +135,11 @@ const Blogs = () => {
     fetchPosts();
   };
 
+  const estimateReadTime = (content: string) => {
+    const words = stripHtml(content).split(' ').length;
+    return Math.ceil(words / 200);
+  };
+
   if (selectedPost) {
     return (
       <div className="min-h-screen">
@@ -142,25 +156,37 @@ const Blogs = () => {
               </Button>
               
               <article className="prose prose-lg max-w-none">
-                <h1 className="text-4xl font-bold mb-6" dangerouslySetInnerHTML={{ __html: selectedPost.title.rendered }} />
+                <h1 className="text-4xl font-bold mb-6">{selectedPost.title}</h1>
                 
-                {selectedPost._embedded?.['wp:featuredmedia']?.[0] && (
+                {selectedPost.featured_image_url && (
                   <div className="mb-8">
                     <img
-                      src={selectedPost._embedded['wp:featuredmedia'][0].source_url}
-                      alt={selectedPost._embedded['wp:featuredmedia'][0].alt_text || selectedPost.title.rendered}
+                      src={selectedPost.featured_image_url}
+                      alt={selectedPost.title}
                       className="w-full h-64 object-cover rounded-lg"
                     />
                   </div>
                 )}
                 
-                <div className="text-muted-foreground mb-6">
-                  Published on {formatDate(selectedPost.date)}
+                <div className="flex items-center gap-4 text-muted-foreground mb-6">
+                  <div className="flex items-center gap-1">
+                    <Calendar className="w-4 h-4" />
+                    <span>Published on {formatDate(selectedPost.published_date)}</span>
+                  </div>
+                  {selectedPost.author && (
+                    <div className="flex items-center gap-1">
+                      <User className="w-4 h-4" />
+                      <span>By {selectedPost.author}</span>
+                    </div>
+                  )}
+                  {selectedPost.category && (
+                    <Badge variant="outline">{selectedPost.category}</Badge>
+                  )}
                 </div>
                 
                 <div 
                   className="blog-content prose prose-lg max-w-none"
-                  dangerouslySetInnerHTML={{ __html: selectedPost.content.rendered }}
+                  dangerouslySetInnerHTML={{ __html: selectedPost.content }}
                 />
               </article>
             </div>
@@ -224,9 +250,9 @@ const Blogs = () => {
               {categories.map((category) => (
                 <Badge
                   key={category.id}
-                  variant={selectedCategory === category.id.toString() ? "default" : "secondary"}
+                  variant={selectedCategory === category.id ? "default" : "secondary"}
                   className="cursor-pointer btn-interactive px-4 py-2"
-                  onClick={() => handleCategoryFilter(category.id.toString())}
+                  onClick={() => handleCategoryFilter(category.id)}
                 >
                   {category.name} ({category.count})
                 </Badge>
@@ -275,11 +301,11 @@ const Blogs = () => {
                     style={{ animationDelay: `${index * 100}ms` }}
                     onClick={() => setSelectedPost(post)}
                   >
-                    {post._embedded?.['wp:featuredmedia']?.[0] && (
+                    {post.featured_image_url && (
                       <div className="relative overflow-hidden h-48">
                         <img
-                          src={post._embedded['wp:featuredmedia'][0].source_url}
-                          alt={post._embedded['wp:featuredmedia'][0].alt_text || post.title.rendered}
+                          src={post.featured_image_url}
+                          alt={post.title}
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
@@ -289,37 +315,56 @@ const Blogs = () => {
                     <CardHeader>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                         <Calendar className="w-3 h-3" />
-                        <span>{formatDate(post.date)}</span>
+                        <span>{formatDate(post.published_date)}</span>
                       </div>
                       
                       <CardTitle className="text-lg leading-tight line-clamp-2 group-hover:text-primary transition-colors">
-                        {stripHtml(post.title.rendered)}
+                        {post.title}
                       </CardTitle>
                       
-                      {post._embedded?.['wp:term']?.[0] && (
+                      {post.category && (
                         <div className="flex flex-wrap gap-1 mt-2">
-                          {post._embedded['wp:term'][0].slice(0, 3).map((category, idx) => (
-                            <Badge key={idx} variant="outline" className="text-xs">
-                              {category.name}
-                            </Badge>
-                          ))}
+                          <Badge variant="outline" className="text-xs">
+                            {post.category}
+                          </Badge>
                         </div>
                       )}
                     </CardHeader>
                     
                     <CardContent>
-                      <CardDescription className="line-clamp-3 text-sm mb-4">
-                        {stripHtml(post.excerpt.rendered)}
-                      </CardDescription>
+                      {post.excerpt && (
+                        <CardDescription className="line-clamp-3 text-sm mb-4">
+                          {stripHtml(post.excerpt)}
+                        </CardDescription>
+                      )}
                       
-                      <div className="flex items-center text-xs text-muted-foreground">
-                        <Clock className="w-3 h-3 mr-1" />
-                        <span>{Math.ceil(stripHtml(post.content?.rendered || post.excerpt.rendered).split(' ').length / 200)} min read</span>
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <div className="flex items-center">
+                          <Clock className="w-3 h-3 mr-1" />
+                          <span>{estimateReadTime(post.content)} min read</span>
+                        </div>
+                        {post.author && (
+                          <div className="flex items-center">
+                            <User className="w-3 h-3 mr-1" />
+                            <span>{post.author}</span>
+                          </div>
+                        )}
                       </div>
                     </CardContent>
                   </Card>
                 ))}
               </div>
+
+              {posts.length === 0 && !loading && (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground mb-4">No blog posts found.</p>
+                  <p className="text-sm text-muted-foreground">
+                    {searchTerm || selectedCategory 
+                      ? "Try adjusting your search or filter criteria." 
+                      : "Check back later for new content!"}
+                  </p>
+                </div>
+              )}
 
               {/* Pagination */}
               {totalPages > 1 && (
