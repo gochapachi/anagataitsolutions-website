@@ -203,7 +203,11 @@ const MenuManager = () => {
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => resetForm()}>
+            <Button onClick={() => {
+              console.log('Add Menu Item clicked');
+              resetForm();
+              setDialogOpen(true);
+            }}>
               <Plus className="w-4 h-4 mr-2" />
               Add Menu Item
             </Button>
