@@ -151,7 +151,7 @@ const Blogs = () => {
 
   if (selectedPost) {
     return (
-      <div className="relative w-full h-screen overflow-hidden">
+      <div className="flex h-screen overflow-hidden">
         <BlogNavigation
           onBackToBlogs={() => setSelectedPost(null)}
           currentPost={selectedPost}
@@ -163,7 +163,9 @@ const Blogs = () => {
             setCurrentPage(1);
           }}
         />
-        <BlogViewer content={selectedPost.content} title={selectedPost.title} />
+        <div className="flex-1 overflow-auto">
+          <BlogViewer content={selectedPost.content} title={selectedPost.title} />
+        </div>
       </div>
     );
   }

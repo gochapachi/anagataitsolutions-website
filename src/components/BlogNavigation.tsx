@@ -39,7 +39,7 @@ const BlogNavigation = ({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="fixed top-4 left-4 z-50 max-w-xs">
+    <div className="fixed top-20 left-4 z-50 max-w-xs">
       <Card className="bg-background/95 backdrop-blur-sm border shadow-lg">
         <CardContent className="p-4">
           <div className="flex items-center justify-between mb-3">
