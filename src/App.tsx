@@ -33,7 +33,9 @@ import CookiePolicy from "./pages/CookiePolicy";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import Auth from "./pages/Auth";
 import { AdminAuthProvider } from "./hooks/useAdminAuth";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -48,7 +50,12 @@ const App = () => (
           <Routes>
             {/* Admin Routes - No navbar/footer */}
             <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/auth" element={<Auth />} />
             
             {/* Main App Routes - With navbar/footer */}
             <Route path="/" element={
@@ -141,7 +148,15 @@ const App = () => (
                 <Footer />
               </div>
             } />
-            <Route path="/pages/:slug" element={<PageDetail />} />
+            <Route path="/pages/:slug" element={
+              <div className="min-h-screen flex flex-col bg-background">
+                <Navbar />
+                <main className="flex-1">
+                  <PageDetail />
+                </main>
+                <Footer />
+              </div>
+            } />
             <Route path="/privacy-policy" element={
               <div className="min-h-screen flex flex-col bg-background">
                 <Navbar />

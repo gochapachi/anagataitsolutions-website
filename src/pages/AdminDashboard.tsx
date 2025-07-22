@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useAdminAuth } from '@/hooks/useAdminAuth';
+import { useAuth } from '@/hooks/useAuth';
+import { Navigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -12,18 +13,23 @@ import PagesManager from '@/components/admin/PagesManager';
 import MenuManager from '@/components/admin/MenuManager';
 
 export default function AdminDashboard() {
-  const { adminUser, logout } = useAdminAuth();
+  const { user, loading, signOut } = useAuth();
 
-  if (!adminUser) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Access Denied</h1>
-          <p>Please log in to access the admin dashboard.</p>
-        </div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
   }
+
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  const handleLogout = async () => {
+    await signOut();
+  };
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -35,8 +41,8 @@ export default function AdminDashboard() {
               <h1 className="text-xl font-semibold">Admin Dashboard</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-muted-foreground">Welcome, {adminUser.email}</span>
-              <Button variant="outline" size="sm" onClick={logout}>
+              <span className="text-sm text-muted-foreground">Welcome, {user.email}</span>
+              <Button variant="outline" size="sm" onClick={handleLogout}>
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
               </Button>

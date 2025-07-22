@@ -2,7 +2,18 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Play, CheckCircle, Users, TrendingUp, Clock } from "lucide-react";
+import { useSiteSettings } from '@/hooks/useSiteSettings';
+
 export const HeroSection = () => {
+  const { getSetting, loading } = useSiteSettings();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
   return <section className="relative py-20 lg:py-32 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5" />
@@ -16,12 +27,10 @@ export const HeroSection = () => {
                 #1 MSME Automation Platform
               </Badge>
               <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-                Save 47% of Your Time with{" "}
-                <span className="text-primary">AI Automation</span>
+                {getSetting('hero_title', 'Transform Your Business with AI Automation')}
               </h1>
               <p className="text-xl text-muted-foreground mt-6 leading-relaxed">
-                Stop losing leads and wasting time on repetitive tasks. Our automation solutions 
-                help MSMEs increase revenue by 300% while reducing operational overhead.
+                {getSetting('hero_subtitle', 'Streamline operations, boost productivity, and reduce costs with our intelligent automation solutions')}
               </p>
             </div>
 
