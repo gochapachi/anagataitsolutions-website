@@ -11,6 +11,7 @@ import { SiteSettingsManager } from '@/components/admin/SiteSettingsManager';
 import { BlogsManager } from '@/components/admin/BlogsManager';
 import PagesManager from '@/components/admin/PagesManager';
 import MenuManager from '@/components/admin/MenuManager';
+import { TestimonialsManager } from '@/components/admin/TestimonialsManager';
 
 export default function AdminDashboard() {
   const { user, loading, signOut } = useAuth();
@@ -59,7 +60,7 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs defaultValue="resources" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="resources" className="flex items-center gap-2">
               <FileText className="h-4 w-4" />
               Resources
@@ -79,6 +80,10 @@ export default function AdminDashboard() {
             <TabsTrigger value="services" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
               Services
+            </TabsTrigger>
+            <TabsTrigger value="testimonials" className="flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              Testimonials
             </TabsTrigger>
             <TabsTrigger value="settings" className="flex items-center gap-2">
               <Settings className="h-4 w-4" />
@@ -104,6 +109,10 @@ export default function AdminDashboard() {
 
           <TabsContent value="services">
             <ServicesManager />
+          </TabsContent>
+
+          <TabsContent value="testimonials">
+            <TestimonialsManager />
           </TabsContent>
 
           <TabsContent value="settings">
