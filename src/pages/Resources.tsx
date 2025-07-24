@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowRight, Download, FileText, Video, Calculator, BookOpen, Search, Filter, Play, Clock, Users } from "lucide-react";
 import { toast } from "sonner";
 import { LeadCaptureDialog } from "@/components/LeadCaptureDialog";
+import { JsonLD, createBreadcrumbSchema } from "@/components/SEO/JsonLD";
 
 interface Resource {
   id: string;

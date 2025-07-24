@@ -7,6 +7,7 @@ import { Calendar, Clock, User, Search, Filter } from "lucide-react";
 import { supabase } from '@/integrations/supabase/client';
 import BlogNavigation from "@/components/BlogNavigation";
 import BlogViewer from "@/components/BlogViewer";
+import { JsonLD, createBreadcrumbSchema } from "@/components/SEO/JsonLD";
 
 interface BlogPost {
   id: string;
