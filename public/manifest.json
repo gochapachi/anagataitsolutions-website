@@ -1,0 +1,29 @@
+{
+  "name": "Anagata IT Solutions - Business Automation",
+  "short_name": "Anagata IT",
+  "description": "Transform your MSME with AI automation solutions. 300% ROI guarantee, 47% time savings, and 30-day implementation.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0066ff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/lovable-uploads/c8bf87d9-ba2f-458d-a50b-91c09b46fdd8.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/lovable-uploads/c8bf87d9-ba2f-458d-a50b-91c09b46fdd8.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "automation"],
+  "lang": "en-IN",
+  "scope": "/",
+  "related_applications": [],
+  "prefer_related_applications": false
+}

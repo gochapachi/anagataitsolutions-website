@@ -32,7 +32,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <Badge variant="secondary" className="mb-4">MSME Challenges</Badge>
-            <h2 className="text-3xl font-bold mb-4">
+            <h2 className="text-3xl font-bold mb-4" id="challenges-heading">
               Stop Losing Time & Money on Manual Processes
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -48,7 +48,7 @@ const Index = () => {
                   <span className="text-destructive font-bold">✗</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg mb-2">Manual Lead Management</h3>
+                  <h3 className="font-semibold text-lg mb-2" role="heading" aria-level={3}>Manual Lead Management</h3>
                   <p className="text-muted-foreground">
                     Spending 20+ hours per month on content creation and lead nurturing instead of closing deals.
                   </p>
@@ -60,7 +60,7 @@ const Index = () => {
                   <span className="text-destructive font-bold">✗</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg mb-2">Inconsistent Follow-ups</h3>
+                  <h3 className="font-semibold text-lg mb-2" role="heading" aria-level={3}>Inconsistent Follow-ups</h3>
                   <p className="text-muted-foreground">
                     Missing opportunities because manual processes can't keep up with customer inquiries.
                   </p>
@@ -72,7 +72,7 @@ const Index = () => {
                   <span className="text-destructive font-bold">✗</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg mb-2">Resource Constraints</h3>
+                  <h3 className="font-semibold text-lg mb-2" role="heading" aria-level={3}>Resource Constraints</h3>
                   <p className="text-muted-foreground">
                     Small teams wearing multiple hats, unable to scale marketing and sales efforts effectively.
                   </p>
@@ -86,7 +86,7 @@ const Index = () => {
                   <CheckCircle className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg mb-2">Automated Lead Nurturing</h3>
+                  <h3 className="font-semibold text-lg mb-2" role="heading" aria-level={3}>Automated Lead Nurturing</h3>
                   <p className="text-muted-foreground">
                     AI-powered systems that qualify leads and send personalized follow-ups 24/7.
                   </p>
@@ -98,7 +98,7 @@ const Index = () => {
                   <CheckCircle className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg mb-2">Consistent Engagement</h3>
+                  <h3 className="font-semibold text-lg mb-2" role="heading" aria-level={3}>Consistent Engagement</h3>
                   <p className="text-muted-foreground">
                     Never miss a lead with automated workflows that respond instantly and professionally.
                   </p>
@@ -110,7 +110,7 @@ const Index = () => {
                   <CheckCircle className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg mb-2">Scalable Growth</h3>
+                  <h3 className="font-semibold text-lg mb-2" role="heading" aria-level={3}>Scalable Growth</h3>
                   <p className="text-muted-foreground">
                     Systems that grow with your business, handling 10x more leads without 10x more staff.
                   </p>
@@ -121,9 +121,9 @@ const Index = () => {
 
           <div className="text-center mt-12">
             <Link to="/contact">
-              <Button size="lg" className="mr-4">
+              <Button size="lg" className="mr-4" aria-label="Get free business automation assessment">
                 Get Free Assessment
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Button>
             </Link>
             

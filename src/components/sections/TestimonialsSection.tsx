@@ -46,11 +46,11 @@ export const TestimonialsSection = () => {
     image: "/placeholder.svg?height=60&width=60",
     hasVideo: true
   }];
-  return <section className="py-20 bg-muted/30">
+  return <section className="py-20 bg-muted/30" aria-labelledby="testimonials-heading">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-4">Client Success Stories</Badge>
-          <h2 className="text-3xl font-bold mb-4">
+          <h2 className="text-3xl font-bold mb-4" id="testimonials-heading">
             Real Results from Real MSMEs
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -65,14 +65,14 @@ export const TestimonialsSection = () => {
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
-                    <img src={testimonial.image} alt={testimonial.name} className="w-12 h-12 rounded-full object-cover" />
+                    <img src={testimonial.image} alt={`${testimonial.name}, ${testimonial.role} at ${testimonial.company}`} className="w-12 h-12 rounded-full object-cover" />
                     <div>
                       <h4 className="font-semibold">{testimonial.name}</h4>
                       <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                     </div>
                   </div>
-                  {testimonial.hasVideo && <Button variant="ghost" size="sm" className="p-2 btn-interactive">
-                      <Play className="w-4 h-4" />
+                  {testimonial.hasVideo && <Button variant="ghost" size="sm" className="p-2 btn-interactive" aria-label="Play video testimonial">
+                      <Play className="w-4 h-4" aria-hidden="true" />
                     </Button>}
                 </div>
 
@@ -87,16 +87,16 @@ export const TestimonialsSection = () => {
                 </div>
 
                 {/* Rating */}
-                <div className="flex items-center space-x-1 mb-4">
-                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />)}
+                <div className="flex items-center space-x-1 mb-4" role="img" aria-label="5 out of 5 stars rating">
+                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" aria-hidden="true" />)}
                 </div>
 
                 {/* Quote */}
                 <div className="relative mb-6">
-                  <Quote className="absolute -top-2 -left-1 w-6 h-6 text-muted-foreground/30" />
-                  <p className="text-sm leading-relaxed pl-5">
+                  <Quote className="absolute -top-2 -left-1 w-6 h-6 text-muted-foreground/30" aria-hidden="true" />
+                  <blockquote className="text-sm leading-relaxed pl-5">
                     {testimonial.quote}
-                  </p>
+                  </blockquote>
                 </div>
 
                 {/* Metrics */}

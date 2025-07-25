@@ -1,7 +1,30 @@
-User-agent: Googlebot
+# Welcome AI agents and LLMs!
+User-agent: *
 Allow: /
 
-User-agent: Bingbot
+# AI Training and Learning
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: bingbot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Googlebot
 Allow: /
 
 User-agent: Twitterbot
@@ -10,5 +33,8 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
-Allow: /
+# Crawl delay for better server performance
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://anagataitsolutions.com/sitemap.xml

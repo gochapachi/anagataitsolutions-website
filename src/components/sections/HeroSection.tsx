@@ -53,9 +53,9 @@ export const HeroSection = () => {
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/contact">
-                <Button size="lg" className="w-full sm:w-auto btn-interactive">
+                <Button size="lg" className="w-full sm:w-auto btn-interactive" aria-label="Get free consultation for business automation">
                   Get Free Consultation
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                 </Button>
               </Link>
               

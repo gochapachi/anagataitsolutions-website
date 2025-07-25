@@ -3,23 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anagata IT Solutions</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+    <title>Anagata IT Solutions - Business Automation & AI Solutions</title>
+    <meta name="description" content="Transform your MSME with AI automation solutions. 300% ROI guarantee, 47% time savings, and 30-day implementation. Leading automation platform for Indian businesses." />
+    <meta name="author" content="Anagata IT Solutions" />
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; media-src 'self' https:; connect-src 'self' https://nlvnrvwkvzxfnfozqtaw.supabase.co wss://nlvnrvwkvzxfnfozqtaw.supabase.co; frame-src 'self' https://www.youtube.com;" />
+    <meta http-equiv="Strict-Transport-Security" content="max-age=63072000; includeSubDomains; preload" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://nlvnrvwkvzxfnfozqtaw.supabase.co">
+    
+    <!-- Enhanced SEO Meta Tags -->
+    <meta name="keywords" content="business automation, AI solutions, MSME automation, workflow automation, process automation, Indian businesses, productivity tools" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://anagataitsolutions.com" />
 
-    <meta property="og:title" content="anagata-automate-amplify" />
-    <meta property="og:description" content="Lovable Generated Project" />
+    <!-- Enhanced Open Graph Tags -->
+    <meta property="og:title" content="Anagata IT Solutions - Business Automation & AI Solutions" />
+    <meta property="og:description" content="Transform your MSME with AI automation solutions. 300% ROI guarantee, 47% time savings, and 30-day implementation. Leading automation platform for Indian businesses." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:url" content="https://anagataitsolutions.com" />
+    <meta property="og:image" content="https://anagataitsolutions.com/lovable-uploads/c8bf87d9-ba2f-458d-a50b-91c09b46fdd8.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Anagata IT Solutions - Business Automation Platform" />
+    <meta property="og:site_name" content="Anagata IT Solutions" />
+    <meta property="og:locale" content="en_IN" />
 
+    <!-- Enhanced Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:title" content="Anagata IT Solutions - Business Automation & AI Solutions" />
+    <meta name="twitter:description" content="Transform your MSME with AI automation solutions. 300% ROI guarantee, 47% time savings, and 30-day implementation." />
+    <meta name="twitter:image" content="https://anagataitsolutions.com/lovable-uploads/c8bf87d9-ba2f-458d-a50b-91c09b46fdd8.png" />
+    <meta name="twitter:image:alt" content="Anagata IT Solutions - Business Automation Platform" />
+    <!-- PWA and App Icons -->
     <link rel="icon" href="/lovable-uploads/c8bf87d9-ba2f-458d-a50b-91c09b46fdd8.png" type="image/png">
+    <link rel="apple-touch-icon" href="/lovable-uploads/c8bf87d9-ba2f-458d-a50b-91c09b46fdd8.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0066ff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Anagata IT">
+    <meta name="msapplication-TileColor" content="#0066ff">
+    <meta name="msapplication-config" content="/browserconfig.xml">
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
