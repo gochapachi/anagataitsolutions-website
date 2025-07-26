@@ -15,8 +15,6 @@
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
     
     <!-- Performance Optimizations -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://nlvnrvwkvzxfnfozqtaw.supabase.co">
     
     <!-- Enhanced SEO Meta Tags -->
@@ -52,6 +50,12 @@
     <meta name="apple-mobile-web-app-title" content="Anagata IT">
     <meta name="msapplication-TileColor" content="#0066ff">
     <meta name="msapplication-config" content="/browserconfig.xml">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.tsx" as="script" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://nlvnrvwkvzxfnfozqtaw.supabase.co">
   </head>
 
   <body>
@@ -64,10 +68,10 @@
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
-              console.log('SW registered: ', registration);
+              // Silent registration - no console.log in production
             })
             .catch((registrationError) => {
-              console.log('SW registration failed: ', registrationError);
+              // Silent error handling
             });
         });
       }
