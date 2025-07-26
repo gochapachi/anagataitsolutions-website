@@ -1,29 +1,49 @@
-const CACHE_NAME = 'anagata-it-v1';
-const urlsToCache = [
-  '/',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
-  '/manifest.json',
-  '/lovable-uploads/c8bf87d9-ba2f-458d-a50b-91c09b46fdd8.png'
-];
+const CACHE_NAME = 'anagata-it-v2';
 
-// Install event
+// Install event - simplified approach
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        return cache.addAll(urlsToCache);
+        // Only cache the main page initially
+        return cache.add('/');
+      })
+      .catch((error) => {
+        console.log('Cache install failed:', error);
       })
   );
+  self.skipWaiting();
 });
 
-// Fetch event
+// Fetch event - network first with cache fallback
 self.addEventListener('fetch', (event) => {
+  // Skip non-GET requests and external requests
+  if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then((response) => {
-        // Return cached version or fetch from network
-        return response || fetch(event.request);
+        // If network request succeeds, cache it and return
+        if (response.status === 200) {
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME)
+            .then((cache) => {
+              cache.put(event.request, responseClone);
+            });
+        }
+        return response;
+      })
+      .catch(() => {
+        // If network fails, try cache
+        return caches.match(event.request)
+          .then((cachedResponse) => {
+            return cachedResponse || new Response('Offline content not available', {
+              status: 503,
+              statusText: 'Service Unavailable'
+            });
+          });
       })
   );
 });
@@ -41,4 +61,5 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
+  self.clients.claim();
 });
