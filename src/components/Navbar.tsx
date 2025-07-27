@@ -24,9 +24,9 @@ export const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
               <img 
-                src="/src/assets/anagata-logo-large.webp" 
+                src="/lovable-uploads/c8bf87d9-ba2f-458d-a50b-91c09b46fdd8.png" 
                 alt="Anagata IT Solutions Logo" 
-                className="h-10 w-10"
+                className="h-10 w-10 object-contain"
                 width="40"
                 height="40"
                 loading="lazy"

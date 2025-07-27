@@ -13,9 +13,9 @@ export const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <img 
-                src="/src/assets/anagata-logo-large.webp" 
+                src="/lovable-uploads/c8bf87d9-ba2f-458d-a50b-91c09b46fdd8.png" 
                 alt="Anagata IT Solutions Logo" 
-                className="h-8 w-8"
+                className="h-8 w-8 object-contain"
                 width="32"
                 height="32"
                 loading="lazy"
