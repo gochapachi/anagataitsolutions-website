@@ -67,7 +67,7 @@ export const TestimonialsSection = () => {
                   <div className="flex items-center space-x-3">
                     <img src={testimonial.image} alt={`${testimonial.name}, ${testimonial.role} at ${testimonial.company}`} className="w-12 h-12 rounded-full object-cover" />
                     <div>
-                      <h4 className="font-semibold">{testimonial.name}</h4>
+                      <h3 className="font-semibold">{testimonial.name}</h3>
                       <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                     </div>
                   </div>
