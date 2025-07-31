@@ -10,6 +10,8 @@ import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { StatsSection } from "@/components/sections/StatsSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { JsonLD, organizationSchema, websiteSchema } from "@/components/SEO/JsonLD";
+import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { MagneticButton } from "@/components/ui/MagneticButton";
 const Index = () => {
   return (
     <>
@@ -28,10 +30,10 @@ const Index = () => {
       <ServicesOverview />
       
       {/* Pain Points & Solutions */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-20 bg-muted/30 morphing-bg">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">MSME Challenges</Badge>
+          <AnimatedSection animation="fade" className="text-center mb-16">
+            <Badge variant="secondary" className="mb-4 hover-glow">MSME Challenges</Badge>
             <h2 className="text-3xl font-bold mb-4" id="challenges-heading">
               Stop Losing Time & Money on Manual Processes
             </h2>
@@ -39,12 +41,12 @@ const Index = () => {
               MSMEs waste 47% of their time on repetitive tasks. Our automation solutions 
               help you reclaim that time and focus on growing your business.
             </p>
-          </div>
+          </AnimatedSection>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0 mt-1">
+            <AnimatedSection animation="slide-left" className="space-y-8">
+              <div className="flex items-start space-x-4 hover-lift">
+                <div className="w-8 h-8 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0 mt-1 animate-heartbeat">
                   <span className="text-destructive font-bold">✗</span>
                 </div>
                 <div>
@@ -55,8 +57,8 @@ const Index = () => {
                 </div>
               </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0 mt-1">
+              <div className="flex items-start space-x-4 hover-lift">
+                <div className="w-8 h-8 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0 mt-1 animate-shake">
                   <span className="text-destructive font-bold">✗</span>
                 </div>
                 <div>
@@ -67,8 +69,8 @@ const Index = () => {
                 </div>
               </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0 mt-1">
+              <div className="flex items-start space-x-4 hover-lift">
+                <div className="w-8 h-8 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0 mt-1 animate-wiggle">
                   <span className="text-destructive font-bold">✗</span>
                 </div>
                 <div>
@@ -78,11 +80,11 @@ const Index = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </AnimatedSection>
 
-            <div className="space-y-8">
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+            <AnimatedSection animation="slide-right" className="space-y-8">
+              <div className="flex items-start space-x-4 hover-lift">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1 animate-bounce-gentle">
                   <CheckCircle className="w-5 h-5 text-primary" />
                 </div>
                 <div>
@@ -93,8 +95,8 @@ const Index = () => {
                 </div>
               </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+              <div className="flex items-start space-x-4 hover-lift">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1 animate-pulse-glow">
                   <CheckCircle className="w-5 h-5 text-primary" />
                 </div>
                 <div>
@@ -105,8 +107,8 @@ const Index = () => {
                 </div>
               </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+              <div className="flex items-start space-x-4 hover-lift">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1 animate-glow">
                   <CheckCircle className="w-5 h-5 text-primary" />
                 </div>
                 <div>
@@ -116,18 +118,17 @@ const Index = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </AnimatedSection>
           </div>
 
-          <div className="text-center mt-12">
+          <AnimatedSection animation="scale" className="text-center mt-12">
             <Link to="/contact">
-              <Button size="lg" className="mr-4" aria-label="Get free business automation assessment">
+              <MagneticButton size="lg" className="mr-4 hover-glow animate-pulse-glow" aria-label="Get free business automation assessment">
                 Get Free Assessment
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-              </Button>
+              </MagneticButton>
             </Link>
-            
-          </div>
+          </AnimatedSection>
         </div>
       </section>
 

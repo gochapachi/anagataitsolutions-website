@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, BarChart3, Users, Briefcase, Clock, TrendingUp, Zap } from "lucide-react";
+import { AnimatedSection } from '@/components/ui/AnimatedSection';
+import { MagneticButton } from '@/components/ui/MagneticButton';
 
 export const ServicesOverview = () => {
   const services = [
@@ -56,8 +58,8 @@ export const ServicesOverview = () => {
   return (
     <section className="py-20">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <Badge variant="secondary" className="mb-4">Our Services</Badge>
+        <AnimatedSection animation="fade" className="text-center mb-16">
+          <Badge variant="secondary" className="mb-4 hover-glow">Our Services</Badge>
           <h2 className="text-3xl font-bold mb-4">
             Complete Automation Suite for MSMEs
           </h2>
@@ -65,19 +67,19 @@ export const ServicesOverview = () => {
             Choose from our specialized automation services or combine them for maximum impact. 
             Each solution is designed specifically for MSME constraints and growth goals.
           </p>
-        </div>
+        </AnimatedSection>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <AnimatedSection animation="stagger" className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <Card key={index} className={`relative h-full card-interactive ${service.popular ? 'ring-2 ring-primary' : ''}`}>
+            <Card key={index} className={`relative h-full card-interactive hover-lift hover-tilt hover-glow ${service.popular ? 'ring-2 ring-primary animate-pulse-glow' : ''}`}>
               {service.popular && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <Badge className="bg-primary text-primary-foreground">Most Popular</Badge>
+                  <Badge className="bg-primary text-primary-foreground animate-bounce-gentle">Most Popular</Badge>
                 </div>
               )}
               
               <CardHeader className="text-center pb-4">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 hover-rotate animate-float">
                   <service.icon className="w-8 h-8 text-primary" />
                 </div>
                 <CardTitle className="text-xl">{service.title}</CardTitle>
@@ -120,38 +122,38 @@ export const ServicesOverview = () => {
 
                 {/* CTA */}
                 <Link to={service.link} className="block">
-                  <Button className="w-full btn-interactive" variant={service.popular ? "default" : "outline"}>
+                  <MagneticButton className="w-full btn-interactive hover-glow" variant={service.popular ? "default" : "outline"}>
                     Learn About {service.title}
                     <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
+                  </MagneticButton>
                 </Link>
               </CardContent>
             </Card>
-          ))}
-        </div>
+            ))}
+        </AnimatedSection>
 
         {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="inline-block p-6 bg-muted/30 rounded-lg">
+        <AnimatedSection animation="scale" className="text-center mt-16">
+          <div className="inline-block p-6 bg-muted/30 rounded-lg hover-lift hover-glow morphing-bg">
             <h3 className="text-xl font-semibold mb-2">Need a Custom Solution?</h3>
             <p className="text-muted-foreground mb-4">
               We can combine multiple services or create a tailored automation package for your unique needs.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/contact">
-                <Button size="lg" className="btn-interactive">
+                <MagneticButton size="lg" className="btn-interactive hover-glow">
                   Get Custom Quote
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                </MagneticButton>
               </Link>
               <Link to="/services">
-                <Button variant="outline" size="lg" className="btn-interactive">
+                <MagneticButton variant="outline" size="lg" className="btn-interactive hover-glow">
                   View All Services
-                </Button>
+                </MagneticButton>
               </Link>
             </div>
           </div>
-        </div>
+        </AnimatedSection>
       </div>
     </section>
   );
