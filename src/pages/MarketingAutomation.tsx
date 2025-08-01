@@ -3,6 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, CheckCircle, BarChart3, Mail, Share2, FileText, Target, Clock, TrendingUp, Users, Zap, X, Play } from "lucide-react";
+import { AnimatedSection } from '@/components/ui/AnimatedSection';
+import { CountUp } from '@/components/ui/CountUp';
+import { MagneticButton } from '@/components/ui/MagneticButton';
+import { InteractiveElement } from '@/components/ui/InteractiveElement';
+import { ParticleField } from '@/components/ui/ParticleField';
 
 const MarketingAutomation = () => {
   const features = [

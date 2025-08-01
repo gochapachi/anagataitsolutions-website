@@ -9,6 +9,11 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Clock, Mail, Phone, MapPin, Calendar, Users, TrendingUp, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { JsonLD, createBreadcrumbSchema } from "@/components/SEO/JsonLD";
+import { AnimatedSection } from '@/components/ui/AnimatedSection';
+import { CountUp } from '@/components/ui/CountUp';
+import { MagneticButton } from '@/components/ui/MagneticButton';
+import { InteractiveElement } from '@/components/ui/InteractiveElement';
+import { ParticleField } from '@/components/ui/ParticleField';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -97,34 +102,48 @@ const Contact = () => {
       }} />
       <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-4xl mx-auto">
-            <Badge variant="secondary" className="mb-4">Free Consultation</Badge>
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6">
-              Get Your Free Automation Assessment
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8">
-              Discover how much time and money you can save with automation. 
-              Our experts will analyze your current processes and provide a customized automation roadmap.
-            </p>
+      <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5 relative overflow-hidden morphing-bg">
+        <ParticleField particleCount={35} />
+        <div className="container mx-auto px-4 relative z-10">
+          <AnimatedSection animation="fade" className="text-center max-w-4xl mx-auto">
+            <AnimatedSection animation="scale" delay={200}>
+              <Badge variant="secondary" className="mb-4 hover-glow">Free Consultation</Badge>
+            </AnimatedSection>
+            <AnimatedSection animation="fade-in-up" delay={400}>
+              <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-reveal">
+                <span className="text-reveal-line">Get Your Free</span><br />
+                <span className="text-reveal-line">Automation Assessment</span>
+              </h1>
+            </AnimatedSection>
+            <AnimatedSection animation="fade-in-up" delay={600}>
+              <p className="text-xl text-muted-foreground mb-8">
+                Discover how much time and money you can save with automation. 
+                Our experts will analyze your current processes and provide a customized automation roadmap.
+              </p>
+            </AnimatedSection>
             
             {/* Benefits */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-              <div className="flex items-center justify-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-accent" />
-                <span className="text-sm">Free ROI assessment</span>
-              </div>
-              <div className="flex items-center justify-center space-x-3">
-                <Clock className="w-5 h-5 text-blue-500" />
-                <span className="text-sm">2-hour response time</span>
-              </div>
-              <div className="flex items-center justify-center space-x-3">
-                <TrendingUp className="w-5 h-5 text-purple-500" />
-                <span className="text-sm">No-obligation consultation</span>
-              </div>
-            </div>
-          </div>
+            <AnimatedSection animation="stagger" delay={800} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+              <InteractiveElement effect="scale" intensity="low">
+                <div className="flex items-center justify-center space-x-3 hover-lift">
+                  <CheckCircle className="w-5 h-5 text-accent animate-bounce-gentle" />
+                  <span className="text-sm">Free ROI assessment</span>
+                </div>
+              </InteractiveElement>
+              <InteractiveElement effect="scale" intensity="low">
+                <div className="flex items-center justify-center space-x-3 hover-lift">
+                  <Clock className="w-5 h-5 text-blue-500 animate-float" />
+                  <span className="text-sm">2-hour response time</span>
+                </div>
+              </InteractiveElement>
+              <InteractiveElement effect="scale" intensity="low">
+                <div className="flex items-center justify-center space-x-3 hover-lift">
+                  <TrendingUp className="w-5 h-5 text-purple-500 animate-heartbeat" />
+                  <span className="text-sm">No-obligation consultation</span>
+                </div>
+              </InteractiveElement>
+            </AnimatedSection>
+          </AnimatedSection>
         </div>
       </section>
 
@@ -256,10 +275,10 @@ const Contact = () => {
                     </div>
 
                     {/* Submit */}
-                    <Button type="submit" size="lg" className="w-full btn-interactive">
+                    <MagneticButton type="submit" size="lg" className="w-full btn-interactive hover-glow animate-pulse-glow">
                       Get My Free Assessment
                       <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
+                    </MagneticButton>
 
                     <p className="text-sm text-muted-foreground text-center">
                       By submitting this form, you agree to receive communication from Anagata IT Solutions. 
@@ -354,22 +373,38 @@ const Contact = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4 text-center">
-                    <div>
-                      <div className="text-2xl font-bold text-primary">300%</div>
-                      <div className="text-xs text-muted-foreground">Average ROI</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-primary">47%</div>
-                      <div className="text-xs text-muted-foreground">Time Saved</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-primary">98%</div>
-                      <div className="text-xs text-muted-foreground">Success Rate</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-primary">30</div>
-                      <div className="text-xs text-muted-foreground">Days Setup</div>
-                    </div>
+                    <InteractiveElement effect="scale" intensity="medium">
+                      <div className="hover-scale-sm">
+                        <div className="text-2xl font-bold text-primary">
+                          <CountUp end={300} suffix="%" />
+                        </div>
+                        <div className="text-xs text-muted-foreground">Average ROI</div>
+                      </div>
+                    </InteractiveElement>
+                    <InteractiveElement effect="scale" intensity="medium">
+                      <div className="hover-scale-sm">
+                        <div className="text-2xl font-bold text-primary">
+                          <CountUp end={47} suffix="%" />
+                        </div>
+                        <div className="text-xs text-muted-foreground">Time Saved</div>
+                      </div>
+                    </InteractiveElement>
+                    <InteractiveElement effect="scale" intensity="medium">
+                      <div className="hover-scale-sm">
+                        <div className="text-2xl font-bold text-primary">
+                          <CountUp end={98} suffix="%" />
+                        </div>
+                        <div className="text-xs text-muted-foreground">Success Rate</div>
+                      </div>
+                    </InteractiveElement>
+                    <InteractiveElement effect="scale" intensity="medium">
+                      <div className="hover-scale-sm">
+                        <div className="text-2xl font-bold text-primary">
+                          <CountUp end={30} />
+                        </div>
+                        <div className="text-xs text-muted-foreground">Days Setup</div>
+                      </div>
+                    </InteractiveElement>
                   </div>
                 </CardContent>
               </Card>

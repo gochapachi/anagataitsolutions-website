@@ -8,6 +8,10 @@ import { supabase } from '@/integrations/supabase/client';
 import BlogNavigation from "@/components/BlogNavigation";
 import BlogViewer from "@/components/BlogViewer";
 import { JsonLD, createBreadcrumbSchema } from "@/components/SEO/JsonLD";
+import { AnimatedSection } from '@/components/ui/AnimatedSection';
+import { MagneticButton } from '@/components/ui/MagneticButton';
+import { InteractiveElement } from '@/components/ui/InteractiveElement';
+import { ParticleField } from '@/components/ui/ParticleField';
 
 interface BlogPost {
   id: string;

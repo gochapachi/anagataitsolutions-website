@@ -3,6 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, CheckCircle, Users, Target, Zap, Award, TrendingUp, Heart } from "lucide-react";
+import { AnimatedSection } from '@/components/ui/AnimatedSection';
+import { CountUp } from '@/components/ui/CountUp';
+import { MagneticButton } from '@/components/ui/MagneticButton';
+import { InteractiveElement } from '@/components/ui/InteractiveElement';
+import { ParticleField } from '@/components/ui/ParticleField';
 const About = () => {
   const values = [{
     icon: Users,
@@ -87,27 +92,37 @@ const About = () => {
   }];
   return <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-4xl mx-auto">
-            <Badge variant="secondary" className="mb-4">About Anagata IT Solutions</Badge>
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6">
-              Empowering MSMEs Through Intelligent Automation
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8">
-              Founded in 2020, we've made it our mission to democratize enterprise-grade automation 
-              for small and medium businesses across India. We believe every MSME deserves the same 
-              technological advantages as large corporations.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/contact">
-                <Button size="lg">
-                  Start Your Journey
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-          </div>
+      <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5 relative overflow-hidden morphing-bg">
+        <ParticleField particleCount={30} />
+        <div className="container mx-auto px-4 relative z-10">
+          <AnimatedSection animation="fade" className="text-center max-w-4xl mx-auto">
+            <AnimatedSection animation="scale" delay={200}>
+              <Badge variant="secondary" className="mb-4 hover-glow">About Anagata IT Solutions</Badge>
+            </AnimatedSection>
+            <AnimatedSection animation="fade-in-up" delay={400}>
+              <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-reveal">
+                <span className="text-reveal-line">Empowering MSMEs Through</span><br />
+                <span className="text-reveal-line">Intelligent Automation</span>
+              </h1>
+            </AnimatedSection>
+            <AnimatedSection animation="fade-in-up" delay={600}>
+              <p className="text-xl text-muted-foreground mb-8">
+                Founded in 2020, we've made it our mission to democratize enterprise-grade automation 
+                for small and medium businesses across India. We believe every MSME deserves the same 
+                technological advantages as large corporations.
+              </p>
+            </AnimatedSection>
+            <AnimatedSection animation="scale" delay={800}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/contact">
+                  <MagneticButton size="lg" className="btn-interactive hover-glow animate-pulse-glow">
+                    Start Your Journey
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </MagneticButton>
+                </Link>
+              </div>
+            </AnimatedSection>
+          </AnimatedSection>
         </div>
       </section>
 
@@ -115,56 +130,68 @@ const About = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-3xl font-bold mb-4">Our Mission</h2>
-                <p className="text-lg text-muted-foreground">
-                  To transform every MSME in India into a digitally-powered, efficiently-run business 
-                  that can compete on equal footing with larger enterprises through intelligent automation.
-                </p>
-              </div>
-              <div>
-                <h2 className="text-3xl font-bold mb-4">Our Vision</h2>
-                <p className="text-lg text-muted-foreground">
-                  A future where technology barriers don't limit business growth—where every entrepreneur 
-                  has access to the same automation capabilities that drive success in large organizations.
-                </p>
-              </div>
-            </div>
+            <AnimatedSection animation="slide-in-left" className="space-y-8">
+              <InteractiveElement effect="glow" intensity="medium">
+                <div>
+                  <h2 className="text-3xl font-bold mb-4">Our Mission</h2>
+                  <p className="text-lg text-muted-foreground">
+                    To transform every MSME in India into a digitally-powered, efficiently-run business 
+                    that can compete on equal footing with larger enterprises through intelligent automation.
+                  </p>
+                </div>
+              </InteractiveElement>
+              <InteractiveElement effect="glow" intensity="medium">
+                <div>
+                  <h2 className="text-3xl font-bold mb-4">Our Vision</h2>
+                  <p className="text-lg text-muted-foreground">
+                    A future where technology barriers don't limit business growth—where every entrepreneur 
+                    has access to the same automation capabilities that drive success in large organizations.
+                  </p>
+                </div>
+              </InteractiveElement>
+            </AnimatedSection>
             
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Target className="w-6 h-6 mr-2 text-primary" />
-                    The Problem We Solve
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    Most automation solutions are built for enterprises, with complex setups, 
-                    high costs, and features that MSMEs don't need. We bridge this gap with 
-                    purpose-built solutions for growing businesses.
-                  </p>
-                </CardContent>
-              </Card>
+            <AnimatedSection animation="stagger" className="space-y-6">
+              <InteractiveElement effect="tilt" intensity="low">
+                <Card className="card-interactive hover-lift hover-glow">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 animate-float">
+                        <Target className="w-6 h-6 text-primary" />
+                      </div>
+                      The Problem We Solve
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">
+                      Most automation solutions are built for enterprises, with complex setups, 
+                      high costs, and features that MSMEs don't need. We bridge this gap with 
+                      purpose-built solutions for growing businesses.
+                    </p>
+                  </CardContent>
+                </Card>
+              </InteractiveElement>
               
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Zap className="w-6 h-6 mr-2 text-primary" />
-                    Our Unique Approach
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    We start with business outcomes, not technology features. Every automation 
-                    is designed to solve specific MSME challenges while being affordable, 
-                    quick to implement, and easy to maintain.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
+              <InteractiveElement effect="tilt" intensity="low">
+                <Card className="card-interactive hover-lift hover-glow">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 animate-float">
+                        <Zap className="w-6 h-6 text-primary" />
+                      </div>
+                      Our Unique Approach
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">
+                      We start with business outcomes, not technology features. Every automation 
+                      is designed to solve specific MSME challenges while being affordable, 
+                      quick to implement, and easy to maintain.
+                    </p>
+                  </CardContent>
+                </Card>
+              </InteractiveElement>
+            </AnimatedSection>
           </div>
         </div>
       </section>
@@ -172,29 +199,33 @@ const About = () => {
       {/* Values */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">Our Values</Badge>
+          <AnimatedSection animation="fade" className="text-center mb-16">
+            <Badge variant="secondary" className="mb-4 hover-glow">Our Values</Badge>
             <h2 className="text-3xl font-bold mb-4">
               What Drives Us Every Day
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               These core values guide every decision we make and every solution we build for our MSME partners.
             </p>
-          </div>
+          </AnimatedSection>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {values.map((value, index) => <Card key={index} className="h-full">
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                    <value.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <CardTitle className="text-xl">{value.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{value.description}</p>
-                </CardContent>
-              </Card>)}
-          </div>
+          <AnimatedSection animation="stagger" className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {values.map((value, index) => (
+              <InteractiveElement key={index} effect="scale" intensity="low">
+                <Card className="h-full card-interactive hover-lift hover-tilt hover-glow">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4 hover-rotate animate-float">
+                      <value.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <CardTitle className="text-xl">{value.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">{value.description}</p>
+                  </CardContent>
+                </Card>
+              </InteractiveElement>
+            ))}
+          </AnimatedSection>
         </div>
       </section>
 
@@ -276,15 +307,21 @@ const About = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, index) => <Card key={index} className="text-center">
-                <CardHeader>
-                  <div className="text-4xl font-bold text-primary mb-2">{stat.number}</div>
-                  <CardTitle className="text-lg">{stat.label}</CardTitle>
-                  <CardDescription>{stat.description}</CardDescription>
-                </CardHeader>
-              </Card>)}
-          </div>
+          <AnimatedSection animation="stagger" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <InteractiveElement key={index} effect="scale" intensity="medium">
+                <Card className="text-center card-interactive hover-lift hover-glow animate-pulse-glow">
+                  <CardHeader>
+                    <div className="text-4xl font-bold text-primary mb-2">
+                      <CountUp end={parseInt(stat.number.replace(/[^\d]/g, ''))} suffix={stat.number.replace(/\d/g, '')} />
+                    </div>
+                    <CardTitle className="text-lg">{stat.label}</CardTitle>
+                    <CardDescription>{stat.description}</CardDescription>
+                  </CardHeader>
+                </Card>
+              </InteractiveElement>
+            ))}
+          </AnimatedSection>
         </div>
       </section>
 
@@ -300,14 +337,16 @@ const About = () => {
               Be part of the next 50 MSMEs to transform their business with automation. 
               Let's write your success story together.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/contact">
-                <Button size="lg">
-                  Start Your Transformation
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
+            <AnimatedSection animation="scale" delay={400}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/contact">
+                  <MagneticButton size="lg" className="btn-interactive hover-glow animate-pulse-glow">
+                    Start Your Transformation
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </MagneticButton>
+                </Link>
+              </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>

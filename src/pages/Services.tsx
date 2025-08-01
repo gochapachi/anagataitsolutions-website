@@ -4,6 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, BarChart3, TrendingUp, Users, Zap, Clock, CheckCircle } from "lucide-react";
 import { JsonLD, createServiceSchema, createBreadcrumbSchema } from "@/components/SEO/JsonLD";
+import { AnimatedSection } from '@/components/ui/AnimatedSection';
+import { MagneticButton } from '@/components/ui/MagneticButton';
+import { InteractiveElement } from '@/components/ui/InteractiveElement';
+import { ParticleField } from '@/components/ui/ParticleField';
 const Services = () => {
   const services = [{
     icon: BarChart3,
@@ -58,29 +62,36 @@ const Services = () => {
       ])} />
       <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-4xl mx-auto">
-            <Badge variant="secondary" className="mb-4">Complete Automation Suite</Badge>
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6">
-              Automation Services Built for MSMEs
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8">
-              Choose from our specialized automation services designed specifically for small and medium businesses. 
-              Each solution addresses unique MSME challenges and delivers measurable ROI within 30 days.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/contact">
-                <Button size="lg">
-                  Get Free Assessment
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link to="/pricing">
-                
-              </Link>
-            </div>
-          </div>
+      <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5 relative overflow-hidden morphing-bg">
+        <ParticleField particleCount={40} />
+        <div className="container mx-auto px-4 relative z-10">
+          <AnimatedSection animation="fade" className="text-center max-w-4xl mx-auto">
+            <AnimatedSection animation="scale" delay={200}>
+              <Badge variant="secondary" className="mb-4 hover-glow">Complete Automation Suite</Badge>
+            </AnimatedSection>
+            <AnimatedSection animation="fade-in-up" delay={400}>
+              <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-reveal">
+                <span className="text-reveal-line">Automation Services</span><br />
+                <span className="text-reveal-line">Built for MSMEs</span>
+              </h1>
+            </AnimatedSection>
+            <AnimatedSection animation="fade-in-up" delay={600}>
+              <p className="text-xl text-muted-foreground mb-8">
+                Choose from our specialized automation services designed specifically for small and medium businesses. 
+                Each solution addresses unique MSME challenges and delivers measurable ROI within 30 days.
+              </p>
+            </AnimatedSection>
+            <AnimatedSection animation="scale" delay={800}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/contact">
+                  <MagneticButton size="lg" className="btn-interactive hover-glow animate-pulse-glow">
+                    Get Free Assessment
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </MagneticButton>
+                </Link>
+              </div>
+            </AnimatedSection>
+          </AnimatedSection>
         </div>
       </section>
 
