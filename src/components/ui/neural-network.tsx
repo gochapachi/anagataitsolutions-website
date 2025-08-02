@@ -27,6 +27,7 @@ interface Connection {
 }
 
 export const NeuralNetwork = ({ className = "", width = 500, height = 400 }: NeuralNetworkProps) => {
+  console.log('NeuralNetwork component rendering with dimensions:', width, height);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
