@@ -111,10 +111,10 @@ export const HeroSection = () => {
                 <p className="text-sm text-muted-foreground">Interactive neural network processing your business data</p>
               </div>
               
-              <div className="relative rounded-lg overflow-hidden bg-gradient-to-br from-background/50 to-muted/20 border">
+              <div className="relative rounded-lg overflow-hidden bg-gradient-to-br from-background/50 to-muted/20 border min-h-[350px] flex items-center justify-center">
                 <NeuralNetwork 
-                  width={450} 
-                  height={350} 
+                  width={400} 
+                  height={300} 
                   className="w-full h-auto" 
                 />
                 

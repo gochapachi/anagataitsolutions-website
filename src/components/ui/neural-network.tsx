@@ -57,13 +57,14 @@ export const NeuralNetwork = ({ className = "", width = 500, height = 400 }: Neu
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Set canvas size with proper DPI
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-    ctx.scale(dpr, dpr);
+    try {
+      // Set canvas size with proper DPI
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.scale(dpr, dpr);
 
     // Add event listeners
     canvas.addEventListener('mousemove', handleMouseMove);
@@ -308,6 +309,9 @@ export const NeuralNetwork = ({ className = "", width = 500, height = 400 }: Neu
         cancelAnimationFrame(animationFrame);
       }
     };
+    } catch (error) {
+      console.error('Neural network animation error:', error);
+    }
   }, [width, height, mousePosition, isHovered, handleMouseMove, handleMouseEnter, handleMouseLeave]);
 
   return (
