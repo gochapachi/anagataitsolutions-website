@@ -6,6 +6,7 @@ import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
 import { CountUp } from '@/components/ui/CountUp';
 import { MagneticButton } from '@/components/ui/MagneticButton';
+import { NeuralNetwork } from '@/components/ui/neural-network';
 
 export const HeroSection = () => {
   const { getSetting, loading } = useSiteSettings();
@@ -103,67 +104,56 @@ export const HeroSection = () => {
 
           {/* Right column - Visual */}
           <AnimatedSection animation="slide-right" delay={600} className="relative">
-            {/* Main dashboard mockup */}
-            <div className="relative bg-background border rounded-lg shadow-2xl p-6 card-interactive hover-tilt hover-glow">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500 animate-pulse"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+            {/* AI Brain Neural Network */}
+            <div className="relative bg-background/80 backdrop-blur-sm border rounded-xl shadow-2xl p-8 card-interactive hover-glow">
+              <div className="text-center mb-6">
+                <h3 className="text-lg font-semibold text-primary mb-2">AI Automation Brain</h3>
+                <p className="text-sm text-muted-foreground">Interactive neural network processing your business data</p>
               </div>
               
-              <AnimatedSection animation="stagger" className="space-y-4">
-                <div className="flex items-center justify-between p-3 bg-muted/50 rounded hover-lift">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center animate-float">
-                      <Users className="w-4 h-4 text-primary" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-sm">Lead Generated</div>
-                      <div className="text-xs text-muted-foreground">Manufacturing Inquiry</div>
-                    </div>
+              <div className="relative rounded-lg overflow-hidden bg-gradient-to-br from-background/50 to-muted/20 border">
+                <NeuralNetwork 
+                  width={450} 
+                  height={350} 
+                  className="w-full h-auto" 
+                />
+                
+                {/* AI Processing Indicators */}
+                <div className="absolute top-4 left-4 space-y-2">
+                  <div className="flex items-center space-x-2 text-xs">
+                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                    <span className="text-muted-foreground">Processing leads</span>
                   </div>
-                  <Badge variant="secondary" className="animate-elastic-in">New</Badge>
-                </div>
-
-                <div className="flex items-center justify-between p-3 bg-muted/50 rounded hover-lift">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center animate-heartbeat">
-                      <CheckCircle className="w-4 h-4 text-accent" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-sm">Email Sequence Sent</div>
-                      <div className="text-xs text-muted-foreground">Follow-up automated</div>
-                    </div>
+                  <div className="flex items-center space-x-2 text-xs">
+                    <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+                    <span className="text-muted-foreground">Analyzing patterns</span>
                   </div>
-                  <Badge variant="secondary" className="animate-rubber-band">Completed</Badge>
-                </div>
-
-                <div className="flex items-center justify-between p-3 bg-muted/50 rounded hover-lift">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center animate-swing">
-                      <TrendingUp className="w-4 h-4 text-blue-500" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-sm">ROI Tracking</div>
-                      <div className="text-xs text-muted-foreground">+240% this month</div>
-                    </div>
+                  <div className="flex items-center space-x-2 text-xs">
+                    <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></div>
+                    <span className="text-muted-foreground">Optimizing workflows</span>
                   </div>
-                  <Badge variant="secondary" className="animate-jello">Active</Badge>
                 </div>
-
-                <div className="flex items-center justify-between p-3 bg-muted/50 rounded hover-lift">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center animate-wiggle">
-                      <Clock className="w-4 h-4 text-orange-500" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-sm">Time Saved</div>
-                      <div className="text-xs text-muted-foreground">15.2 hours this week</div>
-                    </div>
+                
+                {/* Real-time Metrics */}
+                <div className="absolute bottom-4 right-4 space-y-1 text-right">
+                  <div className="text-xs text-muted-foreground">Neural Activity</div>
+                  <div className="text-sm font-semibold text-primary">
+                    <CountUp end={94} suffix="%" />
                   </div>
-                  <Badge variant="secondary" className="animate-bounce-gentle">Ongoing</Badge>
                 </div>
-              </AnimatedSection>
+              </div>
+              
+              {/* Feature highlights below the brain */}
+              <div className="mt-6 grid grid-cols-2 gap-4 text-center">
+                <div className="p-3 rounded-lg bg-primary/5 hover-lift">
+                  <div className="text-sm font-medium text-primary">Smart Learning</div>
+                  <div className="text-xs text-muted-foreground mt-1">Adapts to your business</div>
+                </div>
+                <div className="p-3 rounded-lg bg-accent/5 hover-lift">
+                  <div className="text-sm font-medium text-accent">Real-time Processing</div>
+                  <div className="text-xs text-muted-foreground mt-1">Instant automation</div>
+                </div>
+              </div>
             </div>
 
             {/* Floating elements */}
