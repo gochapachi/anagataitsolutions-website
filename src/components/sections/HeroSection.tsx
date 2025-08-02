@@ -104,68 +104,13 @@ export const HeroSection = () => {
 
           {/* Right column - Visual */}
           <AnimatedSection animation="slide-right" delay={600} className="relative">
-            {/* AI Brain Neural Network */}
-            <div className="relative bg-background/80 backdrop-blur-sm border rounded-xl shadow-2xl p-8 card-interactive hover-glow">
-              <div className="text-center mb-6">
-                <h3 className="text-lg font-semibold text-primary mb-2">AI Automation Brain</h3>
-                <p className="text-sm text-muted-foreground">Interactive neural network processing your business data</p>
-              </div>
-              
-              <div className="relative rounded-lg overflow-hidden bg-gradient-to-br from-background/50 to-muted/20 border min-h-[350px] flex items-center justify-center">
-                <NeuralNetwork 
-                  width={400} 
-                  height={300} 
-                  className="w-full h-auto" 
-                />
-                
-                {/* AI Processing Indicators */}
-                <div className="absolute top-4 left-4 space-y-2">
-                  <div className="flex items-center space-x-2 text-xs">
-                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                    <span className="text-muted-foreground">Processing leads</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-xs">
-                    <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
-                    <span className="text-muted-foreground">Analyzing patterns</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-xs">
-                    <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></div>
-                    <span className="text-muted-foreground">Optimizing workflows</span>
-                  </div>
-                </div>
-                
-                {/* Real-time Metrics */}
-                <div className="absolute bottom-4 right-4 space-y-1 text-right">
-                  <div className="text-xs text-muted-foreground">Neural Activity</div>
-                  <div className="text-sm font-semibold text-primary">
-                    <CountUp end={94} suffix="%" />
-                  </div>
-                </div>
-              </div>
-              
-              {/* Feature highlights below the brain */}
-              <div className="mt-6 grid grid-cols-2 gap-4 text-center">
-                <div className="p-3 rounded-lg bg-primary/5 hover-lift">
-                  <div className="text-sm font-medium text-primary">Smart Learning</div>
-                  <div className="text-xs text-muted-foreground mt-1">Adapts to your business</div>
-                </div>
-                <div className="p-3 rounded-lg bg-accent/5 hover-lift">
-                  <div className="text-sm font-medium text-accent">Real-time Processing</div>
-                  <div className="text-xs text-muted-foreground mt-1">Instant automation</div>
-                </div>
-              </div>
+            <div className="relative min-h-[400px] flex items-center justify-center">
+              <NeuralNetwork 
+                width={500} 
+                height={400} 
+                className="w-full h-auto opacity-60" 
+              />
             </div>
-
-            {/* Floating elements */}
-            <AnimatedSection animation="scale" delay={1400} className="absolute -top-4 -right-4 bg-primary text-primary-foreground p-3 rounded-lg shadow-lg hover-lift hover-glow animate-float">
-              <div className="text-lg font-bold">₹<CountUp end={24} suffix="L" /></div>
-              <div className="text-xs">Revenue Generated</div>
-            </AnimatedSection>
-
-            <AnimatedSection animation="scale" delay={1600} className="absolute -bottom-4 -left-4 bg-background border p-3 rounded-lg shadow-lg hover-lift hover-glow animate-float">
-              <div className="text-lg font-bold text-accent"><CountUp end={47} suffix="%" /></div>
-              <div className="text-xs text-muted-foreground">Time Saved</div>
-            </AnimatedSection>
           </AnimatedSection>
         </div>
       </div>
