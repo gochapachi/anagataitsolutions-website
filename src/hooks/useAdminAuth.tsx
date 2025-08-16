@@ -32,19 +32,30 @@ export const AdminAuthProvider = ({ children }: { children: React.ReactNode }) =
     try {
       // For simplicity, we'll check if email and password are both "admin"
       if (email === 'admin' && password === 'admin') {
-        // Verify admin exists in database
-        const { data, error } = await supabase
-          .from('admin_users')
-          .select('id, email')
-          .eq('email', 'admin')
-          .single();
+        // Use secure function to verify admin credentials
+        const { data: isValid, error: verifyError } = await supabase
+          .rpc('verify_admin_credentials', {
+            input_email: 'admin',
+            input_password: 'admin'
+          });
 
-        if (error || !data) {
-          console.error('Admin user not found:', error);
+        if (verifyError || !isValid) {
+          console.error('Admin verification failed:', verifyError);
           return false;
         }
 
-        const user = { id: data.id, email: data.email };
+        // Get admin user data securely
+        const { data: adminData, error: dataError } = await supabase
+          .rpc('get_admin_user', {
+            input_email: 'admin'
+          });
+
+        if (dataError || !adminData || adminData.length === 0) {
+          console.error('Admin user data not found:', dataError);
+          return false;
+        }
+
+        const user = { id: adminData[0].id, email: adminData[0].email };
         setAdminUser(user);
         localStorage.setItem('adminUser', JSON.stringify(user));
         return true;
