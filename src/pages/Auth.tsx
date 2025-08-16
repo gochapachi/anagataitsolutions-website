@@ -32,17 +32,41 @@ export default function Auth() {
     setLoading(true);
 
     try {
-      // Check hardcoded credentials
-      if (email === 'admin' && password === 'Itachi@9336') {
-        // Create a mock session in localStorage for the admin auth system
-        const mockUser = { id: 'admin-user', email: 'admin' };
-        localStorage.setItem('adminUser', JSON.stringify(mockUser));
-        
-        toast.success('Successfully logged in!');
-        navigate('/admin');
-      } else {
-        toast.error('Invalid credentials');
+      // Use secure function to verify admin credentials
+      const { data: isValid, error: verifyError } = await supabase
+        .rpc('verify_admin_credentials', {
+          input_email: email,
+          input_password: password
+        });
+
+      if (verifyError) {
+        console.error('Admin verification failed:', verifyError);
+        toast.error('Authentication failed. Please try again.');
+        return;
       }
+
+      if (!isValid) {
+        toast.error('Invalid credentials');
+        return;
+      }
+
+      // Get admin user data securely
+      const { data: adminData, error: dataError } = await supabase
+        .rpc('get_admin_user', {
+          input_email: email
+        });
+
+      if (dataError || !adminData || adminData.length === 0) {
+        console.error('Admin user data not found:', dataError);
+        toast.error('Authentication failed. Please contact support.');
+        return;
+      }
+
+      const user = { id: adminData[0].id, email: adminData[0].email };
+      localStorage.setItem('adminUser', JSON.stringify(user));
+      
+      toast.success('Successfully logged in!');
+      navigate('/admin');
     } catch (error: any) {
       console.error('Auth error:', error);
       toast.error('An error occurred during authentication');

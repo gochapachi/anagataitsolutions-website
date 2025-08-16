@@ -30,37 +30,33 @@ export const AdminAuthProvider = ({ children }: { children: React.ReactNode }) =
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      // For simplicity, we'll check if email and password are both "admin"
-      if (email === 'admin' && password === 'admin') {
-        // Use secure function to verify admin credentials
-        const { data: isValid, error: verifyError } = await supabase
-          .rpc('verify_admin_credentials', {
-            input_email: 'admin',
-            input_password: 'admin'
-          });
+      // Use secure function to verify admin credentials
+      const { data: isValid, error: verifyError } = await supabase
+        .rpc('verify_admin_credentials', {
+          input_email: email,
+          input_password: password
+        });
 
-        if (verifyError || !isValid) {
-          console.error('Admin verification failed:', verifyError);
-          return false;
-        }
-
-        // Get admin user data securely
-        const { data: adminData, error: dataError } = await supabase
-          .rpc('get_admin_user', {
-            input_email: 'admin'
-          });
-
-        if (dataError || !adminData || adminData.length === 0) {
-          console.error('Admin user data not found:', dataError);
-          return false;
-        }
-
-        const user = { id: adminData[0].id, email: adminData[0].email };
-        setAdminUser(user);
-        localStorage.setItem('adminUser', JSON.stringify(user));
-        return true;
+      if (verifyError || !isValid) {
+        console.error('Admin verification failed:', verifyError);
+        return false;
       }
-      return false;
+
+      // Get admin user data securely
+      const { data: adminData, error: dataError } = await supabase
+        .rpc('get_admin_user', {
+          input_email: email
+        });
+
+      if (dataError || !adminData || adminData.length === 0) {
+        console.error('Admin user data not found:', dataError);
+        return false;
+      }
+
+      const user = { id: adminData[0].id, email: adminData[0].email };
+      setAdminUser(user);
+      localStorage.setItem('adminUser', JSON.stringify(user));
+      return true;
     } catch (error) {
       console.error('Login error:', error);
       return false;
