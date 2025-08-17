@@ -1,17 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Calendar, Clock, User, Search, Filter } from "lucide-react";
 import { supabase } from '@/integrations/supabase/client';
-import BlogNavigation from "@/components/BlogNavigation";
-import BlogViewer from "@/components/BlogViewer";
 import { JsonLD, createBreadcrumbSchema } from "@/components/SEO/JsonLD";
-import { AnimatedSection } from '@/components/ui/AnimatedSection';
-import { MagneticButton } from '@/components/ui/MagneticButton';
-import { InteractiveElement } from '@/components/ui/InteractiveElement';
-import { ParticleField } from '@/components/ui/ParticleField';
 
 interface BlogPost {
   id: string;
@@ -35,7 +30,7 @@ interface Category {
 }
 
 const Blogs = () => {
-  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+  const navigate = useNavigate();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,16 +49,6 @@ const Blogs = () => {
   useEffect(() => {
     fetchPosts();
   }, [currentPage, selectedCategory, searchTerm]);
-
-  // Reset scroll to top when blog post is selected
-  useEffect(() => {
-    if (selectedPost) {
-      // Reset scroll to top immediately
-      window.scrollTo(0, 0);
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    }
-  }, [selectedPost]);
 
   const fetchCategories = async () => {
     try {
@@ -157,22 +142,6 @@ const Blogs = () => {
     return Math.ceil(words / 200);
   };
 
-  const getRelatedPosts = () => {
-    return posts.filter(post => 
-      post.id !== selectedPost?.id && 
-      post.category === selectedPost?.category
-    ).slice(0, 5);
-  };
-
-  if (selectedPost) {
-    return (
-      <div className="min-h-screen py-20">
-        <div className="container mx-auto px-4">
-          <p>Loading selected post...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -191,31 +160,8 @@ const Blogs = () => {
           "name": "AutomateFlow"
         }
       }} />
-      {selectedPost ? (
-        <div className="h-screen overflow-auto" style={{ scrollBehavior: 'auto' }}>
-          <BlogNavigation
-            onBackToBlogs={() => setSelectedPost(null)}
-            currentPost={selectedPost}
-            relatedPosts={getRelatedPosts()}
-            categories={categories}
-            onPostSelect={(post) => {
-              setSelectedPost(post);
-              setTimeout(() => {
-                const container = document.querySelector('.h-screen.overflow-auto');
-                if (container) {
-                  container.scrollTop = 0;
-                }
-              }, 0);
-            }}
-            onCategorySelect={(categoryId) => {
-              setSelectedCategory(categoryId);
-              setCurrentPage(1);
-            }}
-          />
-          <BlogViewer content={selectedPost.content} title={selectedPost.title} />
-        </div>
-      ) : (
-        <div className="min-h-screen">
+      
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
         <div className="container mx-auto px-4">
@@ -317,16 +263,7 @@ const Blogs = () => {
                     key={post.id} 
                     className="card-interactive group overflow-hidden cursor-pointer"
                     style={{ animationDelay: `${index * 100}ms` }}
-                    onClick={() => {
-                      setSelectedPost(post);
-                      // Reset scroll to top when opening blog
-                      setTimeout(() => {
-                        const container = document.querySelector('.h-screen.overflow-auto');
-                        if (container) {
-                          container.scrollTop = 0;
-                        }
-                      }, 0);
-                    }}
+                    onClick={() => navigate(`/blogs/${post.slug}`)}
                   >
                     {post.featured_image_url && (
                       <div className="relative overflow-hidden h-48">
@@ -439,7 +376,6 @@ const Blogs = () => {
         </div>
       </section>
         </div>
-      )}
     </>
   );
 };
