@@ -151,7 +151,7 @@ All colors MUST be HSL.
   
   /* Glow effect for special elements */
   .glow-effect {
-    @apply drop-shadow-[0_0_15px_rgba(var(--primary),0.3)] hover:drop-shadow-[0_0_25px_rgba(var(--primary),0.6)] transition-all duration-300;
+    @apply drop-shadow-[0_0_15px_hsl(var(--primary)/0.3)] hover:drop-shadow-[0_0_25px_hsl(var(--primary)/0.6)] transition-all duration-300;
   }
   
   /* Enhanced pulse animation */
