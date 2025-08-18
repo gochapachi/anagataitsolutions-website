@@ -32,33 +32,28 @@ const Contact = () => {
     e.preventDefault();
     
     try {
-      // Send to Supabase edge function for n8n webhook
-      const response = await fetch(`https://nlvnrvwkvzxfnfozqtaw.supabase.co/functions/v1/n8n-webhook`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'create',
-          data: {
-            title: `Contact Form Submission - ${formData.name}`,
-            content: JSON.stringify({
-              ...formData,
-              timestamp: new Date().toISOString(),
-              source: 'contact_form'
-            }),
-            category: 'contact_form',
-            author: formData.name,
-            is_published: false,
-            meta_description: `Contact form submission from ${formData.company}`,
-            slug: `contact-${Date.now()}`
-          }
+      // Send to both external webhook endpoints
+      const webhookUrls = [
+        'https://n8n.anagataitsolutions.in/webhook/n8n',
+        'https://n8n.anagataitsolutions.in/webhook-test/n8n'
+      ];
+      
+      const requests = webhookUrls.map(url => 
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          mode: 'no-cors',
+          body: JSON.stringify({
+            ...formData,
+            timestamp: new Date().toISOString(),
+            source: 'contact_form'
+          })
         })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to submit form');
-      }
+      );
+      
+      await Promise.all(requests);
       
       toast({
         title: "Request Submitted!",
