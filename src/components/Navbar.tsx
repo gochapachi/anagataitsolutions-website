@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useMenuItems } from "@/hooks/useMenuItems";
+import { ThemeToggle } from "./ThemeToggle";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -75,6 +76,7 @@ export const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggle />
             <Link to="/contact">
               <Button variant="outline" size="sm" className="btn-glow animate-pulse">
                 Get Consultation
@@ -82,8 +84,9 @@ export const Navbar = () => {
             </Link>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
+          {/* Mobile menu button and theme toggle */}
+          <div className="md:hidden flex items-center space-x-2">
+            <ThemeToggle />
             <Button
               variant="ghost"
               size="sm"

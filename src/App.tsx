@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -42,11 +43,12 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <AdminAuthProvider>
-        <BrowserRouter>
+    <ThemeProvider defaultTheme="system" storageKey="ui-theme">
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <AdminAuthProvider>
+          <BrowserRouter>
           <ScrollToTop />
           <Routes>
             {/* Admin Routes - No navbar/footer */}
@@ -207,6 +209,7 @@ const App = () => (
         </BrowserRouter>
       </AdminAuthProvider>
     </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
