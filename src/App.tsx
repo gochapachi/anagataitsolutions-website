@@ -42,8 +42,8 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="system" storageKey="ui-theme">
+  <ThemeProvider defaultTheme="system" storageKey="ui-theme">
+    <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -209,8 +209,8 @@ const App = () => (
         </BrowserRouter>
       </AdminAuthProvider>
     </TooltipProvider>
-    </ThemeProvider>
   </QueryClientProvider>
+  </ThemeProvider>
 );
 
 export default App;
