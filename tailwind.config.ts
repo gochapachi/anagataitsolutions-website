@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from 'tailwindcss/plugin';
 
 export default {
 	darkMode: ["class"],
@@ -19,6 +20,19 @@ export default {
 		},
 		extend: {
 			colors: {
+				cyan: {
+					'50': '#ecfeff',
+					'100': '#cffafe',
+					'200': '#a5f3fc',
+					'300': '#67e8f9',
+					'400': '#22d3ee',
+					'500': '#06b6d4',
+					'600': '#0891b2',
+					'700': '#0e7490',
+					'800': '#155e75',
+					'900': '#164e63',
+					'950': '#083344',
+				},
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -68,6 +82,12 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			textShadow: {
+				DEFAULT: '0 2px 4px rgba(0, 0, 0, 0.1)',
+				'md': '0 4px 8px rgba(0, 0, 0, 0.15)',
+				'lg': '0 10px 20px rgba(0, 0, 0, 0.2)',
+				'cyan': '0 0 5px rgba(0, 255, 255, 0.5), 0 0 10px rgba(0, 255, 255, 0.4)',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -145,6 +165,10 @@ export default {
 					'100%': {
 						boxShadow: '0 0 20px hsl(var(--primary) / 0.8)'
 					}
+				},
+				'pulse-slow': {
+					'0%, 100%': { opacity: '0.1' },
+					'50%': { opacity: '0.2' },
 				},
 				'wiggle': {
 					'0%, 100%': {
@@ -265,6 +289,7 @@ export default {
 				'float': 'float 6s ease-in-out infinite',
 				'gradient-shift': 'gradient-shift 8s ease infinite',
 				'pulse-glow': 'pulse-glow 2s ease-in-out infinite alternate',
+				'pulse-slow': 'pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
 				'bounce-slow': 'bounce 3s infinite',
 				'wiggle': 'wiggle 1s ease-in-out infinite',
 				'elastic-in': 'elastic-in 0.6s ease-out',
@@ -275,5 +300,20 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		require("tailwindcss-animate"),
+		plugin(function({ addUtilities, theme, e }) {
+      const textShadowUtilities = Object.entries(theme('textShadow')).map(([key, value]) => {
+        return {
+          [`.${e(`text-shadow-${key}`)}`]: {
+            textShadow: value,
+          },
+          [`.${e(`text-shadow-none`)}`]: {
+            textShadow: 'none',
+          },
+        }
+      })
+      addUtilities(textShadowUtilities)
+    })
+	],
 } satisfies Config;
