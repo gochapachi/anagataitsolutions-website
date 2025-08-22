@@ -68,7 +68,7 @@ export const LeadCaptureDialog = ({ open, onOpenChange, onLeadCaptured, resource
       console.error("Error sending lead data:", error);
       toast({
         title: "❌ Submission Failed", 
-        description: "Please try again or contact support at info@anagataitsolutions.in",
+        description: "Please try again or contact support at connect@anagataitsolutions.in",
         variant: "destructive",
       });
     } finally {

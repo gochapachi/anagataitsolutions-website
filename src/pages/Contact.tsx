@@ -316,7 +316,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <p className="font-medium">Email</p>
-                      <p className="text-sm text-muted-foreground">info@anagataitsolutions.in</p>
+                      <p className="text-sm text-muted-foreground">connect@anagataitsolutions.in</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
