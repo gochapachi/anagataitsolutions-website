@@ -21,13 +21,12 @@ export const HeroSection = () => {
   }
 
   return (
-    <section className="relative py-16 lg:py-24 overflow-hidden bg-background">
-      <ParticleField
-        particleColor="rgba(0, 255, 255, 0.2)"
-        particleCount={80}
-        animationSpeed={0.5}
-      />
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10 opacity-50" />
+    <section className="relative py-12 lg:py-16 overflow-hidden bg-background">
+      {/* Three.js Background Animation */}
+      <div className="absolute inset-0 opacity-60">
+        <ThreeJSAnimation className="w-full h-full" />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -120,11 +119,16 @@ export const HeroSection = () => {
             </AnimatedSection>
           </div>
 
-          {/* Right column - Visual */}
+          {/* Right column - Content Overlay */}
           <AnimatedSection animation="fade" delay={600} className="relative">
-            <div className="relative min-h-[350px] flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-radial from-primary/20 via-transparent to-transparent animate-pulse-slow"></div>
-              <ThreeJSAnimation className="w-full h-[350px] opacity-90" />
+            <div className="relative min-h-[300px] flex items-center justify-center">
+              <div className="relative bg-background/10 backdrop-blur-sm rounded-2xl p-8 border border-primary/20">
+                <div className="text-center space-y-4">
+                  <div className="text-6xl font-bold text-primary/80">AI</div>
+                  <div className="text-sm text-muted-foreground">Powered Automation</div>
+                  <div className="w-16 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+                </div>
+              </div>
             </div>
           </AnimatedSection>
         </div>
