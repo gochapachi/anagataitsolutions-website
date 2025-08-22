@@ -36,8 +36,8 @@ export const LeadCaptureDialog = ({ open, onOpenChange, onLeadCaptured, resource
 
       // Send data to both webhooks
       const webhookUrls = [
-        "https://n8n.anagataitsolutions.in/webhook-test/newlead",
-        "https://n8n.anagataitsolutions.in/webhook/newlead"
+        "https://n8n.anagataitsolutions.in/webhook/agencylead",
+        "https://n8n.anagataitsolutions.in/webhook-test/agencylead"
       ];
 
       const webhookPromises = webhookUrls.map(url => 
@@ -54,8 +54,9 @@ export const LeadCaptureDialog = ({ open, onOpenChange, onLeadCaptured, resource
       await Promise.all(webhookPromises);
       
       toast({
-        title: "Thank you!",
-        description: "Your download will start shortly. We'll be in touch soon!",
+        title: "✅ Resource Request Submitted!",
+        description: "Your download will start shortly. Check your email for the resource link.",
+        className: "bg-primary/10 border-primary/20 text-primary-foreground",
       });
 
       onLeadCaptured();
@@ -66,8 +67,8 @@ export const LeadCaptureDialog = ({ open, onOpenChange, onLeadCaptured, resource
     } catch (error) {
       console.error("Error sending lead data:", error);
       toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
+        title: "❌ Submission Failed", 
+        description: "Please try again or contact support at info@anagataitsolutions.in",
         variant: "destructive",
       });
     } finally {

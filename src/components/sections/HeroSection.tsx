@@ -5,7 +5,7 @@ import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
 import { CountUp } from '@/components/ui/CountUp';
 import { MagneticButton } from '@/components/ui/MagneticButton';
-import { NeuralNetwork } from '@/components/ui/neural-network';
+import { ThreeJSAnimation } from '@/components/ui/ThreeJSAnimation';
 import { ParticleField } from '@/components/ui/ParticleField';
 import { TextAnimation } from '@/components/ui/TextAnimation';
 
@@ -21,7 +21,7 @@ export const HeroSection = () => {
   }
 
   return (
-    <section className="relative py-20 lg:py-32 overflow-hidden bg-background">
+    <section className="relative py-16 lg:py-24 overflow-hidden bg-background">
       <ParticleField
         particleColor="rgba(0, 255, 255, 0.2)"
         particleCount={80}
@@ -122,15 +122,9 @@ export const HeroSection = () => {
 
           {/* Right column - Visual */}
           <AnimatedSection animation="fade" delay={600} className="relative">
-            <div className="relative min-h-[400px] flex items-center justify-center">
-              <div className="absolute inset-0 bg-radial-gradient(circle, rgba(0,255,255,0.1), transparent 60%) animate-pulse-slow"></div>
-              <NeuralNetwork 
-                width={500} 
-                height={400} 
-                className="w-full h-auto opacity-80"
-                nodeColor="rgba(0, 255, 255, 0.8)"
-                lineColor="rgba(0, 255, 255, 0.3)"
-              />
+            <div className="relative min-h-[350px] flex items-center justify-center">
+              <div className="absolute inset-0 bg-gradient-radial from-primary/20 via-transparent to-transparent animate-pulse-slow"></div>
+              <ThreeJSAnimation className="w-full h-[350px] opacity-90" />
             </div>
           </AnimatedSection>
         </div>

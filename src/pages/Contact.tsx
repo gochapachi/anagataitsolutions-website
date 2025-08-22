@@ -34,8 +34,8 @@ const Contact = () => {
     try {
       // Send to both external webhook endpoints
       const webhookUrls = [
-        'https://n8n.anagataitsolutions.in/webhook/n8n',
-        'https://n8n.anagataitsolutions.in/webhook-test/n8n'
+        'https://n8n.anagataitsolutions.in/webhook/lead',
+        'https://n8n.anagataitsolutions.in/webhook-test/lead'
       ];
       
       const requests = webhookUrls.map(url => 
@@ -56,8 +56,9 @@ const Contact = () => {
       await Promise.all(requests);
       
       toast({
-        title: "Request Submitted!",
+        title: "✅ Request Submitted Successfully!",
         description: "We'll contact you within 2 hours to schedule your free consultation.",
+        className: "bg-primary/10 border-primary/20 text-primary-foreground",
       });
       
       // Reset form
