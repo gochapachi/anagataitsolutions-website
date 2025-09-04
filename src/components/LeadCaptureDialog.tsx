@@ -34,6 +34,7 @@ export const LeadCaptureDialog = ({ open, onOpenChange, onLeadCaptured, resource
           description: "Please fill in your name and email address.",
           variant: "destructive",
         });
+        setIsSubmitting(false);
         return;
       }
 
@@ -44,22 +45,32 @@ export const LeadCaptureDialog = ({ open, onOpenChange, onLeadCaptured, resource
         source: "Resource Download"
       };
 
+      console.log("Sending resource lead data to n8n webhooks:", leadData);
+
       // Send data to both webhooks
       const webhookUrls = [
         "https://n8n.anagataitsolutions.in/webhook/agencylead",
         "https://n8n.anagataitsolutions.in/webhook-test/agencylead"
       ];
 
-      const webhookPromises = webhookUrls.map(url => 
-        fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          mode: "no-cors",
-          body: JSON.stringify(leadData),
-        })
-      );
+      const webhookPromises = webhookUrls.map(async (url) => {
+        console.log(`Sending to webhook: ${url}`);
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            mode: "no-cors",
+            body: JSON.stringify(leadData),
+          });
+          console.log(`Webhook ${url} called successfully`);
+          return response;
+        } catch (error) {
+          console.error(`Error calling webhook ${url}:`, error);
+          throw error;
+        }
+      });
 
       await Promise.all(webhookPromises);
       

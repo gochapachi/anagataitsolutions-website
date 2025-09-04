@@ -31,6 +31,16 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validate required fields
+    if (!formData.name || !formData.email || !formData.phone || !formData.company) {
+      toast({
+        title: "❌ Missing Information",
+        description: "Please fill in all required fields (name, email, phone, company).",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       const leadData = {
         ...formData,
@@ -38,22 +48,32 @@ const Contact = () => {
         source: 'contact_form'
       };
 
+      console.log("Sending consultation data to n8n webhooks:", leadData);
+
       // Send to both external webhook endpoints
       const webhookUrls = [
         'https://n8n.anagataitsolutions.in/webhook/lead',
         'https://n8n.anagataitsolutions.in/webhook-test/lead'
       ];
       
-      const webhookPromises = webhookUrls.map(url => 
-        fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          mode: 'no-cors',
-          body: JSON.stringify(leadData)
-        })
-      );
+      const webhookPromises = webhookUrls.map(async (url) => {
+        console.log(`Sending to webhook: ${url}`);
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            mode: 'no-cors',
+            body: JSON.stringify(leadData)
+          });
+          console.log(`Webhook ${url} called successfully`);
+          return response;
+        } catch (error) {
+          console.error(`Error calling webhook ${url}:`, error);
+          throw error;
+        }
+      });
       
       await Promise.all(webhookPromises);
       
