@@ -87,36 +87,6 @@ export const HeroSection = () => {
               </Link>
             </AnimatedSection>
 
-            {/* Social proof */}
-            <AnimatedSection animation="fade" delay={3500} className="pt-8 border-t border-cyan-900/50">
-              <p className="text-sm text-muted-foreground mb-4">
-                Trusted by 50+ MSMEs across India
-              </p>
-              <div className="flex items-center space-x-8">
-                <div className="text-center hover-scale-sm">
-                  <div className="text-2xl font-bold text-cyan-400">
-                    <CountUp end={300} suffix="%" />
-                  </div>
-                  <div className="text-xs text-muted-foreground">Average ROI</div>
-                </div>
-                <div className="text-center hover-scale-sm">
-                  <div className="text-2xl font-bold text-cyan-400">
-                    <CountUp end={47} suffix="%" />
-                  </div>
-                  <div className="text-xs text-muted-foreground">Time Saved</div>
-                </div>
-                <div className="text-center hover-scale-sm">
-                  <div className="text-2xl font-bold text-cyan-400">
-                    <CountUp end={30} />
-                  </div>
-                  <div className="text-xs text-muted-foreground">Days Setup</div>
-                </div>
-                <div className="text-center hover-scale-sm">
-                  <div className="text-2xl font-bold text-cyan-400">24/7</div>
-                  <div className="text-xs text-muted-foreground">Support</div>
-                </div>
-              </div>
-            </AnimatedSection>
           </div>
 
           {/* Right column - Content Overlay */}

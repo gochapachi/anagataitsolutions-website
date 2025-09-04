@@ -27,6 +27,16 @@ export const LeadCaptureDialog = ({ open, onOpenChange, onLeadCaptured, resource
     setIsSubmitting(true);
 
     try {
+      // Validate required fields
+      if (!formData.name || !formData.email) {
+        toast({
+          title: "❌ Missing Information",
+          description: "Please fill in your name and email address.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const leadData = {
         ...formData,
         resource: resourceTitle,

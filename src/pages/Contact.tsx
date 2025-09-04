@@ -32,31 +32,33 @@ const Contact = () => {
     e.preventDefault();
     
     try {
+      const leadData = {
+        ...formData,
+        timestamp: new Date().toISOString(),
+        source: 'contact_form'
+      };
+
       // Send to both external webhook endpoints
       const webhookUrls = [
         'https://n8n.anagataitsolutions.in/webhook/lead',
         'https://n8n.anagataitsolutions.in/webhook-test/lead'
       ];
       
-      const requests = webhookUrls.map(url => 
+      const webhookPromises = webhookUrls.map(url => 
         fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           mode: 'no-cors',
-          body: JSON.stringify({
-            ...formData,
-            timestamp: new Date().toISOString(),
-            source: 'contact_form'
-          })
+          body: JSON.stringify(leadData)
         })
       );
       
-      await Promise.all(requests);
+      await Promise.all(webhookPromises);
       
       toast({
-        title: "✅ Request Submitted Successfully!",
+        title: "✅ Consultation Request Submitted!",
         description: "We'll contact you within 2 hours to schedule your free consultation.",
         className: "bg-primary/10 border-primary/20 text-primary-foreground",
       });
@@ -73,9 +75,10 @@ const Contact = () => {
         message: ""
       });
     } catch (error) {
+      console.error("Error sending consultation data:", error);
       toast({
-        title: "Error",
-        description: "There was an issue submitting your request. Please try again.",
+        title: "❌ Submission Failed",
+        description: "Please try again or contact support at connect@anagataitsolutions.in",
         variant: "destructive",
       });
     }
