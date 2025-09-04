@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { LogOut, Plus, Settings, FileText, Users, Code, Menu } from 'lucide-react';
+import { LogOut, Plus, Settings, FileText, Users, Code, Menu, Mail, Download } from 'lucide-react';
 import { ResourcesManager } from '@/components/admin/ResourcesManager';
 import { ServicesManager } from '@/components/admin/ServicesManager';
 import { SiteSettingsManager } from '@/components/admin/SiteSettingsManager';
@@ -12,6 +12,8 @@ import { BlogsManager } from '@/components/admin/BlogsManager';
 import PagesManager from '@/components/admin/PagesManager';
 import MenuManager from '@/components/admin/MenuManager';
 import { TestimonialsManager } from '@/components/admin/TestimonialsManager';
+import { ContactSubmissionsManager } from '@/components/admin/ContactSubmissionsManager';
+import { ResourceSubmissionsManager } from '@/components/admin/ResourceSubmissionsManager';
 
 export default function AdminDashboard() {
   const { user, loading, signOut } = useAuth();
@@ -59,8 +61,16 @@ export default function AdminDashboard() {
           <p className="text-muted-foreground">Manage your website content, resources, and settings.</p>
         </div>
 
-        <Tabs defaultValue="resources" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7">
+        <Tabs defaultValue="contacts" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-9">
+            <TabsTrigger value="contacts" className="flex items-center gap-2">
+              <Mail className="h-4 w-4" />
+              Contacts
+            </TabsTrigger>
+            <TabsTrigger value="leads" className="flex items-center gap-2">
+              <Download className="h-4 w-4" />
+              Leads
+            </TabsTrigger>
             <TabsTrigger value="resources" className="flex items-center gap-2">
               <FileText className="h-4 w-4" />
               Resources
@@ -90,6 +100,14 @@ export default function AdminDashboard() {
               Settings
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="contacts">
+            <ContactSubmissionsManager />
+          </TabsContent>
+
+          <TabsContent value="leads">
+            <ResourceSubmissionsManager />
+          </TabsContent>
 
           <TabsContent value="resources">
             <ResourcesManager />
