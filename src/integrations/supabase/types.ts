@@ -115,6 +115,57 @@ export type Database = {
         }
         Relationships: []
       }
+      contact_submissions: {
+        Row: {
+          company: string | null
+          created_at: string
+          current_challenges: string | null
+          email: string
+          employees: string | null
+          id: string
+          message: string | null
+          name: string
+          phone: string | null
+          processed: boolean | null
+          processed_at: string | null
+          processed_by: string | null
+          service: string | null
+          source: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          current_challenges?: string | null
+          email: string
+          employees?: string | null
+          id?: string
+          message?: string | null
+          name: string
+          phone?: string | null
+          processed?: boolean | null
+          processed_at?: string | null
+          processed_by?: string | null
+          service?: string | null
+          source?: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          current_challenges?: string | null
+          email?: string
+          employees?: string | null
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string | null
+          processed?: boolean | null
+          processed_at?: string | null
+          processed_by?: string | null
+          service?: string | null
+          source?: string
+        }
+        Relationships: []
+      }
       menu_items: {
         Row: {
           created_at: string
@@ -192,6 +243,48 @@ export type Database = {
           slug?: string
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      resource_submissions: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          name: string
+          phone: string | null
+          processed: boolean | null
+          processed_at: string | null
+          processed_by: string | null
+          resource_title: string
+          source: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          phone?: string | null
+          processed?: boolean | null
+          processed_at?: string | null
+          processed_by?: string | null
+          resource_title: string
+          source?: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          processed?: boolean | null
+          processed_at?: string | null
+          processed_by?: string | null
+          resource_title?: string
+          source?: string
         }
         Relationships: []
       }
@@ -376,6 +469,31 @@ export type Database = {
       is_admin_user: {
         Args: { admin_email: string }
         Returns: boolean
+      }
+      submit_contact_form: {
+        Args: {
+          p_company?: string
+          p_current_challenges?: string
+          p_email: string
+          p_employees?: string
+          p_message?: string
+          p_name: string
+          p_phone?: string
+          p_service?: string
+          p_source?: string
+        }
+        Returns: string
+      }
+      submit_resource_request: {
+        Args: {
+          p_company?: string
+          p_email: string
+          p_name: string
+          p_phone?: string
+          p_resource_title: string
+          p_source?: string
+        }
+        Returns: string
       }
       verify_admin_credentials: {
         Args: { input_email: string; input_password: string }
