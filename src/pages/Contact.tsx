@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Clock, Mail, Phone, MapPin, Calendar, Users, TrendingUp, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { JsonLD, createBreadcrumbSchema } from "@/components/SEO/JsonLD";
+import { supabase } from "@/integrations/supabase/client";
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
 import { CountUp } from '@/components/ui/CountUp';
 import { MagneticButton } from '@/components/ui/MagneticButton';
@@ -42,40 +43,77 @@ const Contact = () => {
     }
 
     try {
-      const leadData = {
-        ...formData,
+      // Store in database using secure function
+      const { data: submissionId, error: dbError } = await supabase
+        .rpc('submit_contact_form', {
+          p_name: formData.name,
+          p_email: formData.email,
+          p_phone: formData.phone || null,
+          p_company: formData.company || null,
+          p_employees: formData.employees || null,
+          p_service: formData.service || null,
+          p_current_challenges: formData.currentChallenges || null,
+          p_message: formData.message || null,
+          p_source: 'contact_form'
+        });
+
+      if (dbError) {
+        console.error('Database error:', dbError);
+        throw new Error('Failed to save submission');
+      }
+
+      console.log('Contact submission saved with ID:', submissionId);
+
+      // Prepare webhook data
+      const webhookData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        employees: formData.employees,
+        service: formData.service,
+        currentChallenges: formData.currentChallenges,
+        message: formData.message,
         timestamp: new Date().toISOString(),
-        source: 'contact_form'
+        source: 'contact_form',
+        submission_id: submissionId
       };
 
-      console.log("Sending consultation data to n8n webhooks:", leadData);
+      console.log("Sending consultation data to n8n webhooks:", webhookData);
 
-      // Send to both external webhook endpoints
+      // Send to external webhooks (fire and forget)
       const webhookUrls = [
         'https://n8n.anagataitsolutions.in/webhook/lead',
         'https://n8n.anagataitsolutions.in/webhook-test/lead'
       ];
       
-      const webhookPromises = webhookUrls.map(async (url) => {
-        console.log(`Sending to webhook: ${url}`);
-        try {
+      // Use Promise.allSettled to handle webhook failures gracefully
+      const webhookResults = await Promise.allSettled(
+        webhookUrls.map(async (url) => {
+          console.log(`Sending to webhook: ${url}`);
           const response = await fetch(url, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            mode: 'no-cors',
-            body: JSON.stringify(leadData)
+            body: JSON.stringify(webhookData)
           });
+          
+          if (!response.ok) {
+            throw new Error(`Webhook ${url} failed with status ${response.status}`);
+          }
+          
           console.log(`Webhook ${url} called successfully`);
           return response;
-        } catch (error) {
-          console.error(`Error calling webhook ${url}:`, error);
-          throw error;
+        })
+      );
+
+      // Log webhook results but don't fail the form submission
+      webhookResults.forEach((result, index) => {
+        if (result.status === 'rejected') {
+          console.warn(`Webhook ${webhookUrls[index]} failed:`, result.reason);
         }
       });
-      
-      await Promise.all(webhookPromises);
       
       toast({
         title: "✅ Consultation Request Submitted!",

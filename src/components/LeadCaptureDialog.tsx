@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LeadCaptureDialogProps {
   open: boolean;
@@ -38,41 +39,71 @@ export const LeadCaptureDialog = ({ open, onOpenChange, onLeadCaptured, resource
         return;
       }
 
-      const leadData = {
-        ...formData,
+      // Store in database using secure function
+      const { data: submissionId, error: dbError } = await supabase
+        .rpc('submit_resource_request', {
+          p_name: formData.name,
+          p_email: formData.email,
+          p_phone: formData.phone || null,
+          p_company: formData.company || null,
+          p_resource_title: resourceTitle,
+          p_source: 'Resource Download'
+        });
+
+      if (dbError) {
+        console.error('Database error:', dbError);
+        throw new Error('Failed to save submission');
+      }
+
+      console.log('Resource submission saved with ID:', submissionId);
+
+      // Prepare webhook data
+      const webhookData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || '',
+        company: formData.company || '',
         resource: resourceTitle,
         timestamp: new Date().toISOString(),
-        source: "Resource Download"
+        source: "Resource Download",
+        submission_id: submissionId
       };
 
-      console.log("Sending resource lead data to n8n webhooks:", leadData);
+      console.log("Sending resource lead data to n8n webhooks:", webhookData);
 
-      // Send data to both webhooks
+      // Send to external webhooks (fire and forget)
       const webhookUrls = [
         "https://n8n.anagataitsolutions.in/webhook/agencylead",
         "https://n8n.anagataitsolutions.in/webhook-test/agencylead"
       ];
 
-      const webhookPromises = webhookUrls.map(async (url) => {
-        console.log(`Sending to webhook: ${url}`);
-        try {
+      // Use Promise.allSettled to handle webhook failures gracefully
+      const webhookResults = await Promise.allSettled(
+        webhookUrls.map(async (url) => {
+          console.log(`Sending to webhook: ${url}`);
           const response = await fetch(url, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            mode: "no-cors",
-            body: JSON.stringify(leadData),
+            body: JSON.stringify(webhookData),
           });
+          
+          if (!response.ok) {
+            throw new Error(`Webhook ${url} failed with status ${response.status}`);
+          }
+          
           console.log(`Webhook ${url} called successfully`);
           return response;
-        } catch (error) {
-          console.error(`Error calling webhook ${url}:`, error);
-          throw error;
+        })
+      );
+
+      // Log webhook results but don't fail the form submission
+      webhookResults.forEach((result, index) => {
+        if (result.status === 'rejected') {
+          console.warn(`Webhook ${webhookUrls[index]} failed:`, result.reason);
         }
       });
-
-      await Promise.all(webhookPromises);
       
       toast({
         title: "✅ Resource Request Submitted!",
